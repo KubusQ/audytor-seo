@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Rejestracja{% endblock %}
+
+{% block body %}
+
+    <div class="bg-gray-800 pt-3">
+        <div class="rounded-tl-3xl bg-gradient-to-r from-blue-900 to-gray-800 p-4 shadow text-2xl text-white">
+            <h1 class="font-bold pl-2">Rejestracja</h1>
+        </div>
+    </div>
+    <div class="flex justify-center items-center h-screen">
+    <div class="w-full max-w-xs mt-8">
+        {{ form_start(registrationForm, {'attr': {'class': 'bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4'}}) }}
+
+        <div class="mb-4">
+            {{ form_label(registrationForm.email, 'Email', {'label_attr': {'class': 'block text-gray-700 text-sm font-bold mb-2'}}) }}
+            {{ form_widget(registrationForm.email, {'attr': {'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'}}) }}
+            {{ form_errors(registrationForm.email) }}
+        </div>
+        <div class="mb-6">
+            {{ form_label(registrationForm.plainPassword.first, 'Hasło', {'label_attr': {'class': 'block text-gray-700 text-sm font-bold mb-2'}}) }}
+            {{ form_widget(registrationForm.plainPassword.first, {'attr': {'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'}}) }}
+            {{ form_errors(registrationForm.plainPassword.first, {'attr': {'class': 'text-red-500 text-xs italic'}}) }}
+        </div>
+        <div class="mb-6">
+            {{ form_label(registrationForm.plainPassword.second, 'Powtórz hasło', {'label_attr': {'class': 'block text-gray-700 text-sm font-bold mb-2'}}) }}
+            {{ form_widget(registrationForm.plainPassword.second, {'attr': {'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'}}) }}
+            {{ form_errors(registrationForm.plainPassword.second) }}
+        </div>
+        <div class="mb-6">
+            <label class="flex items-center">
+                {{ form_widget(registrationForm.agreeTerms, {'attr': {'class': 'form-checkbox'}}) }}
+                <span class="ml-2 text-gray-700 text-sm font-bold">Akceptuję regulamin</span>
+            </label>
+            {{ form_errors(registrationForm.agreeTerms) }}
+        </div>
+
+        <button type="submit" class="bg-blue-800 text-white py-2 px-4 rounded hover:bg-blue-900 focus:outline-none focus:shadow-outline">
+            Zarejestruj
+        </button>
+        
+        {{ form_end(registrationForm) }}
+        <div class="mt-6">
+            <p>Masz już konto? <a href="{{ path('app_login') }}" class="text-blue-800">Kliknij tutaj!</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}

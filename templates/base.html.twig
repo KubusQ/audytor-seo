@@ -29,20 +29,29 @@
             </div>
 
             <div class="flex w-full pt-2 content-center justify-between md:w-1/2 md:justify-end">
-                <ul class="list-reset flex justify-between flex-1 md:flex-none items-center">
-                    
+                <ul class="list-reset flex justify-between flex-1 md:flex-none items-center mr-6">
                     <li class="flex-1 md:flex-none md:mr-3">
-                        <div class="relative inline-block">
-                            <button onclick="toggleDD('myDropdown')" class="drop-button text-white focus:outline-none"> <span class="pr-2"></span> Użytkownik <svg class="h-3 fill-current inline" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                        <div class="relative inline-block ">
+                            <button onclick="toggleDD('myDropdown')" class="drop-button text-white focus:outline-none p-3"> <i class="far fa-user"></i><span class="pl-2"></span>Konto użytkownika <svg class="h-3 fill-current inline" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                                     <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg></button>
                             <div id="myDropdown" class="dropdownlist absolute bg-gray-800 text-white right-0 mt-3 p-3 overflow-auto z-30 invisible">
-                                
                                 <div class="border border-gray-800"></div>
-                                <a href="#" class="p-2 hover:bg-gray-800 text-white text-sm no-underline hover:no-underline block"> Wyloguj</a>
+                                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                                <a href="{{path('app_logout')}}" class="p-2 hover:bg-gray-800 text-white text-sm no-underline hover:no-underline block"> 
+                                Wyloguj
+                                </a>
+                                {% else %}
+                                <a href="{{path('app_login')}}" class="mr-6 block  p-2  align-middle text-white no-underline hover:text-white border-b-2 border-gray-800 hover:border-purple-500">
+                                Zaloguj
+                                </a>
+                                <a href="{{path('app_register')}}" class="block   p-2 mr-6  align-middle text-white no-underline hover:text-white border-b-2 border-gray-800 hover:border-pink-500">  
+                                Zarejestruj
+                                </a>
+                 {% endif %}
                             </div>
                         </div>
                     </li>
-                </ul>
+                </ul> 
             </div>
         </div>
 
@@ -71,11 +80,9 @@
         </div>
 
         <div class="main-content flex-1 bg-gray-100 mt-12 md:mt-2 pb-24 md:pb-5">
-            <div class="bg-gray-800 pt-3">
-                <div class="rounded-tl-3xl bg-gradient-to-r from-blue-900 to-gray-800 p-4 shadow text-2xl text-white">
-                    <h3 class="font-bold pl-2">Audytor SEO</h3>
-                </div>
-            </div>
+            {% block body %}
+                
+            {% endblock %}    
         </div>
     </div>
     <footer class="text-center text-white mt pt-1 pb-2 font-bold">
