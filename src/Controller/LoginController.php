@@ -14,7 +14,7 @@ class LoginController extends AbstractController
     {
         $lastUsername = $utils->getLastUsername();
         $error = $utils->getLastAuthenticationError();
-        return $this->render('login/index.html.twig', [
+        return $this->render('login/login.html.twig', [
             'lastUsername' => $lastUsername,
             'error' => $error
         ]);
