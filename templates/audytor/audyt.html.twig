@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Siema{% endblock %}
+
+{% block body %}
+<div class="bg-gray-800 pt-3">
+    <div class="rounded-tl-3xl bg-gradient-to-r from-blue-900 to-gray-800 p-4 shadow text-2xl text-white">
+        <h3 class="font-bold pl-2">Audyt dla domeny: <a href="https://{{data.domain}}">{{ data.domain }}</a></h3>
+    </div>
+</div>
+<div class="m-4 text-lg font-sans font-medium">
+    <div class="bg-cyan-100 mb-1 rounded p-2">
+        <h3>Dane podstawowe:</h3>
+        <div class="rounded border-2 border-red-900 pl-2 mb-10">
+            <p>Favicon: {{data.favicon}}</p>
+        </div>
+    </div>
+    <div class="bg-cyan-100 mb-1 rounded p-2">
+            <h3>Metadane i treści:</h3>
+            <div class="rounded border-2 border-red-900 pl-2 mb-10">
+            <p>Tytuł strony: {{data.title}}</p>
+            <p>Liczba znaków: {{data.title|length}}</p>
+            </div>
+            <div class="rounded border-2 border-red-900 pl-2 mb-10">
+            <p>Opis strony: {{data.description}}</p>
+            <p>Liczba znaków: 
+            {% if data.description == "brak" %}
+                0
+            {% else %}
+            {{data.description|length}}
+            {% endif %}</p>
+            </div>
+            <div class="rounded border-2 border-red-900 pl-2 mb-10">
+            <p>Słowa kluczowe: {{data.keywords}}</p>
+            </div>
+            <div class="rounded border-2 border-red-900 pl-2 mb-10">
+            <p>Liczba wystąpień nagłówków:</p>
+            <ul>
+                {% for tag, count in data.headerCounts %}
+                    <li>{{ tag }}: {{ count }}</li>
+                {% endfor %}
+            </ul>
+            </div>
+            <div class="rounded border-2 border-red-900 pl-2 mb-10">
+                <p>Nagłówki unikatowe: {% if data.headersUnique %} tak {% else %} nie {% endif %}</p>
+            </div>
+            <div class="rounded border-2 border-red-900 pl-2 mb-10">
+            <p>Wszystkie nagłówki na stronie:</p>
+            <ul>
+                {% for header in data.headers %}
+                    <li>{{ header.tag }}: {{ header.text }}</li>
+                {% endfor %}
+            </ul>
+            </div>
+    <div class="rounded border-2 border-red-900 pl-2 mb-10">
+        <p>Obrazy bez atrybutu alt:</p>
+        <ul>
+            {% for imageSrc in data.missingAltImages %}
+                <li>{{ imageSrc }}</li>
+            {% endfor %}
+        </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}
