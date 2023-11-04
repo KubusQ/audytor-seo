@@ -56,6 +56,9 @@ class PageScraperService
             $headersUnique = $this->checkHeadersAreUnique($headers);
             // check alt for images
             $missingAltImages = $this->checkAltAttributes($content);
+
+            
+
             return [
                 'title' => $title,
                 'description' => $metaDescription,

@@ -60,6 +60,35 @@
             {% endfor %}
         </ul>
         </div>
+        
+    </div>
+    <div class="bg-cyan-100 mb-1 rounded p-2">
+        <h3>Dane PageSpeed Insights</h3>
+        <div class="rounded border-2 border-red-900 pl-2 mb-10">
+            <p>Czy strona jest użyteczna na urządzeniach mobilnych: {{ dataPageSpeed.metrics.mobile.mobileFriendly }}</p>
+        </div>
+        <div class="rounded border-2 border-red-900 pl-2 mb-10">
+            <p>Prędkość ładowania mobile: {{ dataPageSpeed.mobile }}</p>
+            <p>Prędkość ładowania desktop: {{ dataPageSpeed.desktop }}</p>
+        </div>
+        <div class="rounded border-2 border-red-900 pl-2 mb-10">
+            <p>Core Web Vitals Mobile:</p>
+                <ul>
+                    <li>First Contentful Paint: {{ dataPageSpeed.metrics.mobile.firstContentfulPaint }}</li>
+                    <li>Speed Index: {{ dataPageSpeed.metrics.mobile.speedIndex }}</li>
+                    <li>Time to Interactive: {{ dataPageSpeed.metrics.mobile.timeToInteractive }}</li>
+                    <li>First Meaningful Paint: {{ dataPageSpeed.metrics.mobile.firstMeaningfulPaint }}</li>
+                </ul>
+        </div>
+        <div class="rounded border-2 border-red-900 pl-2 mb-10">
+            <p>Core Web Vitals Desktop:</p>
+                <ul>
+                    <li>First Contentful Paint: {{ dataPageSpeed.metrics.desktop.firstContentfulPaint }}</li>
+                    <li>Speed Index: {{ dataPageSpeed.metrics.desktop.speedIndex }}</li>
+                    <li>Time to Interactive: {{ dataPageSpeed.metrics.desktop.timeToInteractive }}</li>
+                    <li>First Meaningful Paint: {{ dataPageSpeed.metrics.desktop.firstMeaningfulPaint }}</li>
+                </ul>
+        </div>
     </div>
 </div>
 {% endblock %}
