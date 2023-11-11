@@ -56,8 +56,10 @@ class PageScraperService
             $headersUnique = $this->checkHeadersAreUnique($headers);
             // check alt for images
             $missingAltImages = $this->checkAltAttributes($content);
-
-            
+            // check https redirection
+            $httpsRedirection = $this->checkHttpsRedirection($domainName);
+            // check www redirection
+            $WwwRedirection = $this->checkWwwRedirection($domainName);
 
             return [
                 'title' => $title,
@@ -69,6 +71,8 @@ class PageScraperService
                 'headerCounts' => $headerCounts,
                 'headersUnique' => $headersUnique,
                 'missingAltImages' => $missingAltImages,
+                'httpsRedirection' => $httpsRedirection,
+                'wwwRedirection' => $WwwRedirection,
             ];
         } else {
             return [
@@ -109,5 +113,21 @@ private function checkHeadersAreUnique($headers)
     $uniqueTexts = array_unique($headerTexts);
 
     return count($headerTexts) === count($uniqueTexts);
+}
+private function checkHttpsRedirection($domain)
+{
+    $client = HttpClient::create();
+    $response = $client->request('GET', "http://".$domain, ['max_redirects' => 0]);
+    $statusCode = $response->getStatusCode();
+
+    return ($statusCode === 301 || $statusCode === 302);
+}
+private function checkWwwRedirection($domain)
+{
+    $client = HttpClient::create();
+    $response = $client->request('GET', "https://www.".$domain, ['max_redirects' => 0]);
+    $statusCode = $response->getStatusCode();
+
+    return ($statusCode === 301 || $statusCode === 302);
 }
 }

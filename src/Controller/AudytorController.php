@@ -31,8 +31,8 @@ class AudytorController extends AbstractController
     public function scrapePage()
     {
         //$url = 'https://bandola.com.pl/pss/';
-        $url = 'https://swiatloscwiekuista.pl/';
-        //$url = 'https://djygo.pl/';
+        //$url = 'https://swiatloscwiekuista.pl/';
+        $url = 'https://djygo.pl/';
 
         $data = $this->pageScraperService->scrapePageContent($url);
         $dataPageSpeed = $this->pageSpeedInsightsService->getPageSpeedInsights($url);
