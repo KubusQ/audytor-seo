@@ -30,6 +30,9 @@ class PageScraperService
             $favicon = $crawler->filter('link[rel="icon"]')->count() > 0
                 ? 'jest'
                 : 'brak';
+            $viewport = $crawler->filter('meta[name="viewport"]')->count() > 0
+            ? 'jest'
+            : 'brak';
 
             // get domain name
             $parsedUrl = parse_url($url);
@@ -59,20 +62,24 @@ class PageScraperService
             // check https redirection
             $httpsRedirection = $this->checkHttpsRedirection($domainName);
             // check www redirection
-            $WwwRedirection = $this->checkWwwRedirection($domainName);
+            $wwwRedirection = $this->checkWwwRedirection($domainName);
+            // check index.php/index.html redirection
+            $indexesRedirections = $this->checkIndexsRedirections($url);
 
             return [
                 'title' => $title,
                 'description' => $metaDescription,
                 'keywords' => $metaKeywords,
                 'domain' => $domainName,
+                'viewport' => $viewport,
                 'favicon' => $favicon,
                 'headers' => $headers,
                 'headerCounts' => $headerCounts,
                 'headersUnique' => $headersUnique,
                 'missingAltImages' => $missingAltImages,
                 'httpsRedirection' => $httpsRedirection,
-                'wwwRedirection' => $WwwRedirection,
+                'wwwRedirection' => $wwwRedirection,
+                'indexesRedirection' => $indexesRedirections,
             ];
         } else {
             return [
@@ -129,5 +136,18 @@ private function checkWwwRedirection($domain)
     $statusCode = $response->getStatusCode();
 
     return ($statusCode === 301 || $statusCode === 302);
+}
+private function checkIndexsRedirections($url)
+{
+    $client = HttpClient::create();
+    $responseIndexPhp = $client->request('GET', $url."/index.php", ['max_redirects' => 0]);
+    $statusCodeIndexPhp = $responseIndexPhp->getStatusCode();
+    $responseIndexHtml = $client->request('GET', $url."/index.html", ['max_redirects' => 0]);
+    $statusCodeIndexHtml = $responseIndexHtml->getStatusCode();
+
+    return [
+        'indexPhpStatus' => ($statusCodeIndexPhp === 301 || $statusCodeIndexPhp === 302),
+        'indexHtmlStatus' => ($statusCodeIndexHtml === 301 || $statusCodeIndexHtml === 302)
+    ];
 }
 }

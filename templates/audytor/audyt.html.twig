@@ -26,9 +26,23 @@
         <div class="rounded border-2 border-red-900 pl-2 mb-10">
             <p>Przekierowanie WWW: 
             {% if data.wwwRedirection == true %}
-                www.{{ data.domain }} => {{ data.domain }}
+               <p>  www.{{ data.domain }} => {{ data.domain }}</p> 
             {% else %}
-                {{ data.domain }} => www.{{ data.domain }}
+                <p> {{ data.domain }} => www.{{ data.domain }}</p> 
+            {% endif %}
+            </p>
+        </div>
+        <div class="rounded border-2 border-red-900 pl-2 mb-10">
+            <p>Przekierowanie index.html / index.php: 
+            {% if data.indexesRedirection.indexPhpStatus == true %}
+               <p>{{ data.domain }}/index.php => {{ data.domain }}</p> 
+            {% else %}
+               <p>  {{ data.domain }}/index.php =/> {{ data.domain }}</p> 
+            {% endif %}
+            {% if data.indexesRedirection.indexHtmlStatus == true %}
+               <p>  {{ data.domain }}/index.html => {{ data.domain }}</p> 
+            {% else %}
+                <p> {{ data.domain }}/index.html =/> {{ data.domain }}</p> 
             {% endif %}
             </p>
         </div>
@@ -81,6 +95,9 @@
     </div>
     <div class="bg-cyan-100 mb-1 rounded p-2">
         <h3>Dane PageSpeed Insights</h3>
+        <div class="rounded border-2 border-red-900 pl-2 mb-10">
+            <p>Meta viewport: {{ data.viewport }}</p>
+        </div>
         <div class="rounded border-2 border-red-900 pl-2 mb-10">
             <p>
             {% if dataPageSpeed.mobile <= 49 %}
