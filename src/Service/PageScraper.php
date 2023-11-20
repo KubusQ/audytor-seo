@@ -9,6 +9,7 @@ class PageScraperService
 {
     public function scrapePageContent($url)
     {
+        $url = rtrim($url, '/');
         $client = HttpClient::create();
         $response = $client->request('GET', $url);
         $statusCode = $response->getStatusCode();
@@ -31,9 +32,24 @@ class PageScraperService
                 ? 'jest'
                 : 'brak';
             $viewport = $crawler->filter('meta[name="viewport"]')->count() > 0
-            ? 'jest'
-            : 'brak';
-
+                ? 'jest'
+                : 'brak';
+            $robots = $crawler->filter('meta[name="robots"]')->count() > 0
+                ? 'jest => '.$crawler->filter('meta[name="robots"]')->attr('content')
+                : 'brak';
+            $lang = empty($crawler->filter('html')->attr('lang'))
+                ? 'brak'
+                : $crawler->filter('html')->attr('lang');
+            $charset = $crawler->filter('meta[name="charset"]')->count() > 0
+                ? $crawler->filter('meta[name="charset"]')->attr('content')
+                : 'brak';
+            $RDFa = $crawler->filter('[about], [property], [typeof], [vocab], [datatype]')->count() > 0
+                ? 'jest'
+                : 'brak';
+            $microdata = $crawler->filter('script[type="application/ld+json"]') || $crawler->filter('[itemscope], [itemtype], [itemprop]')->count() > 0
+                ? 'jest'
+                : 'brak';
+            
             // get domain name
             $parsedUrl = parse_url($url);
             $domainName = isset($parsedUrl['host']) ? $parsedUrl['host'] : '';
@@ -65,6 +81,9 @@ class PageScraperService
             $wwwRedirection = $this->checkWwwRedirection($domainName);
             // check index.php/index.html redirection
             $indexesRedirections = $this->checkIndexsRedirections($url);
+            //check robots.txt
+            $robotsTxt = $this->checkRobots($url);
+            // check ssl certificate
 
             return [
                 'title' => $title,
@@ -80,6 +99,12 @@ class PageScraperService
                 'httpsRedirection' => $httpsRedirection,
                 'wwwRedirection' => $wwwRedirection,
                 'indexesRedirection' => $indexesRedirections,
+                'robotsTxt' => $robotsTxt,
+                'robots' => $robots,
+                'lang' => $lang,
+                'rdfa' => $RDFa,
+                'microdata' => $microdata,
+                'charset' => $charset,
             ];
         } else {
             return [
@@ -150,4 +175,35 @@ private function checkIndexsRedirections($url)
         'indexHtmlStatus' => ($statusCodeIndexHtml === 301 || $statusCodeIndexHtml === 302)
     ];
 }
+private function checkRobots($url)
+{
+    $client = HttpClient::create();
+    $responseRobotsTxt = $client->request('GET', $url . "/robots.txt");
+    $statusCodeRobotsTxt = $responseRobotsTxt->getStatusCode();
+
+    $exists = false;
+    $hasSitemapDirective = false;
+
+    if ($statusCodeRobotsTxt === 200) {
+        $exists = true;
+        $robotsContent = $responseRobotsTxt->getContent();
+        
+        if (strpos($robotsContent, 'Sitemap:') !== false) {
+            $hasSitemapDirective = true;
+        }
+    }
+
+    return [
+        'exists' => $exists,
+        'hasSitemapDirective' => $hasSitemapDirective,
+    ];
+}
+private function checkSslCertificate($domain)
+    {
+        $client = HttpClient::create();
+        $response = $client->request('GET', 'https://' . $url, ['max_redirects' => 0]);
+        $statusCode = $response->getStatusCode();
+
+        return ($statusCode === 200);
+    }
 }

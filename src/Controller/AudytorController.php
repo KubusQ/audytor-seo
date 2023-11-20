@@ -53,10 +53,6 @@ class AudytorController extends AbstractController
     #[Route('/audyt', name: 'app_audyt')]
     public function audyt($url)
     {
-        //$url = 'https://bandola.com.pl/pss/';
-        //$url = 'https://swiatloscwiekuista.pl/';
-        //$url = 'https://djygo.pl/';
-
         $data = $this->pageScraperService->scrapePageContent($url);
         $dataPageSpeed = $this->pageSpeedInsightsService->getPageSpeedInsights($url);
         return $this->render('audytor/audyt.html.twig', [

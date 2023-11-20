@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Siema{% endblock %}
+{% block title %}Audyt dla {{ data.domain }}{% endblock %}
 
 {% block body %}
 <div class="bg-gray-800 pt-3">
@@ -13,6 +13,15 @@
         <h3>Dane podstawowe:</h3>
         <div class="rounded border-2 border-red-900 pl-2 mb-10">
             <p>Favicon: {{data.favicon}}</p>
+        </div>
+        <div class="rounded border-2 border-red-900 pl-2 mb-10">
+            <p>Informacje o certyfikacie SSL</p>
+            {% if pageData.sslCertificate.valid %}
+            <p>Certyfikat jest ważny od {{ data.sslCertificate.validFrom }} do {{ data.sslCertificate.validTo }}.</p>
+            <p>Dostawca certyfikatu: {{ data.sslCertificate.issuer }}</p>
+            {% else %}
+            <p>Certyfikat SSL jest nieprawidłowy lub nie został znaleziony.</p>
+            {% endif %}
         </div>
         <div class="rounded border-2 border-red-900 pl-2 mb-10">
             <p>Przekierowanie na https: 
@@ -45,6 +54,21 @@
                 <p> {{ data.domain }}/index.html =/> {{ data.domain }}</p> 
             {% endif %}
             </p>
+        </div>
+        <div class="rounded border-2 border-red-900 pl-2 mb-10">
+            <p>Przystępność dla robotów:</p>
+            <p>Plik robots.txt: 
+            {% if data.robotsTxt.exists == true %}
+                jest
+            {% else %}
+                brak
+            {% endif %}</p>
+            <p>Dyrektywa Sitemap: {% if data.robotsTxt.hasSitemapDirective == true %}
+                 jest
+            {% else %}
+                 brak
+            {% endif %}</p>
+            <p>Meta robots: {{data.robots}}</p>
         </div>
     </div>
     <div class="bg-cyan-100 mb-1 rounded p-2">
@@ -92,6 +116,15 @@
             {% endfor %}
         </ul>
         </div>
+        
+    <div class="rounded border-2 border-red-900 pl-2 mb-10">
+        <p>Określenie języka strony: {{ data.lang }}</p>
+        <p>Kodowanie strony: {{ data.charset }}</p>
+    </div>
+    <div class="rounded border-2 border-red-900 pl-2 mb-10">
+        <p>RDFa: {{ data.rdfa }}</p>
+        <p>Mikrodane: {{ data.microdata }}</p>
+    </div>
     </div>
     <div class="bg-cyan-100 mb-1 rounded p-2">
         <h3>Dane PageSpeed Insights</h3>
