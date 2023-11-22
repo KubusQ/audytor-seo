@@ -15,13 +15,23 @@
             <p>Favicon: {{data.favicon}}</p>
         </div>
         <div class="rounded border-2 border-red-900 pl-2 mb-10">
-            <p>Informacje o certyfikacie SSL</p>
-            {% if pageData.sslCertificate.valid %}
-            <p>Certyfikat jest ważny od {{ data.sslCertificate.validFrom }} do {{ data.sslCertificate.validTo }}.</p>
-            <p>Dostawca certyfikatu: {{ data.sslCertificate.issuer }}</p>
+            <p>Adres IP serwera: {{data.ipAddress}}</p>
+        </div>
+        <div class="rounded border-2 border-red-900 pl-2 mb-10">
+            <p>Przekierowanie IP serwera na domenę: 
+                {% if data.ipRedirection == true %}
+                jest ustawione
+                {% else %}
+                nie jest ustawione
+                {% endif %}</p>
+        </div>
+        <div class="rounded border-2 border-red-900 pl-2 mb-10">
+            <p>Certyfikat SSL: 
+            {% if data.sslCertificate == true %}
+                jest
             {% else %}
-            <p>Certyfikat SSL jest nieprawidłowy lub nie został znaleziony.</p>
-            {% endif %}
+                brak
+            {% endif %}</p>
         </div>
         <div class="rounded border-2 border-red-900 pl-2 mb-10">
             <p>Przekierowanie na https: 
@@ -69,6 +79,14 @@
                  brak
             {% endif %}</p>
             <p>Meta robots: {{data.robots}}</p>
+        </div>
+        <div class="rounded border-2 border-red-900 pl-2 mb-10">
+            <p>Plik sitemap.xml: 
+            {% if data.sitemap == true %}
+                jest <a href="https://{{data.domain}}/sitemap.xml">link</a>
+            {% else %}
+                brak
+            {% endif %}</p>
         </div>
     </div>
     <div class="bg-cyan-100 mb-1 rounded p-2">
@@ -125,6 +143,15 @@
         <p>RDFa: {{ data.rdfa }}</p>
         <p>Mikrodane: {{ data.microdata }}</p>
     </div>
+    <div class="rounded border-2 border-red-900 pl-2 mb-10">
+        <p>Obecność technologii flash: {{data.flash}}</p>
+    </div>
+    <div class="rounded border-2 border-red-900 pl-2 mb-10">
+        <p>Obecność iFrame: {{data.frame}}</p>
+    </div>
+    <div class="rounded border-2 border-red-900 pl-2 mb-10">
+        <p>Inline CSS: {{data.inlineCSS}}</p>
+    </div>
     </div>
     <div class="bg-cyan-100 mb-1 rounded p-2">
         <h3>Dane PageSpeed Insights</h3>
@@ -170,7 +197,53 @@
                 </ul>
         </div>
         <div class="bg-cyan-100 mb-1 rounded p-2">
-            <h3>Dane z W3C:</h3>
+            <h3>Linkowanie:</h3>
+            <div class="rounded border-2 border-red-900 pl-2 mb-10">
+            <p>Lista wewnętrznych linków:</p>
+            <ul>
+                {% for link in data.internalLinks %}
+                    <li>{{ link }}</li>
+                {% endfor %}
+            </ul>
+            </div>
+            <div class="rounded border-2 border-red-900 pl-2 mb-10">
+                <p>Najdłuższy url: {{ data.maxLenghtInlinks }} znaków</p>
+            </div>
+            <div class="rounded border-2 border-red-900 pl-2 mb-10">
+                <p>Linki przyjazne wyszukiwarce: 
+                    {% if data.friendlyLinks is empty %}
+                        tak
+                    {% else %}
+                        nie</p>
+                        <p>Lista nieprzyjaznych linków: 
+                    <ul>
+                        {% for link in data.friendlyLinks %}
+                            <li>{{ link }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}</p>
+            </div>
+            <div class="rounded border-2 border-red-900 pl-2 mb-10">
+            <p>Lista linków wychodzących:</p>
+            <ul>
+                {% for link in data.outLinks %}
+                    <li>{{ link.href }} {% if link.rel is not null %} Rel: {{link.rel}} {% endif %}</li>
+                {% endfor %}
+            </ul>
+            </div>
+            <div class="rounded border-2 border-red-900 pl-2 mb-10">
+            <p>Kod Google Analytics: 
+            {% if data.googleAnalytics is empty %}
+                brak
+            {% else %}
+                jest
+            <ul>
+                {% for code in data.googleAnalytics %}
+                    <li>{{ code }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}</p>
+            </div>
         </div>
     </div>
     </div>

@@ -38,10 +38,10 @@ class AudytorController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $data = $form->getData();
-            $url = $data['url'];
-
-            return $audytorController->audyt($url);
+            $dataForm = $form->getData();
+            $url = $dataForm['url'];
+            
+            return $this->redirectToRoute('app_audyt', ['id' => 10, 'domain' => $url]);
         }
 
         return $this->render('audytor/audytor.html.twig', [
@@ -50,11 +50,12 @@ class AudytorController extends AbstractController
     }
 
 
-    #[Route('/audyt', name: 'app_audyt')]
-    public function audyt($url)
+    #[Route('/audyt/{domain}/{id}', name: 'app_audyt', requirements: ['id' => '\d+', 'domain' => '[a-zA-Z./-0-9:]+'])]
+    public function audyt(int $id, string $domain)
     {
-        $data = $this->pageScraperService->scrapePageContent($url);
-        $dataPageSpeed = $this->pageSpeedInsightsService->getPageSpeedInsights($url);
+        $data = $this->pageScraperService->scrapePageContent($domain);
+        $dataPageSpeed = $this->pageSpeedInsightsService->getPageSpeedInsights($domain);
+        
         return $this->render('audytor/audyt.html.twig', [
             'data' => $data,
             'dataPageSpeed' => $dataPageSpeed,
