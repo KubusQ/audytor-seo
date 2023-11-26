@@ -2,23 +2,29 @@
 
 namespace App\Controller;
 
+use App\Entity\AuditsData;
 use App\Form\AuditFormType;
+use Symfony\Component\Uid\Uuid;
 use App\Service\PageScraperService;
+use Doctrine\ORM\EntityManagerInterface;
 use App\Service\PageSpeedInsightsService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AudytorController extends AbstractController
 {
     private $pageScraperService;
     private $pageSpeedInsightsService;
+    private $em;
 
-    public function __construct(PageScraperService $pageScraperService, PageSpeedInsightsService $pageSpeedInsightsService)
+    public function __construct(PageScraperService $pageScraperService, PageSpeedInsightsService $pageSpeedInsightsService, EntityManagerInterface $em)
     {
         $this->pageScraperService = $pageScraperService;
         $this->pageSpeedInsightsService = $pageSpeedInsightsService;
+        $this->em = $em;
     }
     
 
@@ -40,8 +46,13 @@ class AudytorController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $dataForm = $form->getData();
             $url = $dataForm['url'];
+
+            $parsedUrl = parse_url($url);
+            $domain = $parsedUrl['host'] ?? '';
+
+            $uid = Uuid::v4()->toRfc4122();
             
-            return $this->redirectToRoute('app_audyt', ['id' => 10, 'domain' => $url]);
+            return $this->redirectToRoute('app_audyt', ['uid' => $uid, 'domain' => $domain]);
         }
 
         return $this->render('audytor/audytor.html.twig', [
@@ -50,16 +61,35 @@ class AudytorController extends AbstractController
     }
 
 
-    #[Route('/audyt/{domain}/{id}', name: 'app_audyt', requirements: ['id' => '\d+', 'domain' => '[a-zA-Z./-0-9:]+'])]
-    public function audyt(int $id, string $domain)
+    #[Route('/audyt/{domain}/{uid}', name: 'app_audyt', requirements: ['domain' => '[a-zA-Z./-0-9:]+'])]
+    public function audyt($domain, $uid)
     {
         $data = $this->pageScraperService->scrapePageContent($domain);
-        $dataPageSpeed = $this->pageSpeedInsightsService->getPageSpeedInsights($domain);
+        $dataPageSpeed = $this->pageSpeedInsightsService->getPageSpeedInsights('http://'.$domain);
         
         return $this->render('audytor/audyt.html.twig', [
             'data' => $data,
             'dataPageSpeed' => $dataPageSpeed,
+            'uid' => $uid,
         ]);
         
+    }
+
+    #[Route('/save/{domain}/{uid}', name: 'app_save', requirements: ['domain' => '[a-zA-Z./-0-9:]+'])]
+    public function auditSave(Request $request, $domain, $uid): Response
+    {
+        $data = $request->get('data');
+        $dataPageSpeed = $request->get('dataPageSpeed');
+
+
+        $auditsData = new AuditsData();
+        $auditsData->setUID(Uuid::fromString($uid));
+        $auditsData->setDomain($domain);
+        $auditsData->setData(['data' => $data, 'dataPageSpeed' => $dataPageSpeed]);
+
+        $this->em->persist($auditsData);
+        $this->em->flush();
+
+        return new JsonResponse(['status' => 'success']);
     }
 }

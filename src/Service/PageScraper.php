@@ -7,12 +7,19 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class PageScraperService
 {
-    public function scrapePageContent($url)
+    public function scrapePageContent($domainName)
     {
+        $sslCertificate = $this->checkSslCertificate($domainName);
+        if($sslCertificate){
+            $url = 'https://'.$domainName;
+        }else{
+            $url = 'http://'.$domainName;
+        }
         $url = rtrim($url, '/');
         $client = HttpClient::create();
         $response = $client->request('GET', $url);
         $statusCode = $response->getStatusCode();
+        
 
         if ($statusCode === 200) {
             $content = $response->getContent();
@@ -58,9 +65,7 @@ class PageScraperService
             $inlineCSS = $crawler->filter('*[style]')->count() > 0
                 ? 'jest'
                 : 'brak';
-            // get domain name
-            $parsedUrl = parse_url($url);
-            $domainName = isset($parsedUrl['host']) ? $parsedUrl['host'] : '';
+            
 
             // get server IP address
             $ipAddress = gethostbyname($domainName);
@@ -101,15 +106,14 @@ class PageScraperService
             // get inlinks
             $internalLinks = $this->getInLinks($url, $content);
             // getmax inlinks for SEO max is 100 characters
-            $maxLenghtInlinks = 1;
+            $maxLenghtInlinks = max(array_map('strlen', $internalLinks));
             // check inlinks are friendly
             $friendlyLinks = $this->checkFriendlyLinks($url, $content);
             // get ourlinks
             $outLinks = $this->getOutLinks($url, $content);
             // check google analytics
             $googleAnalytics = $this->checkGoogleAnalytics($content);
-            // check ssl certificate
-            $sslCertificate = $this->checkSslCertificate($domainName);
+            
             
 
 
