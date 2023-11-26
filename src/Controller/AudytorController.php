@@ -81,7 +81,7 @@ class AudytorController extends AbstractController
         $data = $request->get('data');
         $dataPageSpeed = $request->get('dataPageSpeed');
 
-
+        var_dump($data);
         $auditsData = new AuditsData();
         $auditsData->setUID(Uuid::fromString($uid));
         $auditsData->setDomain($domain);

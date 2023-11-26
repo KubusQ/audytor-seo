@@ -211,7 +211,7 @@
             </div>
             <div class="rounded border-2 border-red-900 pl-2 mb-10">
                 <p>Linki przyjazne wyszukiwarce: 
-                    {% if data.friendlyLinks is empty %}
+                    {% if data.friendlyLinks == false %}
                         tak
                     {% else %}
                         nie</p>
@@ -233,15 +233,15 @@
             </div>
             <div class="rounded border-2 border-red-900 pl-2 mb-10">
             <p>Kod Google Analytics: 
-            {% if data.googleAnalytics is empty %}
-                brak
-            {% else %}
+            {% if data.googleAnalytics %}
                 jest
             <ul>
                 {% for code in data.googleAnalytics %}
                     <li>{{ code }}</li>
                 {% endfor %}
             </ul>
+            {% else %}
+                brak
             {% endif %}</p>
             </div>
         </div>

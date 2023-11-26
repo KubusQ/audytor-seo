@@ -14,7 +14,7 @@ class AuditsData
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: 'uuid')]
+    #[ORM\Column(type: 'uuid', unique: true)]
     private ?Uuid $uid = null;
 
     #[ORM\Column(length: 255)]

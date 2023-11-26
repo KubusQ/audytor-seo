@@ -69,24 +69,10 @@ class PageScraperService
 
             // get server IP address
             $ipAddress = gethostbyname($domainName);
-            
-            // get headers and counts it
-            $headers = $crawler->filter('h1, h2, h3, h4, h5, h6')->each(function (Crawler $node) {
-                return [
-                    'tag' => $node->getNode(0)->tagName,
-                    'text' => $node->text(),
-                ];
-            });
-
-            $headerCounts = [];
-            foreach ($headers as $header) {
-                $tag = $header['tag'];
-                if (isset($headerCounts[$tag])) {
-                    $headerCounts[$tag]++;
-                } else {
-                    $headerCounts[$tag] = 1;
-                }
-            }
+            // get headers
+            $headers = $this->getHeaders($content);
+            // count headers
+            $headerCounts = $this->countHeaders($headers);
             // check that headers are unique
             $headersUnique = $this->checkHeadersAreUnique($headers);
             // check alt for images
@@ -169,7 +155,7 @@ private function checkAltAttributes($content)
     $crawler = new Crawler($content);
 
     $images = $crawler->filter('img');
-
+ 
     $missingAltImages = [];
 
     foreach ($images as $image) {
@@ -180,8 +166,36 @@ private function checkAltAttributes($content)
             $missingAltImages[] = $src;
         }
     }
-
+    if(empty($missingAltImages)){
+        $missingAltImages = false;
+    }
     return $missingAltImages;
+}
+private function getHeaders($content)
+{
+    $crawler = new Crawler($content);
+
+    return $crawler->filter('h1, h2, h3, h4, h5, h6')->each(function (Crawler $node) {
+        return [
+            'tag' => $node->getNode(0)->tagName,
+            'text' => $node->text(),
+        ];
+    });
+}
+
+private function countHeaders(array $headers)
+{
+    $headerCounts = [];
+    foreach ($headers as $header) {
+        $tag = $header['tag'];
+        if (isset($headerCounts[$tag])) {
+            $headerCounts[$tag]++;
+        } else {
+            $headerCounts[$tag] = 1;
+        }
+    }
+
+    return $headerCounts;
 }
 private function checkHeadersAreUnique($headers)
 {
@@ -282,7 +296,9 @@ private function checkFriendlyLinks($url, $content){
 
         return (strpos($link, $url) === 0) && !preg_match($rule, $pathWithoutTrailingSlash) && $pathWithoutTrailingSlash !== '';
     });
-
+    if(empty($nonFriendlyLinks)){
+        $nonFriendlyLinks = false;
+    }
     return $nonFriendlyLinks;
 }
 private function getOutLinks($url, $content){
@@ -309,7 +325,9 @@ private function checkGoogleAnalytics($content){
     preg_match_all('/G-[A-Z0-9]{10}|UA-\d{8,}-\d{1,}/', $content, $codes);
 
     $codes = array_values(array_unique($codes[0]));
-
+    if(empty($codes)){
+        $codes = false;
+    }
     return $codes;
 }
 private function checkSslCertificate($domain)

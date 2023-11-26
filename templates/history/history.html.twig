@@ -19,7 +19,7 @@
         </div>
         <div class="rounded border-2 border-red-900 pl-2 mb-10">
             <p>Przekierowanie IP serwera na domenę: 
-                {% if auditsData.data.data.ipRedirection == true %}
+                {% if auditsData.data.data.ipRedirection == 'true' %}
                 jest ustawione
                 {% else %}
                 nie jest ustawione
@@ -27,7 +27,7 @@
         </div>
         <div class="rounded border-2 border-red-900 pl-2 mb-10">
             <p>Certyfikat SSL: 
-            {% if auditsData.data.data.sslCertificate == true %}
+            {% if auditsData.data.data.sslCertificate == 'true' %}
                 jest
             {% else %}
                 brak
@@ -35,7 +35,7 @@
         </div>
         <div class="rounded border-2 border-red-900 pl-2 mb-10">
             <p>Przekierowanie na https: 
-            {% if auditsData.data.data.httpsRedirection == true %}
+            {% if auditsData.data.data.httpsRedirection == 'true' %}
                 jest ustawione
             {% else %}
                 nie jest ustawione
@@ -44,7 +44,7 @@
         </div>
         <div class="rounded border-2 border-red-900 pl-2 mb-10">
             <p>Przekierowanie WWW: 
-            {% if auditsData.data.data.wwwRedirection == true %}
+            {% if auditsData.data.data.wwwRedirection == 'true' %}
                <p>  www.{{ auditsData.data.data.domain }} => {{ auditsData.data.data.domain }}</p> 
             {% else %}
                 <p> {{ auditsData.data.data.domain }} => www.{{ auditsData.data.data.domain }}</p> 
@@ -53,12 +53,12 @@
         </div>
         <div class="rounded border-2 border-red-900 pl-2 mb-10">
             <p>Przekierowanie index.html / index.php: 
-            {% if auditsData.data.data.indexesRedirection.indexPhpStatus == true %}
+            {% if auditsData.data.data.indexesRedirection.indexPhpStatus == 'true' %}
                <p>{{ auditsData.data.data.domain }}/index.php => {{ auditsData.data.data.domain }}</p> 
             {% else %}
                <p>  {{ auditsData.data.data.domain }}/index.php =/> {{ auditsData.data.data.domain }}</p> 
             {% endif %}
-            {% if auditsData.data.data.indexesRedirection.indexHtmlStatus == true %}
+            {% if auditsData.data.data.indexesRedirection.indexHtmlStatus == 'true' %}
                <p>  {{ auditsData.data.data.domain }}/index.html => {{ auditsData.data.data.domain }}</p> 
             {% else %}
                 <p> {{ auditsData.data.data.domain }}/index.html =/> {{ auditsData.data.data.domain }}</p> 
@@ -68,12 +68,12 @@
         <div class="rounded border-2 border-red-900 pl-2 mb-10">
             <p>Przystępność dla robotów:</p>
             <p>Plik robots.txt: 
-            {% if auditsData.data.data.robotsTxt.exists == true %}
+            {% if auditsData.data.data.robotsTxt.exists == 'true' %}
                 jest
             {% else %}
                 brak
             {% endif %}</p>
-            <p>Dyrektywa Sitemap: {% if auditsData.data.data.robotsTxt.hasSitemapDirective == true %}
+            <p>Dyrektywa Sitemap: {% if auditsData.data.data.robotsTxt.hasSitemapDirective == 'true' %}
                  jest
             {% else %}
                  brak
@@ -82,7 +82,7 @@
         </div>
         <div class="rounded border-2 border-red-900 pl-2 mb-10">
             <p>Plik sitemap.xml: 
-            {% if auditsData.data.data.sitemap == true %}
+            {% if auditsData.data.data.sitemap == 'true' %}
                 jest <a href="https://{{auditsData.data.data.domain}}/sitemap.xml">link</a>
             {% else %}
                 brak
@@ -211,7 +211,7 @@
             </div>
             <div class="rounded border-2 border-red-900 pl-2 mb-10">
                 <p>Linki przyjazne wyszukiwarce: 
-                    {# {% if auditsData.data.data.friendlyLinks is empty %}
+                     {% if auditsData.data.data.friendlyLinks %}
                         tak
                     {% else %}
                         nie</p>
@@ -221,7 +221,7 @@
                             <li>{{ link }}</li>
                         {% endfor %}
                     </ul>
-                    {% endif %}</p> #}
+                    {% endif %}</p> 
             </div>
             <div class="rounded border-2 border-red-900 pl-2 mb-10">
             <p>Lista linków wychodzących:</p>
@@ -233,16 +233,16 @@
             </div>
             <div class="rounded border-2 border-red-900 pl-2 mb-10">
              <p>Kod Google Analytics: 
-            {# {% if auditsData.data.data.googleAnalytics is empty %}
+             {% if auditsData.data.data.googleAnalytics == 'false' %}
                 brak
             {% else %}
                 jest
             <ul>
-                {% for code in auditsData.data.googleAnalytics %}
+                {% for code in auditsData.data.data.googleAnalytics %}
                     <li>{{ code }}</li>
                 {% endfor %}
             </ul>
-            {% endif %}</p>   #}
+            {% endif %}</p>   
             </div>
         </div>
     </div>
