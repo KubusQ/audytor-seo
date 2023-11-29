@@ -72,9 +72,15 @@ class PageScraperService
             // get headers
             $headers = $this->getHeaders($content);
             // count headers
+            if(!empty($headers)){
             $headerCounts = $this->countHeaders($headers);
             // check that headers are unique
             $headersUnique = $this->checkHeadersAreUnique($headers);
+            }else{
+                $headers = false;
+                $headerCounts = false;
+                $headersUnique = false;
+            }
             // check alt for images
             $missingAltImages = $this->checkAltAttributes($content);
             // check https redirection
@@ -194,7 +200,9 @@ private function countHeaders(array $headers)
             $headerCounts[$tag] = 1;
         }
     }
-
+    if(empty($headerCount)){
+        return false;
+    }
     return $headerCounts;
 }
 private function checkHeadersAreUnique($headers)

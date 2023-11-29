@@ -109,22 +109,31 @@
             </div>
             <div class="rounded border-2 border-red-900 pl-2 mb-10">
             <p>Liczba wystąpień nagłówków:</p>
+            {% if auditsData.data.data.headerCounts == 'false'%}
+                brak nagłówków na stronie
+            {% else %}
             <ul>
                 {% for tag, count in auditsData.data.data.headerCounts %}
                     <li>{{ tag }}: {{ count }}</li>
                 {% endfor %}
             </ul>
+            {% endif %}
             </div>
             <div class="rounded border-2 border-red-900 pl-2 mb-10">
-                <p>Nagłówki unikatowe: {% if auditsData.data.data.headersUnique %} tak {% else %} nie {% endif %}</p>
+                <p>Nagłówki unikatowe: {% if auditsData.data.data.headersUnique == 'false' %} nie {% else %} tak {% endif %}</p>
             </div>
             <div class="rounded border-2 border-red-900 pl-2 mb-10">
             <p>Wszystkie nagłówki na stronie:</p>
+            <p>Liczba wystąpień nagłówków:</p>
+            {% if auditsData.data.data.headers == 'false'%}
+                brak nagłówków na stronie
+            {% else %}
             <ul>
                 {% for header in auditsData.data.data.headers %}
                     <li>{{ header.tag }}: {{ header.text }}</li>
                 {% endfor %}
             </ul>
+            {% endif %}
             </div>
     <div class="rounded border-2 border-red-900 pl-2 mb-10">
         <p>Obrazy bez atrybutu alt:</p>
