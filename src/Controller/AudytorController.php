@@ -8,6 +8,7 @@ use Symfony\Component\Uid\Uuid;
 use App\Service\PageScraperService;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Service\PageSpeedInsightsService;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -76,16 +77,17 @@ class AudytorController extends AbstractController
     }
 
     #[Route('/save/{domain}/{uid}', name: 'app_save', requirements: ['domain' => '[a-zA-Z./-0-9:]+'])]
-    public function auditSave(Request $request, $domain, $uid): Response
+    public function auditSave(Request $request, Security $security, $domain, $uid): Response
     {
+        $user = $security->getUser();
         $data = $request->get('data');
         $dataPageSpeed = $request->get('dataPageSpeed');
 
-        var_dump($data);
         $auditsData = new AuditsData();
         $auditsData->setUID(Uuid::fromString($uid));
         $auditsData->setDomain($domain);
         $auditsData->setData(['data' => $data, 'dataPageSpeed' => $dataPageSpeed]);
+        $auditsData->setUser($user);
 
         $this->em->persist($auditsData);
         $this->em->flush();

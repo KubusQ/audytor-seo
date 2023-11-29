@@ -1,260 +1,67 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Audyt dla {{ auditsData.domain }}{% endblock %}
+{% block title %}Hello AudytorController!{% endblock %}
 
 {% block body %}
 <div class="bg-gray-800 pt-3">
-    <div class="rounded-tl-3xl bg-gradient-to-r from-blue-900 to-gray-800 p-4 shadow text-2xl text-white">
-        <h3 class="font-bold pl-2">Audyt dla domeny: <a href="https://{{auditsData.domain}}">{{ auditsData.domain }}</a></h3>
-    </div>
+                <div class="rounded-tl-3xl bg-gradient-to-r from-blue-900 to-gray-800 p-4 shadow text-2xl text-white">
+                    <h3 class="font-bold pl-2">Twoje audyty</h3>
+                </div>  
 </div>
-<div class="m-4 text-lg font-sans font-medium">
-    <div class="bg-cyan-100 mb-1 rounded p-2">
-        <h3>Dane podstawowe:</h3>
-        <div class="rounded border-2 border-red-900 pl-2 mb-10">
-            <p>Favicon: {{auditsData.data.data.favicon}}</p>
-        </div>
-        <div class="rounded border-2 border-red-900 pl-2 mb-10">
-            <p>Adres IP serwera: {{auditsData.data.data.ipAddress}}</p>
-        </div>
-        <div class="rounded border-2 border-red-900 pl-2 mb-10">
-            <p>Przekierowanie IP serwera na domenę: 
-                {% if auditsData.data.data.ipRedirection == 'true' %}
-                jest ustawione
-                {% else %}
-                nie jest ustawione
-                {% endif %}</p>
-        </div>
-        <div class="rounded border-2 border-red-900 pl-2 mb-10">
-            <p>Certyfikat SSL: 
-            {% if auditsData.data.data.sslCertificate == 'true' %}
-                jest
-            {% else %}
-                brak
-            {% endif %}</p>
-        </div>
-        <div class="rounded border-2 border-red-900 pl-2 mb-10">
-            <p>Przekierowanie na https: 
-            {% if auditsData.data.data.httpsRedirection == 'true' %}
-                jest ustawione
-            {% else %}
-                nie jest ustawione
-            {% endif %}
-            </p>
-        </div>
-        <div class="rounded border-2 border-red-900 pl-2 mb-10">
-            <p>Przekierowanie WWW: 
-            {% if auditsData.data.data.wwwRedirection == 'true' %}
-               <p>  www.{{ auditsData.data.data.domain }} => {{ auditsData.data.data.domain }}</p> 
-            {% else %}
-                <p> {{ auditsData.data.data.domain }} => www.{{ auditsData.data.data.domain }}</p> 
-            {% endif %}
-            </p>
-        </div>
-        <div class="rounded border-2 border-red-900 pl-2 mb-10">
-            <p>Przekierowanie index.html / index.php: 
-            {% if auditsData.data.data.indexesRedirection.indexPhpStatus == 'true' %}
-               <p>{{ auditsData.data.data.domain }}/index.php => {{ auditsData.data.data.domain }}</p> 
-            {% else %}
-               <p>  {{ auditsData.data.data.domain }}/index.php =/> {{ auditsData.data.data.domain }}</p> 
-            {% endif %}
-            {% if auditsData.data.data.indexesRedirection.indexHtmlStatus == 'true' %}
-               <p>  {{ auditsData.data.data.domain }}/index.html => {{ auditsData.data.data.domain }}</p> 
-            {% else %}
-                <p> {{ auditsData.data.data.domain }}/index.html =/> {{ auditsData.data.data.domain }}</p> 
-            {% endif %}
-            </p>
-        </div>
-        <div class="rounded border-2 border-red-900 pl-2 mb-10">
-            <p>Przystępność dla robotów:</p>
-            <p>Plik robots.txt: 
-            {% if auditsData.data.data.robotsTxt.exists == 'true' %}
-                jest
-            {% else %}
-                brak
-            {% endif %}</p>
-            <p>Dyrektywa Sitemap: {% if auditsData.data.data.robotsTxt.hasSitemapDirective == 'true' %}
-                 jest
-            {% else %}
-                 brak
-            {% endif %}</p>
-            <p>Meta robots: {{auditsData.data.data.robots}}</p>
-        </div>
-        <div class="rounded border-2 border-red-900 pl-2 mb-10">
-            <p>Plik sitemap.xml: 
-            {% if auditsData.data.data.sitemap == 'true' %}
-                jest <a href="https://{{auditsData.data.data.domain}}/sitemap.xml">link</a>
-            {% else %}
-                brak
-            {% endif %}</p>
-        </div>
-    </div>
-    <div class="bg-cyan-100 mb-1 rounded p-2">
-            <h3>Metadane i treści:</h3>
-            <div class="rounded border-2 border-red-900 pl-2 mb-10">
-            <p>Tytuł strony: {{auditsData.data.data.title}}</p>
-            <p>Liczba znaków: {{auditsData.data.data.title|length}}</p>
-            </div>
-            <div class="rounded border-2 border-red-900 pl-2 mb-10">
-            <p>Opis strony: {{auditsData.data.data.description}}</p>
-            <p>Liczba znaków: 
-            {% if auditsData.data.data.description == "brak" %}
-                0
-            {% else %}
-            {{auditsData.data.data.description|length}}
-            {% endif %}</p>
-            </div>
-            <div class="rounded border-2 border-red-900 pl-2 mb-10">
-            <p>Słowa kluczowe: {{auditsData.data.data.keywords}}</p>
-            </div>
-            <div class="rounded border-2 border-red-900 pl-2 mb-10">
-            <p>Liczba wystąpień nagłówków:</p>
-            {% if auditsData.data.data.headerCounts == 'false'%}
-                brak nagłówków na stronie
-            {% else %}
-            <ul>
-                {% for tag, count in auditsData.data.data.headerCounts %}
-                    <li>{{ tag }}: {{ count }}</li>
+<div class="container mx-auto my-8 bg-white rounded-lg p-6 shadow-md">
+    {% if audits is not empty %}
+        <table class="table-auto w-full text-center border">
+            <thead>
+                <tr>
+                    <th class="px-4 py-2 border-b">Domena</th>
+                    <th class="px-4 py-2 border-b">Data wykonania audytu</th>
+                    <th class="px-4 py-2 border-b">Podgląd</th>
+                    <th class="px-4 py-2 border-b">Udostępnij</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for audit in audits %}
+                    <tr>
+                        <td class="border px-4 py-2">{{ audit.domain }}</td>
+                        <td class="border px-4 py-2">{{ audit.data.data.auditDateTime }}</td>
+                        <td class="border px-4 py-2"><a href="{{ path('app_history_audit', {'domain': audit.domain, 'uid': audit.uid}) }}"><i class="fas fa-search"></i></a></td>
+                        <td class="border px-4 py-2">
+                            <button class="copy-button" data-text="{{ absolute_url(path('app_history_audit', {'domain': audit.domain, 'uid': audit.uid})) }}"><i class="far fa-copy"></i></button>
+                        </td>
+                    </tr>
                 {% endfor %}
-            </ul>
-            {% endif %}
-            </div>
-            <div class="rounded border-2 border-red-900 pl-2 mb-10">
-                <p>Nagłówki unikatowe: {% if auditsData.data.data.headersUnique == 'false' %} nie {% else %} tak {% endif %}</p>
-            </div>
-            <div class="rounded border-2 border-red-900 pl-2 mb-10">
-            <p>Wszystkie nagłówki na stronie:</p>
-            <p>Liczba wystąpień nagłówków:</p>
-            {% if auditsData.data.data.headers == 'false'%}
-                brak nagłówków na stronie
-            {% else %}
-            <ul>
-                {% for header in auditsData.data.data.headers %}
-                    <li>{{ header.tag }}: {{ header.text }}</li>
-                {% endfor %}
-            </ul>
-            {% endif %}
-            </div>
-    <div class="rounded border-2 border-red-900 pl-2 mb-10">
-        <p>Obrazy bez atrybutu alt:</p>
-        <ul>
-            {% for imageSrc in auditsData.data.data.missingAltImages %}
-                <li>{{ imageSrc }}</li>
-            {% endfor %}
-        </ul> 
-        </div>
-        
-    <div class="rounded border-2 border-red-900 pl-2 mb-10">
-        <p>Określenie języka strony: {{ auditsData.data.data.lang }}</p>
-        <p>Kodowanie strony: {{ auditsData.data.data.charset }}</p>
+            </tbody>
+        </table>
+    {% else %}
+        <p>Brak dostępnych audytów.</p>
+    {% endif %}
+    <div id="copyMessage" class="hidden bg-green-500 text-white px-4 py-2 mt-4 rounded absolute top-0 left-1/2 transform -translate-x-1/2">
+        Adres skopiowano do schowka!
     </div>
-    <div class="rounded border-2 border-red-900 pl-2 mb-10">
-        <p>RDFa: {{ auditsData.data.data.rdfa }}</p>
-        <p>Mikrodane: {{ auditsData.data.data.microdata }}</p>
-    </div>
-    <div class="rounded border-2 border-red-900 pl-2 mb-10">
-        <p>Obecność technologii flash: {{auditsData.data.data.flash}}</p>
-    </div>
-    <div class="rounded border-2 border-red-900 pl-2 mb-10">
-        <p>Obecność iFrame: {{auditsData.data.data.frame}}</p>
-    </div>
-    <div class="rounded border-2 border-red-900 pl-2 mb-10">
-        <p>Inline CSS: {{auditsData.data.data.inlineCSS}}</p>
-    </div>
-    </div>
-    <div class="bg-cyan-100 mb-1 rounded p-2">
-        <h3>Dane PageSpeed Insights</h3>
-        <div class="rounded border-2 border-red-900 pl-2 mb-10">
-            <p>Meta viewport: {{ auditsData.data.data.viewport }}</p>
-        </div>
-        <div class="rounded border-2 border-red-900 pl-2 mb-10">
-            <p>
-            {% if auditsData.data.dataPageSpeed.mobile <= 49 %}
-                Strona wymaga poprawy na urządzeniach mobilnych.
-            {% else %}
-                Strona jest użyteczna na urządzeniach mobilnych.
-            {% endif %}
-            </p>
-            <p>Prędkość ładowania mobile: {{ auditsData.data.dataPageSpeed.mobile }}</p>
-        </div>
-        <div class="rounded border-2 border-red-900 pl-2 mb-10">
-            <p>
-            {% if auditsData.data.dataPageSpeed.desktop <= 49 %}
-                Strona wymaga poprawy na komputerach stacjonarnych.
-            {% else %}
-                Strona jest użyteczna na komputerach stacjonarnych.
-            {% endif %}
-            </p>
-            <p>Prędkość ładowania desktop: {{ auditsData.data.dataPageSpeed.desktop }}</p>
-        </div>
-        <div class="rounded border-2 border-red-900 pl-2 mb-10">
-            <p>Core Web Vitals Mobile:</p>
-                <ul>
-                    <li>First Contentful Paint: {{ auditsData.data.dataPageSpeed.metrics.mobile.firstContentfulPaint }}</li>
-                    <li>Speed Index: {{ auditsData.data.dataPageSpeed.metrics.mobile.speedIndex }}</li>
-                    <li>Time to Interactive: {{ auditsData.data.dataPageSpeed.metrics.mobile.timeToInteractive }}</li>
-                    <li>First Meaningful Paint: {{ auditsData.data.dataPageSpeed.metrics.mobile.firstMeaningfulPaint }}</li>
-                </ul>
-        </div>
-        <div class="rounded border-2 border-red-900 pl-2 mb-10">
-            <p>Core Web Vitals Desktop:</p>
-                <ul>
-                    <li>First Contentful Paint: {{ auditsData.data.dataPageSpeed.metrics.desktop.firstContentfulPaint }}</li>
-                    <li>Speed Index: {{ auditsData.data.dataPageSpeed.metrics.desktop.speedIndex }}</li>
-                    <li>Time to Interactive: {{ auditsData.data.dataPageSpeed.metrics.desktop.timeToInteractive }}</li>
-                    <li>First Meaningful Paint: {{ auditsData.data.dataPageSpeed.metrics.desktop.firstMeaningfulPaint }}</li>
-                </ul>
-        </div>
-        <div class="bg-cyan-100 mb-1 rounded p-2">
-            <h3>Linkowanie:</h3>
-            <div class="rounded border-2 border-red-900 pl-2 mb-10">
-            <p>Lista wewnętrznych linków:</p>
-            <ul>
-                {% for link in auditsData.data.data.internalLinks %}
-                    <li>{{ link }}</li>
-                {% endfor %}
-            </ul>
-            </div>
-            <div class="rounded border-2 border-red-900 pl-2 mb-10">
-                <p>Najdłuższy url: {{ auditsData.data.data.maxLenghtInlinks }} znaków</p>
-            </div>
-            <div class="rounded border-2 border-red-900 pl-2 mb-10">
-                <p>Linki przyjazne wyszukiwarce: 
-                     {% if auditsData.data.data.friendlyLinks %}
-                        tak
-                    {% else %}
-                        nie</p>
-                        <p>Lista nieprzyjaznych linków: 
-                    <ul>
-                        {% for link in auditsData.data.data.friendlyLinks %}
-                            <li>{{ link }}</li>
-                        {% endfor %}
-                    </ul>
-                    {% endif %}</p> 
-            </div>
-            <div class="rounded border-2 border-red-900 pl-2 mb-10">
-            <p>Lista linków wychodzących:</p>
-            <ul>
-                {% for link in auditsData.data.data.outLinks %}
-                    <li>{{ link.href }} {% if link.rel is not null %} Rel: {{link.rel}} {% endif %}</li>
-                {% endfor %} 
-            </ul>
-            </div>
-            <div class="rounded border-2 border-red-900 pl-2 mb-10">
-             <p>Kod Google Analytics: 
-             {% if auditsData.data.data.googleAnalytics == 'false' %}
-                brak
-            {% else %}
-                jest
-            <ul>
-                {% for code in auditsData.data.data.googleAnalytics %}
-                    <li>{{ code }}</li>
-                {% endfor %}
-            </ul>
-            {% endif %}</p>   
-            </div>
-        </div>
-    </div>
-    </div>
+
+<script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var copyButtons = document.querySelectorAll('.copy-button');
+
+            copyButtons.forEach(function (button) {
+                button.addEventListener('click', function () {
+                    var textToCopy = this.getAttribute('data-text');
+                    var tempInput = document.createElement('input');
+                    tempInput.value = textToCopy;
+                    document.body.appendChild(tempInput);
+                    tempInput.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(tempInput);
+
+                    var copyMessage = document.getElementById('copyMessage');
+                    copyMessage.classList.remove('hidden');
+
+                    setTimeout(function () {
+                        copyMessage.classList.add('hidden');
+                    }, 2000);
+                });
+            });
+        });
+    </script>
 </div>
 {% endblock %}

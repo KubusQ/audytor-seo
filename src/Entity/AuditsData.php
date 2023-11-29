@@ -23,6 +23,11 @@ class AuditsData
     #[ORM\Column]
     private array $data = [];
 
+    #[ORM\ManyToOne(inversedBy: 'auditsdatas')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -60,6 +65,18 @@ class AuditsData
     public function setData(array $data): static
     {
         $this->data = $data;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
 
         return $this;
     }

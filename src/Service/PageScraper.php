@@ -106,8 +106,8 @@ class PageScraperService
             // check google analytics
             $googleAnalytics = $this->checkGoogleAnalytics($content);
             
-            
-
+            $auditDateTime = new \DateTime();
+            $auditDateTime = $auditDateTime->format('d-m-Y H:i:s');
 
             return [
                 'title' => $title,
@@ -141,6 +141,7 @@ class PageScraperService
                 'outLinks' => $outLinks,
                 'googleAnalytics' => $googleAnalytics,
                 'sslCertificate' => $sslCertificate,
+                'auditDateTime' => $auditDateTime
             ];
         } else {
             return [
