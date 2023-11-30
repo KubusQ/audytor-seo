@@ -239,11 +239,15 @@
             </div>
             <div class="rounded border-2 border-red-900 pl-2 mb-10">
             <p>Lista linków wychodzących:</p>
+            {% if auditsData.data.data.outLinks == 'false' %}
+                brak linków wychodzących
+            {% else %}
             <ul>
                 {% for link in auditsData.data.data.outLinks %}
                     <li>{{ link.href }} {% if link.rel is not null %} Rel: {{link.rel}} {% endif %}</li>
                 {% endfor %} 
             </ul>
+            {% endif %}
             </div>
             <div class="rounded border-2 border-red-900 pl-2 mb-10">
              <p>Kod Google Analytics: 

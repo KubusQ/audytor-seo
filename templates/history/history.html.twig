@@ -3,19 +3,23 @@
 {% block title %}Hello AudytorController!{% endblock %}
 
 {% block body %}
+
 <div class="bg-gray-800 pt-3">
                 <div class="rounded-tl-3xl bg-gradient-to-r from-blue-900 to-gray-800 p-4 shadow text-2xl text-white">
                     <h3 class="font-bold pl-2">Twoje audyty</h3>
                 </div>  
 </div>
+
 <div class="container mx-auto my-8 bg-white rounded-lg p-6 shadow-md">
     {% if audits is not empty %}
+        <form action="" method="post" id="compareForm">
         <table class="table-auto w-full text-center border">
             <thead>
                 <tr>
                     <th class="px-4 py-2 border-b">Domena</th>
                     <th class="px-4 py-2 border-b">Data wykonania audytu</th>
                     <th class="px-4 py-2 border-b">Podgląd</th>
+                    <th class="px-4 py-2 border-b">Dodaj do porównania</th>
                     <th class="px-4 py-2 border-b">Udostępnij</th>
                 </tr>
             </thead>
@@ -25,6 +29,7 @@
                         <td class="border px-4 py-2">{{ audit.domain }}</td>
                         <td class="border px-4 py-2">{{ audit.data.data.auditDateTime }}</td>
                         <td class="border px-4 py-2"><a href="{{ path('app_history_audit', {'domain': audit.domain, 'uid': audit.uid}) }}"><i class="fas fa-search"></i></a></td>
+                        <td class="border px-4 py-2"><input type="checkbox" name="selected_audits[]"  class="compare-checkbox" data-uid="{{ audit.uid }}"/></td>
                         <td class="border px-4 py-2">
                             <button class="copy-button" data-text="{{ absolute_url(path('app_history_audit', {'domain': audit.domain, 'uid': audit.uid})) }}"><i class="far fa-copy"></i></button>
                         </td>
@@ -32,36 +37,78 @@
                 {% endfor %}
             </tbody>
         </table>
+    <div id="MessageContainer"></div>
+    <button type="submit" id="compareButton" class="bg-gray-500 hover:bg-gray-400 text-white font-bold py-2 px-4 rounded mt-4" disabled>
+                Porównaj zaznaczone
+    </button>
+    </form>
     {% else %}
         <p>Brak dostępnych audytów.</p>
     {% endif %}
-    <div id="copyMessage" class="hidden bg-green-500 text-white px-4 py-2 mt-4 rounded absolute top-0 left-1/2 transform -translate-x-1/2">
-        Adres skopiowano do schowka!
-    </div>
+    
 
 <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            var copyButtons = document.querySelectorAll('.copy-button');
+   document.addEventListener('DOMContentLoaded', function () {
+    var copyButtons = document.querySelectorAll('.copy-button');
+    var compareButton = document.getElementById('compareButton');
+    var compareForm = document.getElementById('compareForm');
+    var checkboxes = document.querySelectorAll('.compare-checkbox');
 
-            copyButtons.forEach(function (button) {
-                button.addEventListener('click', function () {
-                    var textToCopy = this.getAttribute('data-text');
-                    var tempInput = document.createElement('input');
-                    tempInput.value = textToCopy;
-                    document.body.appendChild(tempInput);
-                    tempInput.select();
-                    document.execCommand('copy');
-                    document.body.removeChild(tempInput);
+    copyButtons.forEach(function (button) {
+        button.addEventListener('click', function (event) {
+            event.preventDefault();
+            var textToCopy = this.getAttribute('data-text');
+            var tempInput = document.createElement('input');
+            tempInput.value = textToCopy;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
 
-                    var copyMessage = document.getElementById('copyMessage');
-                    copyMessage.classList.remove('hidden');
+            var MessageContainer = document.getElementById('MessageContainer');
+            var copyMessage = document.createElement('div');
+            copyMessage.className = 'bg-green-500 text-white px-4 py-2 mt-4 rounded';
+            copyMessage.textContent = 'Adres skopiowano do schowka!';
 
-                    setTimeout(function () {
-                        copyMessage.classList.add('hidden');
-                    }, 2000);
-                });
-            });
+            MessageContainer.innerHTML = '';
+            MessageContainer.appendChild(copyMessage);
+
+            setTimeout(function () {
+                MessageContainer.innerHTML = '';
+            }, 2000);
         });
+    });
+
+    checkboxes.forEach(function (checkbox) {
+        checkbox.addEventListener('change', function () {
+            var checkedCheckboxes = document.querySelectorAll('.compare-checkbox:checked');
+            compareButton.disabled = checkedCheckboxes.length < 2;
+
+            if (checkedCheckboxes.length >= 2) {
+                compareButton.classList.remove('bg-gray-500');
+                compareButton.classList.remove('hover:bg-gray-400');
+                compareButton.classList.add('bg-blue-500');
+                compareButton.classList.add('hover:bg-blue-700');
+            }else{
+                compareButton.classList.remove('bg-blue-500');
+                compareButton.classList.remove('hover:bg-blue-700');
+                compareButton.classList.add('bg-gray-500');
+                compareButton.classList.add('hover:bg-gray-400');
+            }
+
+            if (checkedCheckboxes.length > 2) {
+                this.checked = false;
+            }
+        });
+    });
+
+    compareForm.addEventListener('submit', function () {
+        var checkedCheckboxes = document.querySelectorAll('.compare-checkbox:checked');
+        var uid1 = checkedCheckboxes[0].getAttribute('data-uid');
+        var uid2 = checkedCheckboxes[1].getAttribute('data-uid');
+        compareForm.action = "/compare/" + uid1 + "/" + uid2;
+    });
+});
     </script>
 </div>
 {% endblock %}

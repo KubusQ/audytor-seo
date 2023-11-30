@@ -324,7 +324,9 @@ private function getOutLinks($url, $content){
             ];
         }
     });
-
+    if(empty(array_filter($outlinks))){
+        $outlinks = false;
+    }
     return array_filter($outlinks);
 }
 

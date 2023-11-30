@@ -206,8 +206,9 @@
                     <li>Time to Interactive: {{ dataPageSpeed.metrics.desktop.timeToInteractive }}</li>
                     <li>First Meaningful Paint: {{ dataPageSpeed.metrics.desktop.firstMeaningfulPaint }}</li>
                 </ul>
-        </div>
-        <div class="mx-auto my-8 bg-white rounded-lg p-6 shadow-md">
+        </div>    
+    </div>
+    <div class="mx-auto my-8 bg-white rounded-lg p-6 shadow-md">
             <h3>Linkowanie:</h3>
             <div class="rounded border-2 border-red-900 pl-2 mb-10">
             <p>Lista wewnętrznych linków:</p>
@@ -236,11 +237,15 @@
             </div>
             <div class="rounded border-2 border-red-900 pl-2 mb-10">
             <p>Lista linków wychodzących:</p>
+            {% if data.outLinks %}
             <ul>
                 {% for link in data.outLinks %}
                     <li>{{ link.href }} {% if link.rel is not null %} Rel: {{link.rel}} {% endif %}</li>
                 {% endfor %}
+            {% else %}
+                brak linków wychodzących
             </ul>
+            {% endif %} 
             </div>
             <div class="rounded border-2 border-red-900 pl-2 mb-10">
             <p>Kod Google Analytics: 
@@ -256,10 +261,8 @@
             {% endif %}</p>
             </div>
         </div>
-    </div>
         <div class="mx-auto my-8 bg-white rounded-lg p-6 shadow-md">
-            <h3>Zapisz audyt:</h3>
-            <button id="saveAuditButton" class="btn btn-primary">Zapisz</button>
+            <button id="saveAuditButton" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">Zapisz audyt</button>
             <div id="saveAuditMessage" style="display: none;"></div>
         </div>
     </div>
@@ -279,10 +282,12 @@
                     dataPageSpeed: auditDataPageSpeed
                 },
                 success: function (response) {
-                    window.alert('Pomyślnie zapisano audyt');
+                    $('#saveAuditMessage').text('Pomyślnie zapisano audyt').removeClass('bg-red-500').addClass('bg-green-500 text-white px-4 py-2 mt-4 rounded').show();
+                    console.log(response);
                 },
                 error: function (error) {
-                    window.alert('Wystąpił błąd podczas zapisu audytu, spróbuj ponownie później');
+                    $('#saveAuditMessage').text('Wystąpił błąd zapisu audytu lub taki audyt jest już zapisany').removeClass('bg-green-500').addClass('bg-red-500 text-white px-4 py-2 mt-4 rounded').show();
+                    console.log(error);
                 }
             });
         });
