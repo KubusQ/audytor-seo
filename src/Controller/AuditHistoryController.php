@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\AuditsData;
+use Mpdf\Mpdf;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Response;
@@ -30,6 +31,34 @@ class AuditHistoryController extends AbstractController
             'auditsData' => $auditsData,
         ]);
     }
+
+    #[Route('/history/{domain}/{uid}/pdf', name: 'app_history_audit_pdf', requirements: ['domain' => '[a-zA-Z./-0-9:]+'])]
+    public function historyAuditPdf($domain, $uid)
+    {
+        $auditsData = $this->em->getRepository(AuditsData::class)->findOneBy(['domain' => $domain, 'uid' => $uid]);
+
+        $filename = $uid . '.pdf';
+        $pdf = new mPDF();
+
+        $pdf->AddPage('A4', 'portrait');
+
+        $pdf->SetTitle('Audit Report');
+
+        $pdf->WriteHTML(
+            $this->render('history/audithistory-pdf.html.twig', [
+                'auditsData' => $auditsData,
+            ])
+        );
+
+        $pdf->Output($filename, 'D');
+
+        $response = new Response($pdf->Output($filename, 'D'), 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'attachment; filename="' . $filename . '"',
+        ]);
+
+        return $response;
+    }   
     
     #[Route('/history', name: 'app_history')]
     public function history(Security $security)

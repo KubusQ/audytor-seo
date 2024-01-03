@@ -1,0 +1,540 @@
+<style>
+   .container {
+   width: 100%;
+   }
+   .column {
+   width: 48%; 
+   float: left; 
+   margin: 1%; 
+   }
+</style>
+<div class="container">
+   <div class="column">
+      <div class="p-4">
+         <div style="margin: 0 auto; margin-top: 8rem; background-color: #fff; border-radius: 0.5rem; padding: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);">
+            <h3>Dane podstawowe:</h3>
+            <div style="border-radius: 0.25rem; border: 2px solid #e53e3e; padding-left: 0.5rem; margin-bottom: 1rem; word-break: break-all;">
+               <p>Data wykonania audytu: {{audit1Data.data.data.auditDateTime}}</p>
+            </div>
+            <div style="border-radius: 0.25rem; border: 2px solid #e53e3e; padding-left: 0.5rem; margin-bottom: 1rem; word-break: break-all;">
+               <p>Favicon: {{audit1Data.data.data.favicon}}</p>
+            </div>
+            <div style="border-radius: 0.25rem; border: 2px solid #e53e3e; padding-left: 0.5rem; margin-bottom: 1rem; word-break: break-all;">
+               <p>Adres IP serwera: {{audit1Data.data.data.ipAddress}}</p>
+            </div>
+            <div style="border-radius: 0.25rem; border: 2px solid #e53e3e; padding-left: 0.5rem; margin-bottom: 1rem; word-break: break-all;">
+               <p>Przekierowanie IP serwera na domenę: 
+                  {% if audit1Data.data.data.ipRedirection == 'true' %}
+                  jest ustawione
+                  {% else %}
+                  nie jest ustawione
+                  {% endif %}
+               </p>
+            </div>
+            <div style="border-radius: 0.25rem; border: 2px solid #e53e3e; padding-left: 0.5rem; margin-bottom: 1rem; word-break: break-all;">
+               <p>Certyfikat SSL: 
+                  {% if audit1Data.data.data.sslCertificate == 'true' %}
+                  jest
+                  {% else %}
+                  brak
+                  {% endif %}
+               </p>
+            </div>
+            <div style="border-radius: 0.25rem; border: 2px solid #e53e3e; padding-left: 0.5rem; margin-bottom: 1rem; word-break: break-all;">
+               <p>Przekierowanie na https: 
+                  {% if audit1Data.data.data.httpsRedirection == 'true' %}
+                  jest ustawione
+                  {% else %}
+                  nie jest ustawione
+                  {% endif %}
+               </p>
+            </div>
+            <div style="border-radius: 0.25rem; border: 2px solid #e53e3e; padding-left: 0.5rem; margin-bottom: 1rem; word-break: break-all;">
+               <p>Przekierowanie WWW: 
+                  {% if audit1Data.data.data.wwwRedirection == 'true' %}
+               <p>  www.{{ audit1Data.data.data.domain }} => {{ audit1Data.data.data.domain }}</p>
+               {% else %}
+               <p> {{ audit1Data.data.data.domain }} => www.{{ audit1Data.data.data.domain }}</p>
+               {% endif %}
+               </p>
+            </div>
+            <div style="border-radius: 0.25rem; border: 2px solid #e53e3e; padding-left: 0.5rem; margin-bottom: 1rem; word-break: break-all;">
+               <p>Przekierowanie index.html / index.php: 
+                  {% if audit1Data.data.data.indexesRedirection.indexPhpStatus == 'true' %}
+               <p>{{ audit1Data.data.data.domain }}/index.php => {{ audit1Data.data.data.domain }}</p>
+               {% else %}
+               <p>  {{ audit1Data.data.data.domain }}/index.php =/> {{ audit1Data.data.data.domain }}</p>
+               {% endif %}
+               {% if audit1Data.data.data.indexesRedirection.indexHtmlStatus == 'true' %}
+               <p>  {{ audit1Data.data.data.domain }}/index.html => {{ audit1Data.data.data.domain }}</p>
+               {% else %}
+               <p> {{ audit1Data.data.data.domain }}/index.html =/> {{ audit1Data.data.data.domain }}</p>
+               {% endif %}
+               </p>
+            </div>
+            <div style="border-radius: 0.25rem; border: 2px solid #e53e3e; padding-left: 0.5rem; margin-bottom: 1rem; word-break: break-all;">
+               <p>Przystępność dla robotów:</p>
+               <p>Plik robots.txt: 
+                  {% if audit1Data.data.data.robotsTxt.exists == 'true' %}
+                  jest
+                  {% else %}
+                  brak
+                  {% endif %}
+               </p>
+               <p>Dyrektywa Sitemap: {% if audit1Data.data.data.robotsTxt.hasSitemapDirective == 'true' %}
+                  jest
+                  {% else %}
+                  brak
+                  {% endif %}
+               </p>
+               <p>Meta robots: {{audit1Data.data.data.robots}}</p>
+            </div>
+            <div style="border-radius: 0.25rem; border: 2px solid #e53e3e; padding-left: 0.5rem; margin-bottom: 1rem; word-break: break-all;">
+               <p>Plik sitemap.xml: 
+                  {% if audit1Data.data.data.sitemap == 'true' %}
+                  jest <a href="https://{{audit1Data.data.data.domain}}/sitemap.xml">link</a>
+                  {% else %}
+                  brak
+                  {% endif %}
+               </p>
+            </div>
+         </div>
+         <div style="margin: 0 auto; margin-top: 8rem; background-color: #fff; border-radius: 0.5rem; padding: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);">
+            <h3>Metadane i treści:</h3>
+            <div style="border-radius: 0.25rem; border: 2px solid #e53e3e; padding-left: 0.5rem; margin-bottom: 1rem; word-break: break-all;">
+               <p>Tytuł strony: {{audit1Data.data.data.title}}</p>
+               <p>Liczba znaków: {{audit1Data.data.data.title|length}}</p>
+            </div>
+            <div style="border-radius: 0.25rem; border: 2px solid #e53e3e; padding-left: 0.5rem; margin-bottom: 1rem; word-break: break-all;">
+               <p>Opis strony: {{audit1Data.data.data.description}}</p>
+               <p>Liczba znaków: 
+                  {% if audit1Data.data.data.description == "brak" %}
+                  0
+                  {% else %}
+                  {{audit1Data.data.data.description|length}}
+                  {% endif %}
+               </p>
+            </div>
+            <div style="border-radius: 0.25rem; border: 2px solid #e53e3e; padding-left: 0.5rem; margin-bottom: 1rem; word-break: break-all;">
+               <p>Słowa kluczowe: {{audit1Data.data.data.keywords}}</p>
+            </div>
+            <div style="border-radius: 0.25rem; border: 2px solid #e53e3e; padding-left: 0.5rem; margin-bottom: 1rem; word-break: break-all;">
+               <p>Liczba wystąpień nagłówków:</p>
+               {% if audit1Data.data.data.headerCounts == 'false'%}
+               brak nagłówków na stronie
+               {% else %}
+               <ul>
+                  {% for tag, count in audit1Data.data.data.headerCounts %}
+                  <li>{{ tag }}: {{ count }}</li>
+                  {% endfor %}
+               </ul>
+               {% endif %}
+            </div>
+            <div style="border-radius: 0.25rem; border: 2px solid #e53e3e; padding-left: 0.5rem; margin-bottom: 1rem; word-break: break-all;">
+               <p>Nagłówki unikatowe: {% if audit1Data.data.data.headersUnique == 'false' %} nie {% else %} tak {% endif %}</p>
+            </div>
+            <div style="border-radius: 0.25rem; border: 2px solid #e53e3e; padding-left: 0.5rem; margin-bottom: 1rem; word-break: break-all;">
+               <p>Wszystkie nagłówki na stronie:</p>
+               <p>Liczba wystąpień nagłówków:</p>
+               {% if audit1Data.data.data.headers == 'false'%}
+               brak nagłówków na stronie
+               {% else %}
+               <ul>
+                  {% for header in audit1Data.data.data.headers %}
+                  <li>{{ header.tag }}: {{ header.text }}</li>
+                  {% endfor %}
+               </ul>
+               {% endif %}
+            </div>
+            <div style="border-radius: 0.25rem; border: 2px solid #e53e3e; padding-left: 0.5rem; margin-bottom: 1rem; word-break: break-all;">
+               <p>Obrazy bez atrybutu alt:</p>
+               <ul>
+                  {% for imageSrc in audit1Data.data.data.missingAltImages %}
+                  <li>{{ imageSrc }}</li>
+                  {% endfor %}
+               </ul>
+            </div>
+            <div style="border-radius: 0.25rem; border: 2px solid #e53e3e; padding-left: 0.5rem; margin-bottom: 1rem; word-break: break-all;">
+               <p>Określenie języka strony: {{ audit1Data.data.data.lang }}</p>
+               <p>Kodowanie strony: {{ audit1Data.data.data.charset }}</p>
+            </div>
+            <div style="border-radius: 0.25rem; border: 2px solid #e53e3e; padding-left: 0.5rem; margin-bottom: 1rem; word-break: break-all;">
+               <p>RDFa: {{ audit1Data.data.data.rdfa }}</p>
+               <p>Mikrodane: {{ audit1Data.data.data.microdata }}</p>
+            </div>
+            <div style="border-radius: 0.25rem; border: 2px solid #e53e3e; padding-left: 0.5rem; margin-bottom: 1rem; word-break: break-all;">
+               <p>Obecność technologii flash: {{audit1Data.data.data.flash}}</p>
+            </div>
+            <div style="border-radius: 0.25rem; border: 2px solid #e53e3e; padding-left: 0.5rem; margin-bottom: 1rem; word-break: break-all;">
+               <p>Obecność iFrame: {{audit1Data.data.data.frame}}</p>
+            </div>
+            <div style="border-radius: 0.25rem; border: 2px solid #e53e3e; padding-left: 0.5rem; margin-bottom: 1rem; word-break: break-all;">
+               <p>Inline CSS: {{audit1Data.data.data.inlineCSS}}</p>
+            </div>
+         </div>
+         <div style="margin: 0 auto; margin-top: 8rem; background-color: #fff; border-radius: 0.5rem; padding: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);">
+            <h3>Dane PageSpeed Insights</h3>
+            <div style="border-radius: 0.25rem; border: 2px solid #e53e3e; padding-left: 0.5rem; margin-bottom: 1rem; word-break: break-all;">
+               <p>Meta viewport: {{ audit1Data.data.data.viewport }}</p>
+            </div>
+            <div style="border-radius: 0.25rem; border: 2px solid #e53e3e; padding-left: 0.5rem; margin-bottom: 1rem; word-break: break-all;">
+               <p>
+                  {% if audit1Data.data.dataPageSpeed.mobile <= 49 %}
+                  Strona wymaga poprawy na urządzeniach mobilnych.
+                  {% else %}
+                  Strona jest użyteczna na urządzeniach mobilnych.
+                  {% endif %}
+               </p>
+               <p>Prędkość ładowania mobile: {{ audit1Data.data.dataPageSpeed.mobile }}</p>
+            </div>
+            <div style="border-radius: 0.25rem; border: 2px solid #e53e3e; padding-left: 0.5rem; margin-bottom: 1rem; word-break: break-all;">
+               <p>
+                  {% if audit1Data.data.dataPageSpeed.desktop <= 49 %}
+                  Strona wymaga poprawy na komputerach stacjonarnych.
+                  {% else %}
+                  Strona jest użyteczna na komputerach stacjonarnych.
+                  {% endif %}
+               </p>
+               <p>Prędkość ładowania desktop: {{ audit1Data.data.dataPageSpeed.desktop }}</p>
+            </div>
+            <div style="border-radius: 0.25rem; border: 2px solid #e53e3e; padding-left: 0.5rem; margin-bottom: 1rem; word-break: break-all;">
+               <p>Core Web Vitals Mobile:</p>
+               <ul>
+                  <li>First Contentful Paint: {{ audit1Data.data.dataPageSpeed.metrics.mobile.firstContentfulPaint }}</li>
+                  <li>Speed Index: {{ audit1Data.data.dataPageSpeed.metrics.mobile.speedIndex }}</li>
+                  <li>Time to Interactive: {{ audit1Data.data.dataPageSpeed.metrics.mobile.timeToInteractive }}</li>
+                  <li>First Meaningful Paint: {{ audit1Data.data.dataPageSpeed.metrics.mobile.firstMeaningfulPaint }}</li>
+               </ul>
+            </div>
+            <div style="border-radius: 0.25rem; border: 2px solid #e53e3e; padding-left: 0.5rem; margin-bottom: 1rem; word-break: break-all;">
+               <p>Core Web Vitals Desktop:</p>
+               <ul>
+                  <li>First Contentful Paint: {{ audit1Data.data.dataPageSpeed.metrics.desktop.firstContentfulPaint }}</li>
+                  <li>Speed Index: {{ audit1Data.data.dataPageSpeed.metrics.desktop.speedIndex }}</li>
+                  <li>Time to Interactive: {{ audit1Data.data.dataPageSpeed.metrics.desktop.timeToInteractive }}</li>
+                  <li>First Meaningful Paint: {{ audit1Data.data.dataPageSpeed.metrics.desktop.firstMeaningfulPaint }}</li>
+               </ul>
+            </div>
+         </div>
+         <div style="margin: 0 auto; margin-top: 8rem; background-color: #fff; border-radius: 0.5rem; padding: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);">
+            <h3>Linkowanie:</h3>
+            <div style="border-radius: 0.25rem; border: 2px solid #e53e3e; padding-left: 0.5rem; margin-bottom: 1rem; word-break: break-all;">
+               <p>Lista wewnętrznych linków:</p>
+               <ul>
+                  {% for link in audit1Data.data.data.internalLinks %}
+                  <li>{{ link }}</li>
+                  {% endfor %}
+               </ul>
+            </div>
+            <div style="border-radius: 0.25rem; border: 2px solid #e53e3e; padding-left: 0.5rem; margin-bottom: 1rem; word-break: break-all;">
+               <p>Najdłuższy url: {{ audit1Data.data.data.maxLenghtInlinks }} znaków</p>
+            </div>
+            <div style="border-radius: 0.25rem; border: 2px solid #e53e3e; padding-left: 0.5rem; margin-bottom: 1rem; word-break: break-all;">
+               <p>Linki przyjazne wyszukiwarce: 
+                  {% if audit1Data.data.data.friendlyLinks %}
+                  tak
+                  {% else %}
+                  nie
+               </p>
+               <p>Lista nieprzyjaznych linków: 
+               <ul>
+                  {% for link in audit1Data.data.data.friendlyLinks %}
+                  <li>{{ link }}</li>
+                  {% endfor %}
+               </ul>
+               {% endif %}</p> 
+            </div>
+            <div style="border-radius: 0.25rem; border: 2px solid #e53e3e; padding-left: 0.5rem; margin-bottom: 1rem; word-break: break-all;">
+               <p>Lista linków wychodzących:</p>
+               {% if audit1Data.data.data.outLinks == 'false' %}
+               brak linków wychodzących
+               {% else %}
+               <ul>
+                  {% for link in audit1Data.data.data.outLinks %}
+                  <li>{{ link.href }} {% if link.rel is not null %} Rel: {{link.rel}} {% endif %}</li>
+                  {% endfor %} 
+               </ul>
+               {% endif %}
+            </div>
+            <div style="border-radius: 0.25rem; border: 2px solid #e53e3e; padding-left: 0.5rem; margin-bottom: 1rem; word-break: break-all;">
+               <p>Kod Google Analytics: 
+                  {% if audit1Data.data.data.googleAnalytics == 'false' %}
+                  brak
+                  {% else %}
+                  jest
+               <ul>
+                  {% for code in audit1Data.data.data.googleAnalytics %}
+                  <li>{{ code }}</li>
+                  {% endfor %}
+               </ul>
+               {% endif %}</p>   
+            </div>
+         </div>
+      </div>
+   </div>
+   <div class="column">
+      <div class="p-4">
+         <div style="margin: 0 auto; margin-top: 8rem; background-color: #fff; border-radius: 0.5rem; padding: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);">
+            <h3>Dane podstawowe:</h3>
+            <div style="border-radius: 0.25rem; border: 2px solid #e53e3e; padding-left: 0.5rem; margin-bottom: 1rem; word-break: break-all;">
+               <p>Data wykonania audytu: {{audit2Data.data.data.auditDateTime}}</p>
+            </div>
+            <div style="border-radius: 0.25rem; border: 2px solid #e53e3e; padding-left: 0.5rem; margin-bottom: 1rem; word-break: break-all;">
+               <p>Favicon: {{audit2Data.data.data.favicon}}</p>
+            </div>
+            <div style="border-radius: 0.25rem; border: 2px solid #e53e3e; padding-left: 0.5rem; margin-bottom: 1rem; word-break: break-all;">
+               <p>Adres IP serwera: {{audit2Data.data.data.ipAddress}}</p>
+            </div>
+            <div style="border-radius: 0.25rem; border: 2px solid #e53e3e; padding-left: 0.5rem; margin-bottom: 1rem; word-break: break-all;">
+               <p>Przekierowanie IP serwera na domenę: 
+                  {% if audit2Data.data.data.ipRedirection == 'true' %}
+                  jest ustawione
+                  {% else %}
+                  nie jest ustawione
+                  {% endif %}
+               </p>
+            </div>
+            <div style="border-radius: 0.25rem; border: 2px solid #e53e3e; padding-left: 0.5rem; margin-bottom: 1rem; word-break: break-all;">
+               <p>Certyfikat SSL: 
+                  {% if audit2Data.data.data.sslCertificate == 'true' %}
+                  jest
+                  {% else %}
+                  brak
+                  {% endif %}
+               </p>
+            </div>
+            <div style="border-radius: 0.25rem; border: 2px solid #e53e3e; padding-left: 0.5rem; margin-bottom: 1rem; word-break: break-all;">
+               <p>Przekierowanie na https: 
+                  {% if audit2Data.data.data.httpsRedirection == 'true' %}
+                  jest ustawione
+                  {% else %}
+                  nie jest ustawione
+                  {% endif %}
+               </p>
+            </div>
+            <div style="border-radius: 0.25rem; border: 2px solid #e53e3e; padding-left: 0.5rem; margin-bottom: 1rem; word-break: break-all;">
+               <p>Przekierowanie WWW: 
+                  {% if audit2Data.data.data.wwwRedirection == 'true' %}
+               <p>  www.{{ audit2Data.data.data.domain }} => {{ audit2Data.data.data.domain }}</p>
+               {% else %}
+               <p> {{ audit2Data.data.data.domain }} => www.{{ audit2Data.data.data.domain }}</p>
+               {% endif %}
+               </p>
+            </div>
+            <div style="border-radius: 0.25rem; border: 2px solid #e53e3e; padding-left: 0.5rem; margin-bottom: 1rem; word-break: break-all;">
+               <p>Przekierowanie index.html / index.php: 
+                  {% if audit2Data.data.data.indexesRedirection.indexPhpStatus == 'true' %}
+               <p>{{ audit2Data.data.data.domain }}/index.php => {{ audit2Data.data.data.domain }}</p>
+               {% else %}
+               <p>  {{ audit2Data.data.data.domain }}/index.php =/> {{ audit2Data.data.data.domain }}</p>
+               {% endif %}
+               {% if audit2Data.data.data.indexesRedirection.indexHtmlStatus == 'true' %}
+               <p>  {{ audit2Data.data.data.domain }}/index.html => {{ audit2Data.data.data.domain }}</p>
+               {% else %}
+               <p> {{ audit2Data.data.data.domain }}/index.html =/> {{ audit2Data.data.data.domain }}</p>
+               {% endif %}
+               </p>
+            </div>
+            <div style="border-radius: 0.25rem; border: 2px solid #e53e3e; padding-left: 0.5rem; margin-bottom: 1rem; word-break: break-all;">
+               <p>Przystępność dla robotów:</p>
+               <p>Plik robots.txt: 
+                  {% if audit2Data.data.data.robotsTxt.exists == 'true' %}
+                  jest
+                  {% else %}
+                  brak
+                  {% endif %}
+               </p>
+               <p>Dyrektywa Sitemap: {% if audit2Data.data.data.robotsTxt.hasSitemapDirective == 'true' %}
+                  jest
+                  {% else %}
+                  brak
+                  {% endif %}
+               </p>
+               <p>Meta robots: {{audit2Data.data.data.robots}}</p>
+            </div>
+            <div style="border-radius: 0.25rem; border: 2px solid #e53e3e; padding-left: 0.5rem; margin-bottom: 1rem; word-break: break-all;">
+               <p>Plik sitemap.xml: 
+                  {% if audit2Data.data.data.sitemap == 'true' %}
+                  jest <a href="https://{{audit2Data.data.data.domain}}/sitemap.xml">link</a>
+                  {% else %}
+                  brak
+                  {% endif %}
+               </p>
+            </div>
+         </div>
+         <div style="margin: 0 auto; margin-top: 8rem; background-color: #fff; border-radius: 0.5rem; padding: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);">
+            <h3>Metadane i treści:</h3>
+            <div style="border-radius: 0.25rem; border: 2px solid #e53e3e; padding-left: 0.5rem; margin-bottom: 1rem; word-break: break-all;">
+               <p>Tytuł strony: {{audit2Data.data.data.title}}</p>
+               <p>Liczba znaków: {{audit2Data.data.data.title|length}}</p>
+            </div>
+            <div style="border-radius: 0.25rem; border: 2px solid #e53e3e; padding-left: 0.5rem; margin-bottom: 1rem; word-break: break-all;">
+               <p>Opis strony: {{audit2Data.data.data.description}}</p>
+               <p>Liczba znaków: 
+                  {% if audit2Data.data.data.description == "brak" %}
+                  0
+                  {% else %}
+                  {{audit2Data.data.data.description|length}}
+                  {% endif %}
+               </p>
+            </div>
+            <div style="border-radius: 0.25rem; border: 2px solid #e53e3e; padding-left: 0.5rem; margin-bottom: 1rem; word-break: break-all;">
+               <p>Słowa kluczowe: {{audit2Data.data.data.keywords}}</p>
+            </div>
+            <div style="border-radius: 0.25rem; border: 2px solid #e53e3e; padding-left: 0.5rem; margin-bottom: 1rem; word-break: break-all;">
+               <p>Liczba wystąpień nagłówków:</p>
+               {% if audit2Data.data.data.headerCounts == 'false'%}
+               brak nagłówków na stronie
+               {% else %}
+               <ul>
+                  {% for tag, count in audit2Data.data.data.headerCounts %}
+                  <li>{{ tag }}: {{ count }}</li>
+                  {% endfor %}
+               </ul>
+               {% endif %}
+            </div>
+            <div style="border-radius: 0.25rem; border: 2px solid #e53e3e; padding-left: 0.5rem; margin-bottom: 1rem; word-break: break-all;">
+               <p>Nagłówki unikatowe: {% if audit2Data.data.data.headersUnique == 'false' %} nie {% else %} tak {% endif %}</p>
+            </div>
+            <div style="border-radius: 0.25rem; border: 2px solid #e53e3e; padding-left: 0.5rem; margin-bottom: 1rem; word-break: break-all;">
+               <p>Wszystkie nagłówki na stronie:</p>
+               <p>Liczba wystąpień nagłówków:</p>
+               {% if audit2Data.data.data.headers == 'false'%}
+               brak nagłówków na stronie
+               {% else %}
+               <ul>
+                  {% for header in audit2Data.data.data.headers %}
+                  <li>{{ header.tag }}: {{ header.text }}</li>
+                  {% endfor %}
+               </ul>
+               {% endif %}
+            </div>
+            <div style="border-radius: 0.25rem; border: 2px solid #e53e3e; padding-left: 0.5rem; margin-bottom: 1rem; word-break: break-all;">
+               <p>Obrazy bez atrybutu alt:</p>
+               <ul>
+                  {% for imageSrc in audit2Data.data.data.missingAltImages %}
+                  <li>{{ imageSrc }}</li>
+                  {% endfor %}
+               </ul>
+            </div>
+            <div style="border-radius: 0.25rem; border: 2px solid #e53e3e; padding-left: 0.5rem; margin-bottom: 1rem; word-break: break-all;">
+               <p>Określenie języka strony: {{ audit2Data.data.data.lang }}</p>
+               <p>Kodowanie strony: {{ audit2Data.data.data.charset }}</p>
+            </div>
+            <div style="border-radius: 0.25rem; border: 2px solid #e53e3e; padding-left: 0.5rem; margin-bottom: 1rem; word-break: break-all;">
+               <p>RDFa: {{ audit2Data.data.data.rdfa }}</p>
+               <p>Mikrodane: {{ audit2Data.data.data.microdata }}</p>
+            </div>
+            <div style="border-radius: 0.25rem; border: 2px solid #e53e3e; padding-left: 0.5rem; margin-bottom: 1rem; word-break: break-all;">
+               <p>Obecność technologii flash: {{audit2Data.data.data.flash}}</p>
+            </div>
+            <div style="border-radius: 0.25rem; border: 2px solid #e53e3e; padding-left: 0.5rem; margin-bottom: 1rem; word-break: break-all;">
+               <p>Obecność iFrame: {{audit2Data.data.data.frame}}</p>
+            </div>
+            <div style="border-radius: 0.25rem; border: 2px solid #e53e3e; padding-left: 0.5rem; margin-bottom: 1rem; word-break: break-all;">
+               <p>Inline CSS: {{audit2Data.data.data.inlineCSS}}</p>
+            </div>
+         </div>
+         <div style="margin: 0 auto; margin-top: 8rem; background-color: #fff; border-radius: 0.5rem; padding: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);">
+            <h3>Dane PageSpeed Insights</h3>
+            <div style="border-radius: 0.25rem; border: 2px solid #e53e3e; padding-left: 0.5rem; margin-bottom: 1rem; word-break: break-all;">
+               <p>Meta viewport: {{ audit2Data.data.data.viewport }}</p>
+            </div>
+            <div style="border-radius: 0.25rem; border: 2px solid #e53e3e; padding-left: 0.5rem; margin-bottom: 1rem; word-break: break-all;">
+               <p>
+                  {% if audit2Data.data.dataPageSpeed.mobile <= 49 %}
+                  Strona wymaga poprawy na urządzeniach mobilnych.
+                  {% else %}
+                  Strona jest użyteczna na urządzeniach mobilnych.
+                  {% endif %}
+               </p>
+               <p>Prędkość ładowania mobile: {{ audit2Data.data.dataPageSpeed.mobile }}</p>
+            </div>
+            <div style="border-radius: 0.25rem; border: 2px solid #e53e3e; padding-left: 0.5rem; margin-bottom: 1rem; word-break: break-all;">
+               <p>
+                  {% if audit2Data.data.dataPageSpeed.desktop <= 49 %}
+                  Strona wymaga poprawy na komputerach stacjonarnych.
+                  {% else %}
+                  Strona jest użyteczna na komputerach stacjonarnych.
+                  {% endif %}
+               </p>
+               <p>Prędkość ładowania desktop: {{ audit2Data.data.dataPageSpeed.desktop }}</p>
+            </div>
+            <div style="border-radius: 0.25rem; border: 2px solid #e53e3e; padding-left: 0.5rem; margin-bottom: 1rem; word-break: break-all;">
+               <p>Core Web Vitals Mobile:</p>
+               <ul>
+                  <li>First Contentful Paint: {{ audit2Data.data.dataPageSpeed.metrics.mobile.firstContentfulPaint }}</li>
+                  <li>Speed Index: {{ audit2Data.data.dataPageSpeed.metrics.mobile.speedIndex }}</li>
+                  <li>Time to Interactive: {{ audit2Data.data.dataPageSpeed.metrics.mobile.timeToInteractive }}</li>
+                  <li>First Meaningful Paint: {{ audit2Data.data.dataPageSpeed.metrics.mobile.firstMeaningfulPaint }}</li>
+               </ul>
+            </div>
+            <div style="border-radius: 0.25rem; border: 2px solid #e53e3e; padding-left: 0.5rem; margin-bottom: 1rem; word-break: break-all;">
+               <p>Core Web Vitals Desktop:</p>
+               <ul>
+                  <li>First Contentful Paint: {{ audit2Data.data.dataPageSpeed.metrics.desktop.firstContentfulPaint }}</li>
+                  <li>Speed Index: {{ audit2Data.data.dataPageSpeed.metrics.desktop.speedIndex }}</li>
+                  <li>Time to Interactive: {{ audit2Data.data.dataPageSpeed.metrics.desktop.timeToInteractive }}</li>
+                  <li>First Meaningful Paint: {{ audit2Data.data.dataPageSpeed.metrics.desktop.firstMeaningfulPaint }}</li>
+               </ul>
+            </div>
+         </div>
+         <div style="margin: 0 auto; margin-top: 8rem; background-color: #fff; border-radius: 0.5rem; padding: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);">
+            <h3>Linkowanie:</h3>
+            <div style="border-radius: 0.25rem; border: 2px solid #e53e3e; padding-left: 0.5rem; margin-bottom: 1rem; word-break: break-all;">
+               <p>Lista wewnętrznych linków:</p>
+               <ul>
+                  {% for link in audit2Data.data.data.internalLinks %}
+                  <li>{{ link }}</li>
+                  {% endfor %}
+               </ul>
+            </div>
+            <div style="border-radius: 0.25rem; border: 2px solid #e53e3e; padding-left: 0.5rem; margin-bottom: 1rem; word-break: break-all;">
+               <p>Najdłuższy url: {{ audit2Data.data.data.maxLenghtInlinks }} znaków</p>
+            </div>
+            <div style="border-radius: 0.25rem; border: 2px solid #e53e3e; padding-left: 0.5rem; margin-bottom: 1rem; word-break: break-all;">
+               <p>Linki przyjazne wyszukiwarce: 
+                  {% if audit2Data.data.data.friendlyLinks %}
+                  tak
+                  {% else %}
+                  nie
+               </p>
+               <p>Lista nieprzyjaznych linków: 
+               <ul>
+                  {% for link in audit2Data.data.data.friendlyLinks %}
+                  <li>{{ link }}</li>
+                  {% endfor %}
+               </ul>
+               {% endif %}</p> 
+            </div>
+            <div style="border-radius: 0.25rem; border: 2px solid #e53e3e; padding-left: 0.5rem; margin-bottom: 1rem; word-break: break-all;">
+               <p>Lista linków wychodzących:</p>
+               {% if audit2Data.data.data.outLinks == 'false' %}
+               brak linków wychodzących
+               {% else %}
+               <ul>
+                  {% for link in audit2Data.data.data.outLinks %}
+                  <li>{{ link.href }} {% if link.rel is not null %} Rel: {{link.rel}} {% endif %}</li>
+                  {% endfor %} 
+               </ul>
+               {% endif %}
+            </div>
+            <div style="border-radius: 0.25rem; border: 2px solid #e53e3e; padding-left: 0.5rem; margin-bottom: 1rem; word-break: break-all;">
+               <p>Kod Google Analytics: 
+                  {% if audit2Data.data.data.googleAnalytics == 'false' %}
+                  brak
+                  {% else %}
+                  jest
+               <ul>
+                  {% for code in audit2Data.data.data.googleAnalytics %}
+                  <li>{{ code }}</li>
+                  {% endfor %}
+               </ul>
+               {% endif %}</p>   
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+</div>
+</div>

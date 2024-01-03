@@ -20,7 +20,7 @@ class AuditsDataRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, AuditsData::class);
     }
-
+    
 //    /**
 //     * @return AuditsData[] Returns an array of AuditsData objects
 //     */

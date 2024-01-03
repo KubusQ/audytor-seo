@@ -19,12 +19,12 @@
     </head>
     <body class="bg-gray-800 font-sans leading-normal tracking-normal mt-12">
 
-    <!--Nav-->
+
     <nav class="bg-gray-800 pt-2 md:pt-1 pb-1 px-1 mt-0 h-auto fixed w-full z-20 top-0">
 
         <div class="flex flex-wrap items-center">
             <div class="flex flex-shrink md:w-1/2 justify-center md:justify-start text-white">
-                <a href="#">
+                <a href="/">
                     <span class="text-xl pl-2">Audytor SEO</span>
                 </a>
             </div>
@@ -93,11 +93,9 @@
 
 
     <script>
-        /*Toggle dropdown list*/
         function toggleDD(myDropMenu) {
             document.getElementById(myDropMenu).classList.toggle("invisible");
         }
-        /*Filter dropdown options*/
         function filterDD(myDropMenu, myDropMenuSearch) {
             var input, filter, ul, li, a, i;
             input = document.getElementById(myDropMenuSearch);
@@ -112,7 +110,6 @@
                 }
             }
         }
-        // Close the dropdown menu if the user clicks outside of it
         window.onclick = function(event) {
             if (!event.target.matches('.drop-button') && !event.target.matches('.drop-search')) {
                 var dropdowns = document.getElementsByClassName("dropdownlist");

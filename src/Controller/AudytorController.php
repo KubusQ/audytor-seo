@@ -75,7 +75,7 @@ class AudytorController extends AbstractController
         ]);
         
     }
-
+    
     #[Route('/save/{domain}/{uid}', name: 'app_save', requirements: ['domain' => '[a-zA-Z./-0-9:]+'])]
     public function auditSave(Request $request, Security $security, $domain, $uid): Response
     {

@@ -25,9 +25,8 @@ class PageScraperService
             $content = $response->getContent();
             $crawler = new Crawler($content);
 
-            // get title, description, keywords
             $title = $crawler->filter('title')->count() > 0 
-                ? $crawler->filter('title')->text() 
+                ? $crawler->filter('title')->text()
                 : 'brak';
             $metaDescription = $crawler->filter('meta[name="description"]')->count() > 0
                 ? $crawler->filter('meta[name="description"]')->attr('content')
@@ -47,8 +46,8 @@ class PageScraperService
             $lang = empty($crawler->filter('html')->attr('lang'))
                 ? 'brak'
                 : $crawler->filter('html')->attr('lang');
-            $charset = $crawler->filter('meta[name="charset"]')->count() > 0
-                ? $crawler->filter('meta[name="charset"]')->attr('content')
+            $charset = $crawler->filter('meta[charset]')->count() > 0
+                ? $crawler->filter('meta[charset]')->attr('charset')
                 : 'brak';
             $RDFa = $crawler->filter('[about], [property], [typeof], [vocab], [datatype]')->count() > 0
                 ? 'jest'
@@ -67,43 +66,27 @@ class PageScraperService
                 : 'brak';
             
 
-            // get server IP address
             $ipAddress = gethostbyname($domainName);
-            // get headers
             $headers = $this->getHeaders($content);
-            // count headers
             if(!empty($headers)){
             $headerCounts = $this->countHeaders($headers);
-            // check that headers are unique
             $headersUnique = $this->checkHeadersAreUnique($headers);
             }else{
                 $headers = false;
                 $headerCounts = false;
                 $headersUnique = false;
             }
-            // check alt for images
             $missingAltImages = $this->checkAltAttributes($content);
-            // check https redirection
             $httpsRedirection = $this->checkHttpsRedirection($domainName);
-            // check www redirection
             $wwwRedirection = $this->checkWwwRedirection($domainName);
-            // check index.php/index.html redirection
             $indexesRedirections = $this->checkIndexsRedirections($url);
-            //check robots.txt
             $robotsTxt = $this->checkRobots($url);
-            // check IP redirection
             $ipRedirection = $this->checkIPRedirection($ipAddress);
-            // check file sitemap.xml
             $sitemap = $this->checkSitemap($url);
-            // get inlinks
             $internalLinks = $this->getInLinks($url, $content);
-            // getmax inlinks for SEO max is 100 characters
             $maxLenghtInlinks = max(array_map('strlen', $internalLinks));
-            // check inlinks are friendly
             $friendlyLinks = $this->checkFriendlyLinks($url, $content);
-            // get ourlinks
             $outLinks = $this->getOutLinks($url, $content);
-            // check google analytics
             $googleAnalytics = $this->checkGoogleAnalytics($content);
             
             $auditDateTime = new \DateTime();
@@ -141,7 +124,7 @@ class PageScraperService
                 'outLinks' => $outLinks,
                 'googleAnalytics' => $googleAnalytics,
                 'sslCertificate' => $sslCertificate,
-                'auditDateTime' => $auditDateTime
+                'auditDateTime' => $auditDateTime,
             ];
         } else {
             return [
@@ -201,9 +184,9 @@ private function countHeaders(array $headers)
             $headerCounts[$tag] = 1;
         }
     }
-    if(empty($headerCount)){
-        return false;
-    }
+    // if(empty($headerCount)){
+    //     return false;
+    // }
     return $headerCounts;
 }
 private function checkHeadersAreUnique($headers)
@@ -285,8 +268,9 @@ private function getInLinks($url, $content){
     $links = $crawler->filter('a[href]')->extract(['href']);
 
     $filteredLinks = array_filter($links, function ($link) use ($url){
-        return substr($link, 0, 1) === '/' ||  substr($link, 0, strlen($url)) === substr($url, 0, strlen($url));
+        return (substr($link, 0, 1) === '/' || substr($link, 0, strlen($url)) === substr($url, 0, strlen($url))) && !preg_match('/\.(jpg|jpeg|png|gif|webp)$/i', $link);
     });
+
     $addLinksPrefix = array_map(function ($link) use ($url) {
         return (strpos($link, $url) === 0) ? $link : $url . $link;
     }, $filteredLinks);
@@ -325,7 +309,7 @@ private function getOutLinks($url, $content){
         }
     });
     if(empty(array_filter($outlinks))){
-        $outlinks = false;
+        return $outlinks = false;
     }
     return array_filter($outlinks);
 }
