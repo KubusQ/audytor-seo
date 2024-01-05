@@ -5,42 +5,42 @@
 {% block body %}
 <div class="bg-gray-800 pt-3">
         <div class="rounded-tl-3xl bg-gradient-to-r from-blue-900 to-gray-800 p-4 shadow text-2xl text-white">
-          <h3 class="font-bold pl-2">Audyt dla domeny: <a href="https://{{ audit1Data.domain }}">{{ audit1Data.domain }}</a></h3>
+          <h3 class="font-bold pl-2">Audyt dla domeny: <a href="https://{{ audit2Data.domain }}">{{ audit2Data.domain }}</a></h3>
         </div>
 </div>
-<div class="m-4 text-lg font-sans font-medium">
-<div class="grid grid-cols-2 gap-4">
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 {# Audyt 1 #}
-<div class="p-4">    
-<div class="mx-auto my-8 bg-white rounded-lg p-6 shadow-md">
-        <h3>Dane podstawowe:</h3>
-        <div class="rounded border-2 border-red-900 pl-2 mb-10 break-all">
-            <p>Data wykonania audytu: {{audit1Data.data.data.auditDateTime}}</p>
+<div class="container">   
+    <div class="bg-gradient-to-b from-indigo-200 to-indigo-100 border-4 border-indigo-500 rounded-lg shadow-xl p-5 m-4"> 
+        <div class="rounded-full p-5 bg-indigo-600 mb-2 text-center"><h3 class="font-bold text-xl md:text-3xl text-white">Dane podstawowe</h3></div>
+        <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p><span class="font-bold">Data wykonania audytu:</span> {{audit1Data.data.data.auditDateTime}}</p>
         </div>
-        <div class="rounded border-2 border-red-900 pl-2 mb-10 break-all">
-            <p>Favicon: {{audit1Data.data.data.favicon}}</p>
+        <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p><span class="font-bold">Favicon:</span> {{audit1Data.data.data.favicon}}</p>
         </div>
-        <div class="rounded border-2 border-red-900 pl-2 mb-10 break-all">
-            <p>Adres IP serwera: {{audit1Data.data.data.ipAddress}}</p>
+        <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p><span class="font-bold">Adres IP serwera:</span> {{audit1Data.data.data.ipAddress}}</p>
         </div>
-        <div class="rounded border-2 border-red-900 pl-2 mb-10 break-all">
-            <p>Przekierowanie IP serwera na domenę: 
+        <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p><span class="font-bold">Przekierowanie IP serwera na domenę:</span> 
                 {% if audit1Data.data.data.ipRedirection == 'true' %}
                 jest ustawione
                 {% else %}
                 nie jest ustawione
                 {% endif %}</p>
         </div>
-        <div class="rounded border-2 border-red-900 pl-2 mb-10 break-all">
-            <p>Certyfikat SSL: 
+        <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p><span class="font-bold">Certyfikat SSL:</span> 
             {% if audit1Data.data.data.sslCertificate == 'true' %}
                 jest
             {% else %}
                 brak
             {% endif %}</p>
         </div>
-        <div class="rounded border-2 border-red-900 pl-2 mb-10 break-all">
-            <p>Przekierowanie na https: 
+        <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p><span class="font-bold">Przekierowanie na https:</span> 
             {% if audit1Data.data.data.httpsRedirection == 'true' %}
                 jest ustawione
             {% else %}
@@ -48,46 +48,48 @@
             {% endif %}
             </p>
         </div>
-        <div class="rounded border-2 border-red-900 pl-2 mb-10 break-all">
-            <p>Przekierowanie WWW: 
+        <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p><span class="font-bold">Przekierowanie WWW:</span> 
             {% if audit1Data.data.data.wwwRedirection == 'true' %}
-               <p>  www.{{ audit1Data.data.data.domain }} => {{ audit1Data.data.data.domain }}</p> 
+               <p><span class="font-bold">  www.{{ audit1Data.data.data.domain }} => {{ audit1Data.data.data.domain }}</p> 
             {% else %}
-                <p> {{ audit1Data.data.data.domain }} => www.{{ audit1Data.data.data.domain }}</p> 
+                <p><span class="font-bold"> {{ audit1Data.data.data.domain }} => www.{{ audit1Data.data.data.domain }}</p> 
             {% endif %}
             </p>
         </div>
-        <div class="rounded border-2 border-red-900 pl-2 mb-10 break-all">
-            <p>Przekierowanie index.html / index.php: 
+        <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p><span class="font-bold">Przekierowanie index.html / index.php:</span> 
             {% if audit1Data.data.data.indexesRedirection.indexPhpStatus == 'true' %}
                <p>{{ audit1Data.data.data.domain }}/index.php => {{ audit1Data.data.data.domain }}</p> 
             {% else %}
-               <p>  {{ audit1Data.data.data.domain }}/index.php =/> {{ audit1Data.data.data.domain }}</p> 
+               <p>{{ audit1Data.data.data.domain }}/index.php =/> {{ audit1Data.data.data.domain }}</p> 
             {% endif %}
             {% if audit1Data.data.data.indexesRedirection.indexHtmlStatus == 'true' %}
-               <p>  {{ audit1Data.data.data.domain }}/index.html => {{ audit1Data.data.data.domain }}</p> 
+               <p>{{ audit1Data.data.data.domain }}/index.html => {{ audit1Data.data.data.domain }}</p> 
             {% else %}
-                <p> {{ audit1Data.data.data.domain }}/index.html =/> {{ audit1Data.data.data.domain }}</p> 
+                <p>{{ audit1Data.data.data.domain }}/index.html =/> {{ audit1Data.data.data.domain }}</p> 
             {% endif %}
             </p>
         </div>
-        <div class="rounded border-2 border-red-900 pl-2 mb-10 break-all">
-            <p>Przystępność dla robotów:</p>
-            <p>Plik robots.txt: 
+    </div>
+    <div class="bg-gradient-to-b from-indigo-200 to-indigo-100 border-4 border-indigo-500 rounded-lg shadow-xl p-5 m-4"> 
+        <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+        <div class="rounded-full p-5 bg-indigo-600 mb-2 text-center"><h3 class="font-bold text-xl md:text-3xl text-white">Przystępność dla robotów</h3></div>
+            <p><span class="font-bold">Plik robots.txt: </span>
             {% if audit1Data.data.data.robotsTxt.exists == 'true' %}
                 jest
             {% else %}
                 brak
             {% endif %}</p>
-            <p>Dyrektywa Sitemap: {% if audit1Data.data.data.robotsTxt.hasSitemapDirective == 'true' %}
+            <p><span class="font-bold">Dyrektywa Sitemap:</span> {% if audit1Data.data.data.robotsTxt.hasSitemapDirective == 'true' %}
                  jest
             {% else %}
                  brak
             {% endif %}</p>
-            <p>Meta robots: {{audit1Data.data.data.robots}}</p>
+            <p><span class="font-bold">Meta robots:</span> {{audit1Data.data.data.robots}}</p>
         </div>
-        <div class="rounded border-2 border-red-900 pl-2 mb-10 break-all">
-            <p>Plik sitemap.xml: 
+        <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p><span class="font-bold">Plik sitemap.xml: </span>
             {% if audit1Data.data.data.sitemap == 'true' %}
                 jest <a href="https://{{audit1Data.data.data.domain}}/sitemap.xml">link</a>
             {% else %}
@@ -95,26 +97,26 @@
             {% endif %}</p>
         </div>
     </div>
-    <div class="mx-auto my-8 bg-white rounded-lg p-6 shadow-md">
-            <h3>Metadane i treści:</h3>
-            <div class="rounded border-2 border-red-900 pl-2 mb-10 break-all">
-            <p>Tytuł strony: {{audit1Data.data.data.title}}</p>
-            <p>Liczba znaków: {{audit1Data.data.data.title|length}}</p>
+    <div class="bg-gradient-to-b from-indigo-200 to-indigo-100 border-4 border-indigo-500 rounded-lg shadow-xl p-5 m-4"> 
+            <div class="rounded-full p-5 bg-indigo-600 mb-2 text-center"><h3 class="font-bold text-xl md:text-3xl text-white">Metadane i treści</h3></div>
+            <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p><span class="font-bold">Tytuł strony:</span> {{audit1Data.data.data.title}}</p>
+            <p><span class="font-bold">Liczba znaków:</span> {{audit1Data.data.data.title|length}}</p>
             </div>
-            <div class="rounded border-2 border-red-900 pl-2 mb-10 break-all">
-            <p>Opis strony: {{audit1Data.data.data.description}}</p>
-            <p>Liczba znaków: 
+            <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p><span class="font-bold">Opis strony:</span> {{audit1Data.data.data.description}}</p>
+            <p><span class="font-bold">Liczba znaków: </span>
             {% if audit1Data.data.data.description == "brak" %}
                 0
             {% else %}
             {{audit1Data.data.data.description|length}}
             {% endif %}</p>
             </div>
-            <div class="rounded border-2 border-red-900 pl-2 mb-10 break-all">
-            <p>Słowa kluczowe: {{audit1Data.data.data.keywords}}</p>
+            <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p><span class="font-bold">Słowa kluczowe:</span> {{audit1Data.data.data.keywords}}</p>
             </div>
-            <div class="rounded border-2 border-red-900 pl-2 mb-10 break-all">
-            <p>Liczba wystąpień nagłówków:</p>
+            <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p><span class="font-bold">Liczba wystąpień nagłówków:</span></p>
             {% if audit1Data.data.data.headerCounts == 'false'%}
                 brak nagłówków na stronie
             {% else %}
@@ -125,12 +127,12 @@
             </ul>
             {% endif %}
             </div>
-            <div class="rounded border-2 border-red-900 pl-2 mb-10 break-all">
-                <p>Nagłówki unikatowe: {% if audit1Data.data.data.headersUnique == 'false' %} nie {% else %} tak {% endif %}</p>
+            <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+                <p><span class="font-bold">Nagłówki unikatowe:</span> {% if audit1Data.data.data.headersUnique == 'false' %} nie {% else %} tak {% endif %}</p>
             </div>
-            <div class="rounded border-2 border-red-900 pl-2 mb-10 break-all">
-            <p>Wszystkie nagłówki na stronie:</p>
-            <p>Liczba wystąpień nagłówków:</p>
+            <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p><span class="font-bold">Wszystkie nagłówki na stronie:</span></p>
+            <p><span class="font-bold">Liczba wystąpień nagłówków:</span></p>
             {% if audit1Data.data.data.headers == 'false'%}
                 brak nagłówków na stronie
             {% else %}
@@ -141,60 +143,59 @@
             </ul>
             {% endif %}
             </div>
-    <div class="rounded border-2 border-red-900 pl-2 mb-10 break-all">
-        <p>Obrazy bez atrybutu alt:</p>
+    <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+        <p><span class="font-bold">Obrazy bez atrybutu alt:</span></p>
         <ul>
             {% for imageSrc in audit1Data.data.data.missingAltImages %}
                 <li>{{ imageSrc }}</li>
             {% endfor %}
         </ul> 
+    </div> 
+    <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+        <p><span class="font-bold">Określenie języka strony:</span> {{ audit1Data.data.data.lang }}</p>
+        <p><span class="font-bold">Kodowanie strony:</span> {{ audit1Data.data.data.charset }}</p>
+    </div>
+    <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+        <p><span class="font-bold">RDFa:</span> {{ audit1Data.data.data.rdfa }}</p>
+        <p><span class="font-bold">Mikrodane:</span> {{ audit1Data.data.data.microdata }}</p>
+    </div>
+    <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+        <p><span class="font-bold">Obecność technologii flash:</span> {{audit1Data.data.data.flash}}</p>
+    </div>
+    <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+        <p><span class="font-bold">Obecność iFrame: {{audit1Data.data.data.frame}}</p>
+    </div>
+    <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+        <p><span class="font-bold">Inline CSS:</span> {{audit1Data.data.data.inlineCSS}}</p>
+    </div>
+    </div>
+<div class="bg-gradient-to-b from-indigo-200 to-indigo-100 border-4 border-indigo-500 rounded-lg shadow-xl p-5 m-4"> 
+        <div class="rounded-full p-5 bg-indigo-600 mb-2 text-center"><h3 class="font-bold text-xl md:text-3xl text-white">Dane PageSpeed Insights</h3></div>
+        <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p><span class="font-bold">Meta viewport:</span> {{ audit1Data.data.data.viewport }}</p>
         </div>
-        
-    <div class="rounded border-2 border-red-900 pl-2 mb-10 break-all">
-        <p>Określenie języka strony: {{ audit1Data.data.data.lang }}</p>
-        <p>Kodowanie strony: {{ audit1Data.data.data.charset }}</p>
-    </div>
-    <div class="rounded border-2 border-red-900 pl-2 mb-10 break-all">
-        <p>RDFa: {{ audit1Data.data.data.rdfa }}</p>
-        <p>Mikrodane: {{ audit1Data.data.data.microdata }}</p>
-    </div>
-    <div class="rounded border-2 border-red-900 pl-2 mb-10 break-all">
-        <p>Obecność technologii flash: {{audit1Data.data.data.flash}}</p>
-    </div>
-    <div class="rounded border-2 border-red-900 pl-2 mb-10 break-all">
-        <p>Obecność iFrame: {{audit1Data.data.data.frame}}</p>
-    </div>
-    <div class="rounded border-2 border-red-900 pl-2 mb-10 break-all">
-        <p>Inline CSS: {{audit1Data.data.data.inlineCSS}}</p>
-    </div>
-    </div>
-    <div class="mx-auto my-8 bg-white rounded-lg p-6 shadow-md">
-        <h3>Dane PageSpeed Insights</h3>
-        <div class="rounded border-2 border-red-900 pl-2 mb-10 break-all">
-            <p>Meta viewport: {{ audit1Data.data.data.viewport }}</p>
-        </div>
-        <div class="rounded border-2 border-red-900 pl-2 mb-10 break-all">
-            <p>
+        <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p><span class="font-bold">
             {% if audit1Data.data.dataPageSpeed.mobile <= 49 %}
                 Strona wymaga poprawy na urządzeniach mobilnych.
             {% else %}
                 Strona jest użyteczna na urządzeniach mobilnych.
             {% endif %}
-            </p>
-            <p>Prędkość ładowania mobile: {{ audit1Data.data.dataPageSpeed.mobile }}</p>
+            </p></span>
+            <p><span class="font-bold">Prędkość ładowania mobile:</span> {{ audit1Data.data.dataPageSpeed.mobile }}</p>
         </div>
-        <div class="rounded border-2 border-red-900 pl-2 mb-10 break-all">
-            <p>
+        <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p><span class="font-bold">
             {% if audit1Data.data.dataPageSpeed.desktop <= 49 %}
                 Strona wymaga poprawy na komputerach stacjonarnych.
             {% else %}
                 Strona jest użyteczna na komputerach stacjonarnych.
             {% endif %}
-            </p>
-            <p>Prędkość ładowania desktop: {{ audit1Data.data.dataPageSpeed.desktop }}</p>
+            </p></span>
+            <p><span class="font-bold">Prędkość ładowania desktop:</span> {{ audit1Data.data.dataPageSpeed.desktop }}</p>
         </div>
-        <div class="rounded border-2 border-red-900 pl-2 mb-10 break-all">
-            <p>Core Web Vitals Mobile:</p>
+        <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p><span class="font-bold">Core Web Vitals Mobile:</span></p>
                 <ul>
                     <li>First Contentful Paint: {{ audit1Data.data.dataPageSpeed.metrics.mobile.firstContentfulPaint }}</li>
                     <li>Speed Index: {{ audit1Data.data.dataPageSpeed.metrics.mobile.speedIndex }}</li>
@@ -202,37 +203,36 @@
                     <li>First Meaningful Paint: {{ audit1Data.data.dataPageSpeed.metrics.mobile.firstMeaningfulPaint }}</li>
                 </ul>
         </div>
-        <div class="rounded border-2 border-red-900 pl-2 mb-10 break-all">
-            <p>Core Web Vitals Desktop:</p>
+        <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p><span class="font-bold">Core Web Vitals Desktop:</p>
                 <ul>
                     <li>First Contentful Paint: {{ audit1Data.data.dataPageSpeed.metrics.desktop.firstContentfulPaint }}</li>
                     <li>Speed Index: {{ audit1Data.data.dataPageSpeed.metrics.desktop.speedIndex }}</li>
                     <li>Time to Interactive: {{ audit1Data.data.dataPageSpeed.metrics.desktop.timeToInteractive }}</li>
                     <li>First Meaningful Paint: {{ audit1Data.data.dataPageSpeed.metrics.desktop.firstMeaningfulPaint }}</li>
                 </ul>
-        </div>
-        
+        </div>   
     </div>
-    <div class="mx-auto my-8 bg-white rounded-lg p-6 shadow-md">
-            <h3>Linkowanie:</h3>
-            <div class="rounded border-2 border-red-900 pl-2 mb-10 break-all">
-            <p>Lista wewnętrznych linków:</p>
+<div class="bg-gradient-to-b from-indigo-200 to-indigo-100 border-4 border-indigo-500 rounded-lg shadow-xl p-5 m-4"> 
+            <div class="rounded-full p-5 bg-indigo-600 mb-2 text-center"><h3 class="font-bold text-xl md:text-3xl text-white">Linkowanie</h3></div>
+            <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p><span class="font-bold">Lista wewnętrznych linków:</span></p>
             <ul>
                 {% for link in audit1Data.data.data.internalLinks %}
                     <li>{{ link }}</li>
                 {% endfor %}
             </ul>
             </div>
-            <div class="rounded border-2 border-red-900 pl-2 mb-10 break-all">
-                <p>Najdłuższy url: {{ audit1Data.data.data.maxLenghtInlinks }} znaków</p>
+            <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+                <p><span class="font-bold">Najdłuższy url:</span> {{ audit1Data.data.data.maxLenghtInlinks }} znaków</p>
             </div>
-            <div class="rounded border-2 border-red-900 pl-2 mb-10 break-all">
-                <p>Linki przyjazne wyszukiwarce: 
+            <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+                <p><span class="font-bold">Linki przyjazne wyszukiwarce: </span>
                      {% if audit1Data.data.data.friendlyLinks %}
                         tak
                     {% else %}
                         nie</p>
-                        <p>Lista nieprzyjaznych linków: 
+                        <p><span class="font-bold">Lista nieprzyjaznych linków:</span> 
                     <ul>
                         {% for link in audit1Data.data.data.friendlyLinks %}
                             <li>{{ link }}</li>
@@ -240,8 +240,8 @@
                     </ul>
                     {% endif %}</p> 
             </div>
-            <div class="rounded border-2 border-red-900 pl-2 mb-10 break-all">
-            <p>Lista linków wychodzących:</p>
+            <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p><span class="font-bold">Lista linków wychodzących:</span></p>
             {% if audit1Data.data.data.outLinks == 'false' %}
                 brak linków wychodzących
             {% else %}
@@ -252,8 +252,8 @@
             </ul>
             {% endif %}
             </div>
-            <div class="rounded border-2 border-red-900 pl-2 mb-10 break-all">
-             <p>Kod Google Analytics: 
+            <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+             <p><span class="font-bold">Kod Google Analytics:</span> 
              {% if audit1Data.data.data.googleAnalytics == 'false' %}
                 brak
             {% else %}
@@ -267,40 +267,37 @@
             </div>
         </div>
     </div>
-
     {# Audyt 2 #}
-    <div class="p-4">
-      
-
-      <div class="mx-auto my-8 bg-white rounded-lg p-6 shadow-md">
-        <h3>Dane podstawowe:</h3>
-        <div class="rounded border-2 border-red-900 pl-2 mb-10 break-all">
-            <p>Data wykonania audytu: {{audit2Data.data.data.auditDateTime}}</p>
+    <div class="container">
+      <div class="bg-gradient-to-b from-indigo-200 to-indigo-100 border-4 border-indigo-500 rounded-lg shadow-xl p-5 m-4"> 
+        <div class="rounded-full p-5 bg-indigo-600 mb-2 text-center"><h3 class="font-bold text-xl md:text-3xl text-white">Dane podstawowe</h3></div>
+        <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p><span class="font-bold">Data wykonania audytu:</span> {{audit2Data.data.data.auditDateTime}}</p>
         </div>
-        <div class="rounded border-2 border-red-900 pl-2 mb-10 break-all">
-            <p>Favicon: {{audit2Data.data.data.favicon}}</p>
+        <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p><span class="font-bold">Favicon:</span> {{audit2Data.data.data.favicon}}</p>
         </div>
-        <div class="rounded border-2 border-red-900 pl-2 mb-10 break-all">
-            <p>Adres IP serwera: {{audit2Data.data.data.ipAddress}}</p>
+        <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p><span class="font-bold">Adres IP serwera:</span> {{audit2Data.data.data.ipAddress}}</p>
         </div>
-        <div class="rounded border-2 border-red-900 pl-2 mb-10 break-all">
-            <p>Przekierowanie IP serwera na domenę: 
+        <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p><span class="font-bold">Przekierowanie IP serwera na domenę: </span>
                 {% if audit2Data.data.data.ipRedirection == 'true' %}
                 jest ustawione
                 {% else %}
                 nie jest ustawione
                 {% endif %}</p>
         </div>
-        <div class="rounded border-2 border-red-900 pl-2 mb-10 break-all">
-            <p>Certyfikat SSL: 
+        <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p><span class="font-bold">Certyfikat SSL: </span>
             {% if audit2Data.data.data.sslCertificate == 'true' %}
                 jest
             {% else %}
                 brak
             {% endif %}</p>
         </div>
-        <div class="rounded border-2 border-red-900 pl-2 mb-10 break-all">
-            <p>Przekierowanie na https: 
+        <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p><span class="font-bold">Przekierowanie na https: </span>
             {% if audit2Data.data.data.httpsRedirection == 'true' %}
                 jest ustawione
             {% else %}
@@ -308,46 +305,48 @@
             {% endif %}
             </p>
         </div>
-        <div class="rounded border-2 border-red-900 pl-2 mb-10 break-all">
-            <p>Przekierowanie WWW: 
+        <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p><span class="font-bold">Przekierowanie WWW: </span>
             {% if audit2Data.data.data.wwwRedirection == 'true' %}
-               <p>  www.{{ audit2Data.data.data.domain }} => {{ audit2Data.data.data.domain }}</p> 
+               <p><span class="font-bold">  www.{{ audit2Data.data.data.domain }} => {{ audit2Data.data.data.domain }}</p> 
             {% else %}
-                <p> {{ audit2Data.data.data.domain }} => www.{{ audit2Data.data.data.domain }}</p> 
+                <p><span class="font-bold"> {{ audit2Data.data.data.domain }} => www.{{ audit2Data.data.data.domain }}</p> 
             {% endif %}
             </p>
         </div>
-        <div class="rounded border-2 border-red-900 pl-2 mb-10 break-all">
-            <p>Przekierowanie index.html / index.php: 
+        <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p><span class="font-bold">Przekierowanie index.html / index.php: </span>
             {% if audit2Data.data.data.indexesRedirection.indexPhpStatus == 'true' %}
                <p>{{ audit2Data.data.data.domain }}/index.php => {{ audit2Data.data.data.domain }}</p> 
             {% else %}
                <p>  {{ audit2Data.data.data.domain }}/index.php =/> {{ audit2Data.data.data.domain }}</p> 
             {% endif %}
             {% if audit2Data.data.data.indexesRedirection.indexHtmlStatus == 'true' %}
-               <p>  {{ audit2Data.data.data.domain }}/index.html => {{ audit2Data.data.data.domain }}</p> 
+               <p> {{ audit2Data.data.data.domain }}/index.html => {{ audit2Data.data.data.domain }}</p> 
             {% else %}
                 <p> {{ audit2Data.data.data.domain }}/index.html =/> {{ audit2Data.data.data.domain }}</p> 
             {% endif %}
             </p>
         </div>
-        <div class="rounded border-2 border-red-900 pl-2 mb-10 break-all">
-            <p>Przystępność dla robotów:</p>
-            <p>Plik robots.txt: 
+    </div>
+    <div class="bg-gradient-to-b from-indigo-200 to-indigo-100 border-4 border-indigo-500 rounded-lg shadow-xl p-5 m-4"> 
+        <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+        <div class="rounded-full p-5 bg-indigo-600 mb-2 text-center"><h3 class="font-bold text-xl md:text-3xl text-white">Przystępność dla robotów</h3></div>
+            <p><span class="font-bold">Plik robots.txt: </span>
             {% if audit2Data.data.data.robotsTxt.exists == 'true' %}
                 jest
             {% else %}
                 brak
             {% endif %}</p>
-            <p>Dyrektywa Sitemap: {% if audit2Data.data.data.robotsTxt.hasSitemapDirective == 'true' %}
+            <p><span class="font-bold">Dyrektywa Sitemap:</span> {% if audit2Data.data.data.robotsTxt.hasSitemapDirective == 'true' %}
                  jest
             {% else %}
                  brak
             {% endif %}</p>
-            <p>Meta robots: {{audit2Data.data.data.robots}}</p>
+            <p><span class="font-bold">Meta robots:</span> {{audit2Data.data.data.robots}}</p>
         </div>
-        <div class="rounded border-2 border-red-900 pl-2 mb-10 break-all">
-            <p>Plik sitemap.xml: 
+        <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p><span class="font-bold">Plik sitemap.xml: </span>
             {% if audit2Data.data.data.sitemap == 'true' %}
                 jest <a href="https://{{audit2Data.data.data.domain}}/sitemap.xml">link</a>
             {% else %}
@@ -355,26 +354,26 @@
             {% endif %}</p>
         </div>
     </div>
-    <div class="mx-auto my-8 bg-white rounded-lg p-6 shadow-md">
-            <h3>Metadane i treści:</h3>
-            <div class="rounded border-2 border-red-900 pl-2 mb-10 break-all">
-            <p>Tytuł strony: {{audit2Data.data.data.title}}</p>
-            <p>Liczba znaków: {{audit2Data.data.data.title|length}}</p>
+    <div class="bg-gradient-to-b from-indigo-200 to-indigo-100 border-4 border-indigo-500 rounded-lg shadow-xl p-5 m-4"> 
+            <div class="rounded-full p-5 bg-indigo-600 mb-2 text-center"><h3 class="font-bold text-xl md:text-3xl text-white">Metadane i treści</h3></div>
+            <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p><span class="font-bold">Tytuł strony:</span> {{audit2Data.data.data.title}}</p>
+            <p><span class="font-bold">Liczba znaków:</span> {{audit2Data.data.data.title|length}}</p>
             </div>
-            <div class="rounded border-2 border-red-900 pl-2 mb-10 break-all">
-            <p>Opis strony: {{audit2Data.data.data.description}}</p>
-            <p>Liczba znaków: 
+            <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p><span class="font-bold">Opis strony:</span> {{audit2Data.data.data.description}}</p>
+            <p><span class="font-bold">Liczba znaków: </span>
             {% if audit2Data.data.data.description == "brak" %}
                 0
             {% else %}
             {{audit2Data.data.data.description|length}}
             {% endif %}</p>
             </div>
-            <div class="rounded border-2 border-red-900 pl-2 mb-10 break-all">
-            <p>Słowa kluczowe: {{audit2Data.data.data.keywords}}</p>
+            <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p><span class="font-bold">Słowa kluczowe:</span> {{audit2Data.data.data.keywords}}</p>
             </div>
-            <div class="rounded border-2 border-red-900 pl-2 mb-10 break-all">
-            <p>Liczba wystąpień nagłówków:</p>
+            <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p><span class="font-bold">Liczba wystąpień nagłówków:</span></p>
             {% if audit2Data.data.data.headerCounts == 'false'%}
                 brak nagłówków na stronie
             {% else %}
@@ -385,12 +384,12 @@
             </ul>
             {% endif %}
             </div>
-            <div class="rounded border-2 border-red-900 pl-2 mb-10 break-all">
-                <p>Nagłówki unikatowe: {% if audit2Data.data.data.headersUnique == 'false' %} nie {% else %} tak {% endif %}</p>
+            <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+                <p><span class="font-bold">Nagłówki unikatowe:</span> {% if audit2Data.data.data.headersUnique == 'false' %} nie {% else %} tak {% endif %}</p>
             </div>
-            <div class="rounded border-2 border-red-900 pl-2 mb-10 break-all">
-            <p>Wszystkie nagłówki na stronie:</p>
-            <p>Liczba wystąpień nagłówków:</p>
+            <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p><span class="font-bold">Wszystkie nagłówki na stronie:</span></p>
+            <p><span class="font-bold">Liczba wystąpień nagłówków:</span></p>
             {% if audit2Data.data.data.headers == 'false'%}
                 brak nagłówków na stronie
             {% else %}
@@ -401,60 +400,59 @@
             </ul>
             {% endif %}
             </div>
-    <div class="rounded border-2 border-red-900 pl-2 mb-10 break-all">
-        <p>Obrazy bez atrybutu alt:</p>
+    <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+        <p><span class="font-bold">Obrazy bez atrybutu alt:</span></p>
         <ul>
             {% for imageSrc in audit2Data.data.data.missingAltImages %}
                 <li>{{ imageSrc }}</li>
             {% endfor %}
         </ul> 
+    </div> 
+    <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+        <p><span class="font-bold">Określenie języka strony:</span> {{ audit2Data.data.data.lang }}</p>
+        <p><span class="font-bold">Kodowanie strony:</span> {{ audit2Data.data.data.charset }}</p>
+    </div>
+    <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+        <p><span class="font-bold">RDFa:</span> {{ audit2Data.data.data.rdfa }}</p>
+        <p><span class="font-bold">Mikrodane:</span> {{ audit2Data.data.data.microdata }}</p>
+    </div>
+    <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+        <p><span class="font-bold">Obecność technologii flash:</span> {{audit2Data.data.data.flash}}</p>
+    </div>
+    <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+        <p><span class="font-bold">Obecność iFrame:</span> {{audit2Data.data.data.frame}}</p>
+    </div>
+    <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+        <p><span class="font-bold">Inline CSS:</span> {{audit2Data.data.data.inlineCSS}}</p>
+    </div>
+    </div>
+<div class="bg-gradient-to-b from-indigo-200 to-indigo-100 border-4 border-indigo-500 rounded-lg shadow-xl p-5 m-4"> 
+        <div class="rounded-full p-5 bg-indigo-600 mb-2 text-center"><h3 class="font-bold text-xl md:text-3xl text-white">Dane PageSpeed Insights</h3></div>
+        <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p><span class="font-bold">Meta viewport:</span> {{ audit2Data.data.data.viewport }}</p>
         </div>
-        
-    <div class="rounded border-2 border-red-900 pl-2 mb-10 break-all">
-        <p>Określenie języka strony: {{ audit2Data.data.data.lang }}</p>
-        <p>Kodowanie strony: {{ audit2Data.data.data.charset }}</p>
-    </div>
-    <div class="rounded border-2 border-red-900 pl-2 mb-10 break-all">
-        <p>RDFa: {{ audit2Data.data.data.rdfa }}</p>
-        <p>Mikrodane: {{ audit2Data.data.data.microdata }}</p>
-    </div>
-    <div class="rounded border-2 border-red-900 pl-2 mb-10 break-all">
-        <p>Obecność technologii flash: {{audit2Data.data.data.flash}}</p>
-    </div>
-    <div class="rounded border-2 border-red-900 pl-2 mb-10 break-all">
-        <p>Obecność iFrame: {{audit2Data.data.data.frame}}</p>
-    </div>
-    <div class="rounded border-2 border-red-900 pl-2 mb-10 break-all">
-        <p>Inline CSS: {{audit2Data.data.data.inlineCSS}}</p>
-    </div>
-    </div>
-    <div class="mx-auto my-8 bg-white rounded-lg p-6 shadow-md">
-        <h3>Dane PageSpeed Insights</h3>
-        <div class="rounded border-2 border-red-900 pl-2 mb-10 break-all">
-            <p>Meta viewport: {{ audit2Data.data.data.viewport }}</p>
-        </div>
-        <div class="rounded border-2 border-red-900 pl-2 mb-10 break-all">
-            <p>
+        <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p><span class="font-bold">
             {% if audit2Data.data.dataPageSpeed.mobile <= 49 %}
                 Strona wymaga poprawy na urządzeniach mobilnych.
             {% else %}
                 Strona jest użyteczna na urządzeniach mobilnych.
             {% endif %}
-            </p>
-            <p>Prędkość ładowania mobile: {{ audit2Data.data.dataPageSpeed.mobile }}</p>
+            </p></span>
+            <p><span class="font-bold">Prędkość ładowania mobile:</span> {{ audit2Data.data.dataPageSpeed.mobile }}</p>
         </div>
-        <div class="rounded border-2 border-red-900 pl-2 mb-10 break-all">
-            <p>
+        <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p><span class="font-bold">
             {% if audit2Data.data.dataPageSpeed.desktop <= 49 %}
                 Strona wymaga poprawy na komputerach stacjonarnych.
             {% else %}
                 Strona jest użyteczna na komputerach stacjonarnych.
             {% endif %}
-            </p>
-            <p>Prędkość ładowania desktop: {{ audit2Data.data.dataPageSpeed.desktop }}</p>
+            </p></span>
+            <p><span class="font-bold">Prędkość ładowania desktop:</span> {{ audit2Data.data.dataPageSpeed.desktop }}</p>
         </div>
-        <div class="rounded border-2 border-red-900 pl-2 mb-10 break-all">
-            <p>Core Web Vitals Mobile:</p>
+        <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p><span class="font-bold">Core Web Vitals Mobile:</p>
                 <ul>
                     <li>First Contentful Paint: {{ audit2Data.data.dataPageSpeed.metrics.mobile.firstContentfulPaint }}</li>
                     <li>Speed Index: {{ audit2Data.data.dataPageSpeed.metrics.mobile.speedIndex }}</li>
@@ -462,37 +460,36 @@
                     <li>First Meaningful Paint: {{ audit2Data.data.dataPageSpeed.metrics.mobile.firstMeaningfulPaint }}</li>
                 </ul>
         </div>
-        <div class="rounded border-2 border-red-900 pl-2 mb-10 break-all">
-            <p>Core Web Vitals Desktop:</p>
+        <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p><span class="font-bold">Core Web Vitals Desktop:</span></p>
                 <ul>
                     <li>First Contentful Paint: {{ audit2Data.data.dataPageSpeed.metrics.desktop.firstContentfulPaint }}</li>
                     <li>Speed Index: {{ audit2Data.data.dataPageSpeed.metrics.desktop.speedIndex }}</li>
                     <li>Time to Interactive: {{ audit2Data.data.dataPageSpeed.metrics.desktop.timeToInteractive }}</li>
                     <li>First Meaningful Paint: {{ audit2Data.data.dataPageSpeed.metrics.desktop.firstMeaningfulPaint }}</li>
                 </ul>
-        </div>
-        
+        </div>   
     </div>
-    <div class="mx-auto my-8 bg-white rounded-lg p-6 shadow-md">
-            <h3>Linkowanie:</h3>
-            <div class="rounded border-2 border-red-900 pl-2 mb-10 break-all">
-            <p>Lista wewnętrznych linków:</p>
+<div class="bg-gradient-to-b from-indigo-200 to-indigo-100 border-4 border-indigo-500 rounded-lg shadow-xl p-5 m-4"> 
+            <div class="rounded-full p-5 bg-indigo-600 mb-2 text-center"><h3 class="font-bold text-xl md:text-3xl text-white">Linkowanie</h3></div>
+            <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p><span class="font-bold">Lista wewnętrznych linków:</span></p>
             <ul>
                 {% for link in audit2Data.data.data.internalLinks %}
                     <li>{{ link }}</li>
                 {% endfor %}
             </ul>
             </div>
-            <div class="rounded border-2 border-red-900 pl-2 mb-10 break-all">
-                <p>Najdłuższy url: {{ audit2Data.data.data.maxLenghtInlinks }} znaków</p>
+            <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+                <p><span class="font-bold">Najdłuższy url:</span> {{ audit2Data.data.data.maxLenghtInlinks }} znaków</p>
             </div>
-            <div class="rounded border-2 border-red-900 pl-2 mb-10 break-all">
-                <p>Linki przyjazne wyszukiwarce: 
+            <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+                <p><span class="font-bold">Linki przyjazne wyszukiwarce: </span>
                      {% if audit2Data.data.data.friendlyLinks %}
                         tak
                     {% else %}
                         nie</p>
-                        <p>Lista nieprzyjaznych linków: 
+                        <p><span class="font-bold">Lista nieprzyjaznych linków: </span>
                     <ul>
                         {% for link in audit2Data.data.data.friendlyLinks %}
                             <li>{{ link }}</li>
@@ -500,8 +497,8 @@
                     </ul>
                     {% endif %}</p> 
             </div>
-            <div class="rounded border-2 border-red-900 pl-2 mb-10 break-all">
-            <p>Lista linków wychodzących:</p>
+            <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p><span class="font-bold">Lista linków wychodzących:</span></p>
             {% if audit2Data.data.data.outLinks == 'false' %}
                 brak linków wychodzących
             {% else %}
@@ -512,8 +509,8 @@
             </ul>
             {% endif %}
             </div>
-            <div class="rounded border-2 border-red-900 pl-2 mb-10 break-all">
-             <p>Kod Google Analytics: 
+            <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+             <p><span class="font-bold">Kod Google Analytics: </span>
              {% if audit2Data.data.data.googleAnalytics == 'false' %}
                 brak
             {% else %}
@@ -527,6 +524,6 @@
             </div>
         </div>
     </div>
-  </div>
+</div>
 </div>
 {% endblock %}

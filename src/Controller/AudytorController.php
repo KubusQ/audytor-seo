@@ -63,8 +63,9 @@ class AudytorController extends AbstractController
 
 
     #[Route('/audyt/{domain}/{uid}', name: 'app_audyt', requirements: ['domain' => '[a-zA-Z./-0-9:]+'])]
-    public function audyt($domain, $uid)
-    {
+public function audyt($domain, $uid)
+{
+    try {
         $data = $this->pageScraperService->scrapePageContent($domain);
         $dataPageSpeed = $this->pageSpeedInsightsService->getPageSpeedInsights('http://'.$domain);
         
@@ -73,8 +74,11 @@ class AudytorController extends AbstractController
             'dataPageSpeed' => $dataPageSpeed,
             'uid' => $uid,
         ]);
-        
+    } catch (\Exception $e) {
+        $this->addFlash('error', $e->getMessage());
+        return $this->redirectToRoute('app_audytor');
     }
+}
     
     #[Route('/save/{domain}/{uid}', name: 'app_save', requirements: ['domain' => '[a-zA-Z./-0-9:]+'])]
     public function auditSave(Request $request, Security $security, $domain, $uid): Response

@@ -45,7 +45,7 @@ class AuditHistoryController extends AbstractController
         $pdf->SetTitle('Audit Report');
 
         $pdf->WriteHTML(
-            $this->render('history/audithistory-pdf.html.twig', [
+            $this->render('history/history-pdf.html.twig', [
                 'auditsData' => $auditsData,
             ])
         );

@@ -16,6 +16,11 @@
                     <button type="submit" class="text-lg px-8 rounded-r-lg bg-blue-800  text-white font-bold p-4 uppercase border-blue-900 border-t border-b border-r w-1/4">Audytuj</button>
 
             {{ form_end(form) }}
+            {% for message in app.flashes('error') %}
+                <div class="bg-red-500 text-white px-4 py-2 mt-4 rounded">
+                    {{ message }}
+                </div>
+            {% endfor %}
 
 </div>
 {% endblock %}
