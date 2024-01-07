@@ -1,3 +1,5 @@
+{% set score1 = 0 %}
+{% set score2 = 0 %}
 <style>
    .container {
    width: 100%;
@@ -13,516 +15,808 @@
         <h3 style="font-weight: bold; padding-left: 0.5rem;">Audyt dla domeny: <a href="https://{{audit1Data.domain}}" style="color: #fff;">{{ audit1Data.domain }}</a></h3>
     </div>
 </div>
+
 <div class="container">
    <div class="column">
+   <div style="background: linear-gradient(to bottom, #c7d2fe, #a5b4fc); border: 4px solid #667eea; border-radius: 0.5rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); padding: 1.25rem; margin: 1rem 0;">
+            <div style="border-radius: 9999px; padding: 1.25rem; background-color: #667eea; margin-bottom: 0.5rem; text-align: center;"><h3 style="font-weight: bold; font-size: 1.25rem; color: white;">Wynik Twojej strony: <span id='score1'></span>/100</h3></div>
+</div>
       <div style="background: linear-gradient(to bottom, #c7d2fe, #a5b4fc); border: 4px solid #667eea; border-radius: 0.5rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); padding: 1.25rem; margin: 1rem 0;">
     <div style="border-radius: 9999px; padding: 1.25rem; background-color: #667eea; margin-bottom: 0.5rem; text-align: center;">
         <h3 style="font-weight: bold; font-size: 1.25rem; color: white;">Dane podstawowe</h3>
     </div>
-    <div style="margin-bottom: 1rem;" class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
-        <p> <span style="font-weight: bold;">Data wykonania audytu: </span>{{audit1Data.data.data.auditDateTime}}</p>
-    </div>
-    <div style="margin-bottom: 1rem;" class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
-        <p> <span style="font-weight: bold;">Favicon: </span>{{audit1Data.data.data.favicon}}</p>
-
-    </div>
-    <div style="margin-bottom: 1rem;" class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
-        <p> <span style="font-weight: bold;">Adres IP serwera: </span>{{audit1Data.data.data.ipAddress}}</p>
-
-    </div>
-    <div style="margin-bottom: 1rem;" class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
-        <p> <span style="font-weight: bold;">Przekierowanie IP serwera na domenę: </span>{% if audit1Data.data.data.ipRedirection == 'true' %}jest ustawione{% else %}nie jest ustawione{% endif %}</p>
-
-    </div>
-    <div style="margin-bottom: 1rem;" class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
-        <p> <span style="font-weight: bold;">Certyfikat SSL: </span>{% if audit1Data.data.data.sslCertificate == 'true' %}jest{% else %}brak{% endif %}</p>
-
-    </div>
-    <div style="margin-bottom: 1rem;" class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
-        <p> <span style="font-weight: bold;">Przekierowanie na https: </span>{% if audit1Data.data.data.httpsRedirection == 'true' %}jest ustawione{% else %}nie jest ustawione{% endif %}</p>
-
-    </div>
-    <div style="margin-bottom: 1rem;" class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
-        <p> <span style="font-weight: bold;">Przekierowanie WWW: </span></p>
-        {% if audit1Data.data.data.wwwRedirection == 'true' %}
-        <p>www.{{ audit1Data.data.data.domain }} => {{ audit1Data.data.data.domain }}</p> 
-        {% else %}
-        <p>{{ audit1Data.data.data.domain }} => www.{{ audit1Data.data.data.domain }}</p> 
-        {% endif %}
-    </div>
-    <div style="margin-bottom: 1rem;" class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
-        <p> <span style="font-weight: bold;">Przekierowanie index.html / index.php: </span></p>
-        {% if audit1Data.data.data.indexesRedirection.indexPhpStatus == 'true' %}
-        <p>{{ audit1Data.data.data.domain }}/index.php => {{ audit1Data.data.data.domain }}</p> 
-        {% else %}
-        <p>{{ audit1Data.data.data.domain }}/index.php =/> {{ audit1Data.data.data.domain }}</p> 
-        {% endif %}
-        {% if audit1Data.data.data.indexesRedirection.indexHtmlStatus == 'true' %}
-        <p>{{ audit1Data.data.data.domain }}/index.html => {{ audit1Data.data.data.domain }}</p> 
-        {% else %}
-        <p>{{ audit1Data.data.data.domain }}/index.html =/> {{ audit1Data.data.data.domain }}</p> 
-        {% endif %}
-    </div>
-</div>
+    <div style="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p> <span style="font-bold">Data wykonania audytu:</span> {{audit1Data.data.data.auditDateTime}}</p>
+        </div>
+        <div style="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p> <span style="font-bold">Favicon:</span> 
+            {% if audit1Data.data.data.favicon == 'jest' %}
+                <span style="color: #38a169">{{audit1Data.data.data.favicon}}</span>{% set score1 = score1 + 1 %}
+            {% else %}
+                <span style="color: #e53e3e">{{audit1Data.data.data.favicon}}</span>
+            {% endif %}</p></p>
+        </div>
+        <div style="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p> <span style="font-bold"> Adres IP serwera:</span> {{audit1Data.data.data.ipAddress}}</p>
+        </div>
+        <div style="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p> <span style="font-bold"> Przekierowanie IP serwera na domenę:</span> 
+                {% if audit1Data.data.data.ipRedirection == 'true' %}
+                <span style="color: #38a169">jest ustawione {% set score1 = score1 + 1 %}</span>
+                {% else %}
+                <span style="color: #e53e3e">nie jest ustawione</span>
+                {% endif %}</p>
+        </div>
+        <div style="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p> <span style="font-bold"> Certyfikat SSL:</span>
+            {% if audit1Data.data.data.sslCertificate == 'true' %}
+               <span style="color: #38a169"> jest {% set score1 = score1 + 6 %}
+            {% else %}
+               <span style="color: #e53e3e"> brak
+            {% endif %}</p>
+        </div>
+        <div style="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p> <span style="font-bold"> Przekierowanie na https:</span> 
+            {% if audit1Data.data.data.httpsRedirection == 'true' %}
+                <span style="color: #38a169">jest ustawione {% set score1 = score1 + 5 %}
+            {% else %}
+                <span style="color: #e53e3e">nie jest ustawione
+            {% endif %}
+            </p>
+        </div>
+        <div style="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p> <span style="font-bold"> Przekierowanie WWW:</span> 
+            {% if audit1Data.data.data.wwwRedirection == 'true' %}
+               <p><span style="color: #38a169">  www.{{ audit1Data.data.data.domain }} => {{ audit1Data.data.data.domain }}{% set score1 = score1 + 5 %}</p> 
+            {% else %}
+                <p><span style="color: #38a169">  {{ audit1Data.data.data.domain }} => www.{{ audit1Data.data.data.domain }}{% set score1 = score1 + 5 %}</p> 
+            {% endif %}
+            </p>
+        </div>
+        <div style="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p> <span style="font-bold"> Przekierowanie index.html / index.php:</span> 
+            {% if audit1Data.data.data.indexesRedirection.indexPhpStatus == 'true' %}
+               <p><span style="color: #38a169"> {{ audit1Data.data.data.domain }}/index.php => {{ audit1Data.data.data.domain }}{% set score1 = score1 + 2 %}</p> 
+            {% else %}
+               <p><span style="color: #e53e3e"> {{ audit1Data.data.data.domain }}/index.php =/> {{ audit1Data.data.data.domain }}</p> 
+            {% endif %}
+            {% if audit1Data.data.data.indexesRedirection.indexHtmlStatus == 'true' %}
+               <p><span style="color: #38a169"> {{ audit1Data.data.data.domain }}/index.html => {{ audit1Data.data.data.domain }} {% set score1 = score1 + 2 %}</p> 
+            {% else %}
+                <p><span style="color: #e53e3e"> {{ audit1Data.data.data.domain }}/index.html =/> {{ audit1Data.data.data.domain }}</p> 
+            {% endif %}
+            </p>
+        </div>
+</div>   
 <div style="background: linear-gradient(to bottom, #c7d2fe, #a5b4fc); border: 4px solid #667eea; border-radius: 0.5rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); padding: 1.25rem; margin: 1rem 0;">
-    <div style="border-radius: 9999px; padding: 1.25rem; background-color: #667eea; margin-bottom: 0.5rem; text-align: center;">
-        <h3 style="font-weight: bold; font-size: 1.25rem; color: white;">Przystępność dla robotów</h3>
-    </div>
-    <div style="margin-bottom: 1rem;" class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
-        <p> <span style="font-weight: bold;">Plik robots.txt: </span>{% if audit1Data.data.data.robotsTxt.exists == 'true' %}jest{% else %}brak{% endif %}</p>
-
-    </div>
-    <div style="margin-bottom: 1rem;" class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
-        <p> <span style="font-weight: bold;">Dyrektywa Sitemap: </span>{% if audit1Data.data.data.robotsTxt.hasSitemapDirective == 'true' %}jest{% else %}brak{% endif %}</p>
-
-    </div>
-    <div style="margin-bottom: 1rem;" class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
-        <p> <span style="font-weight: bold;">Meta robots: </span>{{audit1Data.data.data.robots}}</p>
-
-    </div>
-    <div style="margin-bottom: 1rem;" class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
-        <p> <span style="font-weight: bold;">Plik sitemap.xml: </span></p>
-        {% if audit1Data.data.data.sitemap == 'true' %}
-        <p>jest <a href="https://{{audit1Data.data.data.domain}}/sitemap.xml" style="text-decoration: underline;">link</a></p>
-        {% else %}
-        <p>brak</p>
-        {% endif %}
-    </div>
+<div style="border-radius: 9999px; padding: 1.25rem; background-color: #667eea; margin-bottom: 0.5rem; text-align: center;"><h3 style="font-weight: bold; font-size: 1.25rem; color: white;">Przystępność dla robotów</h3></div>    
+        <div style="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p> <span style="font-bold"> Plik robots.txt: </span>
+            {% if audit1Data.data.data.robotsTxt.exists == 'true' %}
+                <span style="color: #38a169">jest {% set score1 = score1 + 5 %}
+            {% else %}
+                <span style="color: #e53e3e">brak
+            {% endif %}</p>
+            </div>
+            <div style="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p> <span style="font-bold"> Dyrektywa Sitemap: </span> {% if audit1Data.data.data.robotsTxt.hasSitemapDirective == 'true' %}
+                 <span style="color: #38a169">jest {% set score1 = score1 + 1 %}
+            {% else %}
+                 <span style="color: #e53e3e">brak
+            {% endif %}</p>
+            </div>
+            <div style="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p> <span style="font-bold"> Meta robots:</span> 
+            {% if audit1Data.data.data.robots == 'brak' %}
+               <span style="color: #e53e3e">{{audit1Data.data.data.robots}}
+            {% else %} 
+                <span style="color: #38a169">{{audit1Data.data.data.robots}} {% set score1 = score1 + 2 %}
+            {% endif %}</p>
+            </div>
+        <div style="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p> <span style="font-bold"> Plik sitemap.xml: </span>
+            {% if audit1Data.data.data.sitemap == 'true' %}
+                <span style="color: #38a169">jest <a href="https://{{audit1Data.data.data.domain}}/sitemap.xml" style="underline">link</a> {% set score1 = score1 + 5 %}
+            {% else %}
+                <span style="color: #e53e3e">brak
+            {% endif %}</p>
+        </div>
 </div>
-<div style="background: linear-gradient(to bottom, #c7d2fe, #a5b4fc); border: 4px solid #667eea; border-radius: 0.5rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); padding: 1.25rem; margin: 1rem 0;">
-    <div style="border-radius: 9999px; padding: 1.25rem; background-color: #667eea; margin-bottom: 0.5rem; text-align: center;">
-        <h3 style="font-weight: bold; font-size: 1.25rem; color: white;">Metadane i treści:</h3>
-    </div>
-    <div style="margin-bottom: 1rem;" class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
-        <p> <span style="font-weight: bold;">Tytuł strony: </span>{{audit1Data.data.data.title}}</p>
-
-        <p> <span style="font-weight: bold;">Liczba znaków: </span>{{audit1Data.data.data.title|length}}</p>
-
-    </div>
-    <div style="margin-bottom: 1rem;" class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
-        <p> <span style="font-weight: bold;">Opis strony: </span>{{audit1Data.data.data.description}}</p>
-
-        <p> <span style="font-weight: bold;">Liczba znaków: </span>{% if audit1Data.data.data.description == "brak" %}0{% else %}{{audit1Data.data.data.description|length}}{% endif %}</p>
-
-    </div>
-    <div style="margin-bottom: 1rem;" class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
-        <p> <span style="font-weight: bold;">Słowa kluczowe: </span>{{audit1Data.data.data.keywords}}</p>
-
-    </div>
-    <div style="margin-bottom: 1rem;" class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
-        <p> <span style="font-weight: bold;">Liczba wystąpień nagłówków: </span></p>
-        {% if audit1Data.data.data.headerCounts == 'false'%}
-            <p>brak nagłówków na stronie</p>
-        {% else %}
+    <div style="background: linear-gradient(to bottom, #c7d2fe, #a5b4fc); border: 4px solid #667eea; border-radius: 0.5rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); padding: 1.25rem; margin: 1rem 0;">
+     <div style="border-radius: 9999px; padding: 1.25rem; background-color: #667eea; margin-bottom: 0.5rem; text-align: center;"><h3 style="font-weight: bold; font-size: 1.25rem; color: white;">Metadane i treści:</h3></div>
+            <div style="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p> <span style="font-bold"> Tytuł strony:</span> 
+            {% if audit1Data.data.data.title == 'brak' %}
+                <span style="color: #e53e3e">{{audit1Data.data.data.title}}
+            {% else %}
+                <span style="color: #38a169">{{audit1Data.data.data.title}} {% set score1 = score1 + 3 %}
+            {% endif %}</p>
+            <p> <span style="font-bold">Liczba znaków:</span>
+            {% set titleLength = audit1Data.data.data.title|length %}
+            {% if titleLength <= 30 or titleLength >= 60 %}
+                <span style="color: #e53e3e">{{ titleLength }} 
+            {% else %}
+                <span style="color: #38a169">{{ titleLength }} {% set score1 = score1 + 3 %}
+            {% endif %}</p>
+            </div>
+            <div style="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p> <span style="font-bold"> Opis strony:</span> {% if audit1Data.data.data.description == 'brak' %}
+                <span style="color: #e53e3e">{{audit1Data.data.data.description}}
+            {% else %}
+                <span style="color: #38a169">{{audit1Data.data.data.description}} {% set score1 = score1 + 3 %}
+            {% endif %}</p>
+            <p> <span style="font-bold"> Liczba znaków:</span> 
+            {% set descriptionLenght = audit1Data.data.data.description|length %}
+            {% if audit1Data.data.data.description == 'brak' %}
+                {% set descriptionLenght = 0 %}
+            {% endif %}
+            {% if descriptionLenght > 160 or descriptionLenght == 0 %}
+                <span style="color: #e53e3e">{{descriptionLenght}}
+            {% else %}
+                <span style="color: #38a169">{{descriptionLenght}} {% set score1 = score1 + 3 %}
+            {% endif %}
+            </p>
+            </div>
+            <div style="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p> <span style="font-bold"> Słowa kluczowe:</span> 
+            {% if audit1Data.data.data.keywords == 'brak' %}   
+                <span style="color: #38a169">{{audit1Data.data.data.keywords}} {% set score1 = score1 + 3 %}
+            {% else %}
+                <span style="color: #e53e3e">{{audit1Data.data.data.keywords}}
+            {% endif %}
+            </p>
+            </div>
+            <div style="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p> <span style="font-bold"> Liczba wystąpień nagłówków:</span></p>
+            {% if audit1Data.data.data.headerCounts == 'false'%}
+                <span style="color: #e53e3e">brak nagłówków na stronie
+            {% else %}
             <ul>
                 {% for tag, count in audit1Data.data.data.headerCounts %}
                     <li>{{ tag }}: {{ count }}</li>
                 {% endfor %}
+                {% set score1 = score1 + 3 %}
             </ul>
-        {% endif %}
-    </div>
-    <div style="margin-bottom: 1rem;" class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
-        <p> <span style="font-weight: bold;">Nagłówki unikatowe: </span>{% if audit1Data.data.data.headersUnique == 'false' %}nie{% else %}tak{% endif %}</p>
-
-    </div>
-    <div style="margin-bottom: 1rem;" class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
-        <p> <span style="font-weight: bold;">Wszystkie nagłówki na stronie: </span></p>
-        <p> <span style="font-weight: bold;">Liczba wystąpień nagłówków: </span></p>
-        {% if audit1Data.data.data.headers == 'false'%}
-            <p>brak nagłówków na stronie</p>
-        {% else %}
+            {% endif %}
+            </div>
+            <div style="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+                <p> <span style="font-bold"> Nagłówki unikatowe:</span> 
+                {% if audit1Data.data.data.headersUnique == 'false' %} 
+                    <span style="color: #e53e3e">nie 
+                {% else %} 
+                    <span style="color: #38a169">tak {% set score1 = score1 + 2 %}
+                {% endif %}</p>
+            </div>
+            <div style="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p> <span style="font-bold"> Wszystkie nagłówki na stronie:</span></p>
+            {% if audit1Data.data.data.headers == 'false' %}
+                brak nagłówków na stronie 
+            {% else %}
             <ul>
                 {% for header in audit1Data.data.data.headers %}
                     <li>{{ header.tag }}: {{ header.text }}</li>
                 {% endfor %}
             </ul>
-        {% endif %}
-    </div>
-    <div style="margin-bottom: 1rem;" class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
-        <p> <span style="font-weight: bold;">Obrazy bez atrybutu alt: </span></p>
+            {% endif %}
+            </div>
+    <div style="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+        <p> <span style="font-bold"> Obrazy bez atrybutu alt:</span>
+        {% if audit1Data.data.data.missingAltImages == 'false' %}
+            <span style="color: #38a169">brak {% set score1 = score1 + 5 %}
+        {% endif %}</p>
         <ul>
             {% for imageSrc in audit1Data.data.data.missingAltImages %}
-                <li>{{ imageSrc }}</li>
+                <li><span style="color: #e53e3e">{{ imageSrc }}</li>
             {% endfor %}
         </ul> 
+        </div>
+        
+    <div style="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+        <p> <span style="font-bold"> Określenie języka strony:</span> {{ audit1Data.data.data.lang }}</p>
+        <p> <span style="font-bold"> Kodowanie strony:</span> {{ audit1Data.data.data.charset }}</p>
     </div>
-<div style="margin-bottom: 1rem;" class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
-    <p> <span style="font-weight: bold;">Określenie języka strony: </span>{{ audit1Data.data.data.lang }}</p>
-    <p> <span style="font-weight: bold;">Kodowanie strony: </span>{{ audit1Data.data.data.charset }}</p>
-</div>
-<div style="margin-bottom: 1rem;" class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
-    <p> <span style="font-weight: bold;">RDFa: </span>{{ audit1Data.data.data.rdfa }}</p>
-    <p> <span style="font-weight: bold;">Mikrodane: </span>{{ audit1Data.data.data.microdata }}</p>
-</div>
-<div style="margin-bottom: 1rem;" class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
-    <p> <span style="font-weight: bold;">Obecność technologii flash: </span>{{audit1Data.data.data.flash}}</p>
-</div>
-<div style="margin-bottom: 1rem;" class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
-    <p> <span style="font-weight: bold;">Obecność iFrame: </span>{{audit1Data.data.data.frame}}</p>
-</div>
-<div style="margin-bottom: 1rem;" class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
-    <p> <span style="font-weight: bold;">Inline CSS: </span> {{audit1Data.data.data.inlineCSS}}</p>
-    
-</div>
-</div>
-<div style="background: linear-gradient(to bottom, #c7d2fe, #a5b4fc); border: 4px solid #667eea; border-radius: 0.5rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); padding: 1.25rem; margin: 1rem 0;">
-    <div style="border-radius: 9999px; padding: 1.25rem; background-color: #667eea; margin-bottom: 0.5rem; text-align: center;">
-        <h3 style="font-weight: bold; font-size: 1.5rem; color: #fff;">Dane PageSpeed Insights</h3>
-    </div>
-    <div style="margin-bottom: 1rem; font-size: 1.125rem; word-break: break-all; border-bottom: 2px solid #4f46e5; padding: 0.5rem 0;">
-    <p><span style="font-weight: bold;"> Meta viewport: </span> {{ audit1Data.data.data.viewport }}</p>
-</div>
-<div style="margin-bottom: 1rem; font-size: 1.125rem; word-break: break-all; border-bottom: 2px solid #4f46e5; padding: 0.5rem 0;">
-    <p><span style="font-weight: bold;">
-        {% if audit1Data.data.dataPageSpeed.mobile <= 49 %}
-            Strona wymaga poprawy na urządzeniach mobilnych.
+    <div style="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+        <p> <span style="font-bold"> RDFa:</span> 
+        {% if audit1Data.data.data.rdfa == 'jest' %}
+            <span style="color: #38a169">{{ audit1Data.data.data.rdfa }} {% set score1 = score1 + 1 %}
         {% else %}
-            Strona jest użyteczna na urządzeniach mobilnych.
-        {% endif %}
-    </p></span>
-    <p> <span style="font-weight: bold;"> Prędkość ładowania mobile:</span> {{ audit1Data.data.dataPageSpeed.mobile }}</p>
-</div>
-<div style="margin-bottom: 1rem; font-size: 1.125rem; word-break: break-all; border-bottom: 2px solid #4f46e5; padding: 0.5rem 0;">
-    <p> <span style="font-weight: bold;"> 
-        {% if audit1Data.data.dataPageSpeed.desktop <= 49 %}
-            Strona wymaga poprawy na komputerach stacjonarnych.
+            <span style="color: #e53e3e">{{ audit1Data.data.data.rdfa }}
+        {% endif %}</p>
+        <p> <span style="font-bold"> Mikrodane:</span>
+        {% if audit1Data.data.data.microdata == 'jest' %}
+            <span style="color: #38a169">{{ audit1Data.data.data.microdata}} {% set score1 = score1 + 1 %}
         {% else %}
-            Strona jest użyteczna na komputerach stacjonarnych.
-        {% endif %}
-    </p></span>
-    <p> <span style="font-weight: bold;"> Prędkość ładowania desktop:</span> {{ audit1Data.data.dataPageSpeed.desktop }}</p>
-</div>
-<div style="margin-bottom: 1rem; font-size: 1.125rem; word-break: break-all; border-bottom: 2px solid #4f46e5; padding: 0.5rem 0;">
-    <p> <span style="font-weight: bold;"> Core Web Vitals Mobile:</span></p>
-    <ul>
-        <li>First Contentful Paint: {{ audit1Data.data.dataPageSpeed.metrics.mobile.firstContentfulPaint }}</li>
-        <li>Speed Index: {{ audit1Data.data.dataPageSpeed.metrics.mobile.speedIndex }}</li>
-        <li>Time to Interactive: {{ audit1Data.data.dataPageSpeed.metrics.mobile.timeToInteractive }}</li>
-        <li>First Meaningful Paint: {{ audit1Data.data.dataPageSpeed.metrics.mobile.firstMeaningfulPaint }}</li>
-    </ul>
-</div>
-<div style="margin-bottom: 1rem;  font-size: 1.125rem; word-break: break-all; border-bottom: 2px solid #4f46e5; padding: 0.5rem 0;">
-    <p> <span style="font-weight: bold;"> Core Web Vitals Desktop:</span></p>
-    <ul>
-        <li>First Contentful Paint: {{ audit1Data.data.dataPageSpeed.metrics.desktop.firstContentfulPaint }}</li>
-        <li>Speed Index: {{ audit1Data.data.dataPageSpeed.metrics.desktop.speedIndex }}</li>
-        <li>Time to Interactive: {{ audit1Data.data.dataPageSpeed.metrics.desktop.timeToInteractive }}</li>
-        <li>First Meaningful Paint: {{ audit1Data.data.dataPageSpeed.metrics.desktop.firstMeaningfulPaint }}</li>
-    </ul>
-</div>
-</div>
-<div style="background: linear-gradient(to bottom, #c7d2fe, #a5b4fc); border: 4px solid #667eea; border-radius: 0.5rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); padding: 1.25rem; margin: 1rem 0;">
-    <div style="border-radius: 9999px; padding: 1.25rem; background-color: #667eea; margin-bottom: 0.5rem; text-align: center;">
-        <h3 style="font-weight: bold; font-size: 1.5rem; color: #fff;">Linkowanie</h3>
+            <span style="color: #e53e3e">{{ audit1Data.data.data.microdata }}
+        {% endif %}</p>
     </div>
-    <div style="margin-bottom: 1rem;  font-size: 1.125rem; word-break: break-all; border-bottom: 2px solid #4f46e5; padding: 0.5rem 0;">
-        <p> <span style="font-weight: bold;"> Lista wewnętrznych linków:</span></p>
-        <ul>
-            {% for link in audit1Data.data.data.internalLinks %}
-                <li>{{ link }}</li>
-            {% endfor %}
-        </ul>
+    <div style="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+        <p> <span style="font-bold"> Obecność technologii flash:</span>
+        {% if audit1Data.data.data.flash == 'jest' %}
+            <span style="color: #e53e3e">{{ audit1Data.data.data.flash}} 
+        {% else %}
+            <span style="color: #38a169">{{ audit1Data.data.data.flash }} {% set score1 = score1 + 2 %}
+        {% endif %}</p>
     </div>
-    <div style="margin-bottom: 1rem;  font-size: 1.125rem; word-break: break-all; border-bottom: 2px solid #4f46e5; padding: 0.5rem 0;">
-        <p> <span style="font-weight: bold;"> Najdłuższy URL:</span> {{ audit1Data.data.data.maxLenghtInlinks }} znaków</p>
+    <div style="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+        <p> <span style="font-bold"> Obecność iFrame:</span>
+        {% if audit1Data.data.data.frame == 'jest' %}
+            <span style="color: #e53e3e">{{ audit1Data.data.data.frame}} 
+        {% else %}
+            <span style="color: #38a169">{{ audit1Data.data.data.frame }} {% set score1 = score1 + 2 %}
+        {% endif %}</p>
     </div>
-    <div style="margin-bottom: 1rem;  font-size: 1.125rem; word-break: break-all; border-bottom: 2px solid #4f46e5; padding: 0.5rem 0;">
-        <p> <span style="font-weight: bold;"> Linki przyjazne wyszukiwarce: </span>
-            {% if audit1Data.data.data.friendlyLinks %}
-                tak
+    <div style="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+        <p> <span style="font-bold"> Inline CSS:</span>
+        {% if audit1Data.data.data.inlineCSS == 'jest' %}
+            <span style="color: #e53e3e">{{ audit1Data.data.data.inlineCSS}} 
+        {% else %}
+            <span style="color: #38a169">{{ audit1Data.data.data.inlineCSS }} {% set score1 = score1 + 1 %}
+        {% endif %}</p>
+    </div>
+</div>
+    <div style="background: linear-gradient(to bottom, #c7d2fe, #a5b4fc); border: 4px solid #667eea; border-radius: 0.5rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); padding: 1.25rem; margin: 1rem 0;">
+        
+        <div style="border-radius: 9999px; padding: 1.25rem; background-color: #667eea; margin-bottom: 0.5rem; text-align: center;"><h3 style="font-bold text-3xl text-white">Dane PageSpeed Insights</h3></div>
+        <div style="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p> <span style="font-bold"> Meta viewport:</span>
+            {% if audit1Data.data.data.viewport == 'jest' %}
+            <span style="color: #38a169">{{ audit1Data.data.data.viewport}} {% set score1 = score1 + 3 %}
+        {% else %}
+            <span style="color: #e53e3e">{{ audit1Data.data.data.viewport }} 
+        {% endif %}</p>
+        </div>
+        <div style="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p><span style="font-bold">
+            {% if audit1Data.data.dataPageSpeed.mobile <= 49 %}
+                <span style="color: #e53e3e">Strona wymaga poprawy na urządzeniach mobilnych.
             {% else %}
-                nie
-                <p> <span style="font-weight: bold;"> Lista nieprzyjaznych linków:</span> 
+                <span style="color: #38a169">Strona jest użyteczna na urządzeniach mobilnych. {% set score1 = score1 + 6 %}
+            {% endif %}
+            </p></span>
+            <p> <span style="font-bold"> Prędkość ładowania mobile:</span> {{ audit1Data.data.dataPageSpeed.mobile }}</p>
+        </div>
+        <div style="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p> <span style="font-bold"> 
+            {% if audit1Data.data.dataPageSpeed.desktop <= 49 %}
+                <span style="color: #e53e3e">Strona wymaga poprawy na komputerach stacjonarnych.
+            {% else %}
+                <span style="color: #38a169">Strona jest użyteczna na komputerach stacjonarnych. {% set score1 = score1 + 6 %}
+            {% endif %}
+            </p></span>
+            <p> <span style="font-bold"> Prędkość ładowania desktop:</span> {{ audit1Data.data.dataPageSpeed.desktop }}</p>
+        </div>
+        <div style="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p> <span style="font-bold"> Core Web Vitals Mobile:</span></p>
+                <ul>
+                    <li>First Contentful Paint: 
+                    {% if audit1Data.data.dataPageSpeed.metrics.mobile.firstContentfulPaint > 3.0 %}
+                        <span style="color: #e53e3e">{{ audit1Data.data.dataPageSpeed.metrics.mobile.firstContentfulPaint }}
+                    {% else %}
+                        <span style="color: #38a169">{{ audit1Data.data.dataPageSpeed.metrics.mobile.firstContentfulPaint }} {% set score1 = score1 + 1 %}
+                    {% endif %}</li>
+                    <li>Speed Index:
+                    {% if audit1Data.data.dataPageSpeed.metrics.mobile.speedIndex > 5.8 %}
+                        <span style="color: #e53e3e">{{ audit1Data.data.dataPageSpeed.metrics.mobile.speedIndex }}
+                    {% else %}
+                        <span style="color: #38a169">{{ audit1Data.data.dataPageSpeed.metrics.mobile.speedIndex }} {% set score1 = score1 + 1 %}
+                    {% endif %}</li>
+                    <li>Time to Interactive:
+                    {% if audit1Data.data.dataPageSpeed.metrics.mobile.timeToInteractive > 7.3 %}
+                        <span style="color: #e53e3e">{{ audit1Data.data.dataPageSpeed.metrics.mobile.timeToInteractive}}
+                    {% else %}
+                        <span style="color: #38a169">{{ audit1Data.data.dataPageSpeed.metrics.mobile.timeToInteractive }} {% set score1 = score1 + 1 %}
+                    {% endif %}</li>
+                    <li>First Meaningful Paint:
+                    {% if audit1Data.data.dataPageSpeed.metrics.mobile.firstMeaningfulPaint > 4 %}
+                        <span style="color: #e53e3e">{{ audit1Data.data.dataPageSpeed.metrics.mobile.firstMeaningfulPaint}}
+                    {% else %}
+                        <span style="color: #38a169">{{ audit1Data.data.dataPageSpeed.metrics.mobile.firstMeaningfulPaint }} {% set score1 = score1 + 1 %}
+                    {% endif %}</li>
+                </ul>
+        </div>
+        <div style="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p> <span style="font-bold"> Core Web Vitals Desktop:</span></p>
+                <ul>
+                    <li>First Contentful Paint: 
+                    {% if audit1Data.data.dataPageSpeed.metrics.desktop.firstContentfulPaint > 3.0 %}
+                        <span style="color: #e53e3e">{{ audit1Data.data.dataPageSpeed.metrics.desktop.firstContentfulPaint }}
+                    {% else %}
+                        <span style="color: #38a169">{{ audit1Data.data.dataPageSpeed.metrics.desktop.firstContentfulPaint }} {% set score1 = score1 + 1 %}
+                    {% endif %}</li>
+                    <li>Speed Index:
+                    {% if audit1Data.data.dataPageSpeed.metrics.desktop.speedIndex > 5.8 %}
+                        <span style="color: #e53e3e">{{ audit1Data.data.dataPageSpeed.metrics.desktop.speedIndex }}
+                    {% else %}
+                        <span style="color: #38a169">{{ audit1Data.data.dataPageSpeed.metrics.desktop.speedIndex }} {% set score1 = score1 + 1 %}
+                    {% endif %}</li>
+                    <li>Time to Interactive:
+                    {% if audit1Data.data.dataPageSpeed.metrics.desktop.timeToInteractive > 7.3 %}
+                        <span style="color: #e53e3e">{{ audit1Data.data.dataPageSpeed.metrics.desktop.timeToInteractive}}
+                    {% else %}
+                        <span style="color: #38a169">{{ audit1Data.data.dataPageSpeed.metrics.desktop.timeToInteractive }} {% set score1 = score1 + 1 %}
+                    {% endif %}</li>
+                    <li>First Meaningful Paint:
+                    {% if audit1Data.data.dataPageSpeed.metrics.desktop.firstMeaningfulPaint > 4 %}
+                        <span style="color: #e53e3e">{{ audit1Data.data.dataPageSpeed.metrics.desktop.firstMeaningfulPaint}}
+                    {% else %}
+                        <span style="color: #38a169">{{ audit1Data.data.dataPageSpeed.metrics.desktop.firstMeaningfulPaint }} {% set score1 = score1 + 1 %}
+                    {% endif %}</li>
+                </ul>
+        </div>
+        
+    </div>
+    <div style="background: linear-gradient(to bottom, #c7d2fe, #a5b4fc); border: 4px solid #667eea; border-radius: 0.5rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); padding: 1.25rem; margin: 1rem 0;">
+            <div style="border-radius: 9999px; padding: 1.25rem; background-color: #667eea; margin-bottom: 0.5rem; text-align: center;"><h3 style="font-bold text-3xl text-white">Linkowanie</h3></div>
+            <div style="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p> <span style="font-bold"> Lista wewnętrznych linków:</span></p>
+            {% if audit1Data.data.data.internalLinks == 'false' %}
+                <p><span style="color: #e53e3e">brak</p>
+            {% else %}
             <ul>
-                {% for link in audit1Data.data.data.friendlyLinks %}
+                {% for link in audit1Data.data.data.internalLinks %}
                     <li>{{ link }}</li>
                 {% endfor %}
-            </ul>
+            </ul>{% set score1 = score1 + 2 %}
             {% endif %}
-        </p> 
-    </div>
-    <div style="margin-bottom: 1rem;  font-size: 1.125rem; word-break: break-all; border-bottom: 2px solid #4f46e5; padding: 0.5rem 0;">
-        <p> <span style="font-weight: bold;"> Lista linków wychodzących:</span></p>
-        {% if audit1Data.data.data.outLinks == 'false' %}
-            <p>brak linków wychodzących</p>
-        {% else %}
+            </div>
+            <div style="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+                <p> <span style="font-bold"> Najdłuższy url:</span>
+                {% if audit1Data.data.data.maxLenghtInlinks > 100 %}
+                    <span style="color: #e53e3e">{{ audit1Data.data.data.maxLenghtInlinks }} 
+                {% else %}
+                    <span style="color: #38a169">{{ audit1Data.data.data.maxLenghtInlinks }} {% set score1 = score1 + 1 %}
+                {% endif %} znaków</p>
+            </div>
+            <div style="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+                <p> <span style="font-bold"> Linki przyjazne wyszukiwarce: </span>
+                     {% if audit1Data.data.data.friendlyLinks %}
+                        <span style="color: #38a169">tak {% set score1 = score1 + 3 %}
+                    {% else %}
+                        <span style="color: #e53e3e">nie</p>
+                        <p> <span style="font-bold"> Lista nieprzyjaznych linków:</span> 
+                    <ul>
+                        {% for link in audit1Data.data.data.friendlyLinks %}
+                            <li>{{ link }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}</p> 
+            </div>
+            <div style="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p> <span style="font-bold"> Lista linków wychodzących:</span></p>
+            {% set rel = 0 %}
+            {% if audit1Data.data.data.outLinks == 'false' %}
+                <span style="color: #38a169">brak linków wychodzących {% set score1 = score1 + 2 %}
+            {% else %}
             <ul>
                 {% for link in audit1Data.data.data.outLinks %}
-                    <li>{{ link.href }} {% if link.rel is not null %} Rel: {{link.rel}} {% endif %}</li>
-                {% endfor %}
+                    {% if 'nofollow' in link.rel %}
+                        <li><span style="color: #38a169">{{ link.href }} {% if link.rel is not null %} Rel: {{link.rel}} {% endif %}</li>{% set rel = 1 %}
+                    {% else %}
+                        <li><span style="color: #e53e3e">{{ link.href }} {% if link.rel is not null %} Rel: {{link.rel}} {% endif %}</li>
+                    {% endif %}
+                {% endfor %} 
             </ul>
-        {% endif %}
-    </div>
-    <div style="margin-bottom: 1rem;  font-size: 1.125rem; word-break: break-all; border-bottom: 2px solid #4f46e5; padding: 0.5rem 0;">
-        <p> <span style="font-weight: bold;"> Kod Google Analytics:</span> 
-        {% if audit1Data.data.data.googleAnalytics == 'false' %}
-            brak
-        {% else %}
-            jest
+            {% if rel == 1 %}
+                {% set score1 = score1 + 2 %}
+            {% endif %}
+            {% endif %}
+            </div>
+            <div style="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+             <p> <span style="font-bold"> Kod Google Analytics:</span> 
+             {% if audit1Data.data.data.googleAnalytics == 'false' %}
+                <span style="color: #e53e3e">brak
+            {% else %}
+                <span style="color: #38a169"> jest {% set score1 = score1 + 2 %}
             <ul>
                 {% for code in audit1Data.data.data.googleAnalytics %}
                     <li>{{ code }}</li>
                 {% endfor %}
             </ul>
-        {% endif %}
-        </p>   
-    </div>
+            {% endif %}</p> 
+            </div>
 </div>
    </div>
    <div class="column">
-      <div style="background: linear-gradient(to bottom, #c7d2fe, #a5b4fc); border: 4px solid #667eea; border-radius: 0.5rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); padding: 1.25rem; margin: 1rem 0;">
-    <div style="border-radius: 9999px; padding: 1.25rem; background-color: #667eea; margin-bottom: 0.5rem; text-align: center;">
-        <h3 style="font-weight: bold; font-size: 1.25rem; color: white;">Dane podstawowe</h3>
-    </div>
-    <div style="margin-bottom: 1rem;" class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
-        <p> <span style="font-weight: bold;">Data wykonania audytu: </span>{{audit2Data.data.data.auditDateTime}}</p>
-    </div>
-    <div style="margin-bottom: 1rem;" class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
-        <p> <span style="font-weight: bold;">Favicon: </span>{{audit2Data.data.data.favicon}}</p>
-
-    </div>
-    <div style="margin-bottom: 1rem;" class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
-        <p> <span style="font-weight: bold;">Adres IP serwera: </span>{{audit2Data.data.data.ipAddress}}</p>
-
-    </div>
-    <div style="margin-bottom: 1rem;" class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
-        <p> <span style="font-weight: bold;">Przekierowanie IP serwera na domenę: </span>{% if audit2Data.data.data.ipRedirection == 'true' %}jest ustawione{% else %}nie jest ustawione{% endif %}</p>
-
-    </div>
-    <div style="margin-bottom: 1rem;" class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
-        <p> <span style="font-weight: bold;">Certyfikat SSL: </span>{% if audit2Data.data.data.sslCertificate == 'true' %}jest{% else %}brak{% endif %}</p>
-
-    </div>
-    <div style="margin-bottom: 1rem;" class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
-        <p> <span style="font-weight: bold;">Przekierowanie na https: </span>{% if audit2Data.data.data.httpsRedirection == 'true' %}jest ustawione{% else %}nie jest ustawione{% endif %}</p>
-
-    </div>
-    <div style="margin-bottom: 1rem;" class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
-        <p> <span style="font-weight: bold;">Przekierowanie WWW: </span></p>
-        {% if audit2Data.data.data.wwwRedirection == 'true' %}
-        <p>www.{{ audit2Data.data.data.domain }} => {{ audit2Data.data.data.domain }}</p> 
-        {% else %}
-        <p>{{ audit2Data.data.data.domain }} => www.{{ audit2Data.data.data.domain }}</p> 
-        {% endif %}
-    </div>
-    <div style="margin-bottom: 1rem;" class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
-        <p> <span style="font-weight: bold;">Przekierowanie index.html / index.php: </span></p>
-        {% if audit2Data.data.data.indexesRedirection.indexPhpStatus == 'true' %}
-        <p>{{ audit2Data.data.data.domain }}/index.php => {{ audit2Data.data.data.domain }}</p> 
-        {% else %}
-        <p>{{ audit2Data.data.data.domain }}/index.php =/> {{ audit2Data.data.data.domain }}</p> 
-        {% endif %}
-        {% if audit2Data.data.data.indexesRedirection.indexHtmlStatus == 'true' %}
-        <p>{{ audit2Data.data.data.domain }}/index.html => {{ audit2Data.data.data.domain }}</p> 
-        {% else %}
-        <p>{{ audit2Data.data.data.domain }}/index.html =/> {{ audit2Data.data.data.domain }}</p> 
-        {% endif %}
-    </div>
+      <div style="background: linear-gradient(to bottom, #c7d2fe, #a5b4fc); border: 4px solid #667eea; border-radius: 0.5rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); padding: 1.25rem; margin: 0.3rem 0;">
+            <div style="border-radius: 9999px; padding: 1.25rem; background-color: #667eea; margin-bottom: 0.5rem; text-align: center;"><h3 style="font-weight: bold; font-size: 1.25rem; color: white;">Wynik Twojej strony: <span id='score2'></span>/100</h3></div>
 </div>
 <div style="background: linear-gradient(to bottom, #c7d2fe, #a5b4fc); border: 4px solid #667eea; border-radius: 0.5rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); padding: 1.25rem; margin: 1rem 0;">
-    <div style="border-radius: 9999px; padding: 1.25rem; background-color: #667eea; margin-bottom: 0.5rem; text-align: center;">
-        <h3 style="font-weight: bold; font-size: 1.25rem; color: white;">Przystępność dla robotów</h3>
-    </div>
-    <div style="margin-bottom: 1rem;" class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
-        <p> <span style="font-weight: bold;">Plik robots.txt: </span>{% if audit2Data.data.data.robotsTxt.exists == 'true' %}jest{% else %}brak{% endif %}</p>
-
-    </div>
-    <div style="margin-bottom: 1rem;" class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
-        <p> <span style="font-weight: bold;">Dyrektywa Sitemap: </span>{% if audit2Data.data.data.robotsTxt.hasSitemapDirective == 'true' %}jest{% else %}brak{% endif %}</p>
-
-    </div>
-    <div style="margin-bottom: 1rem;" class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
-        <p> <span style="font-weight: bold;">Meta robots: </span>{{audit2Data.data.data.robots}}</p>
-
-    </div>
-    <div style="margin-bottom: 1rem;" class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
-        <p> <span style="font-weight: bold;">Plik sitemap.xml: </span></p>
-        {% if audit2Data.data.data.sitemap == 'true' %}
-        <p>jest <a href="https://{{audit2Data.data.data.domain}}/sitemap.xml" style="text-decoration: underline;">link</a></p>
-        {% else %}
-        <p>brak</p>
-        {% endif %}
-    </div>
-</div>
+            <div style="border-radius: 9999px; padding: 1.25rem; background-color: #667eea; margin-bottom: 0.5rem; text-align: center;"><h3 style="font-weight: bold; font-size: 1.25rem; color: white;">Dane podstawowe</h3></div>
+        <div style="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p> <span style="font-bold">Data wykonania audytu:</span> {{audit2Data.data.data.auditDateTime}}</p>
+        </div>
+        <div style="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p> <span style="font-bold">Favicon:</span> 
+            {% if audit2Data.data.data.favicon == 'jest' %}
+                <span style="color: #38a169">{{audit2Data.data.data.favicon}}</span>{% set score2 = score2 + 1 %}
+            {% else %}
+                <span style="color: #e53e3e">{{audit2Data.data.data.favicon}}</span>
+            {% endif %}</p></p>
+        </div>
+        <div style="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p> <span style="font-bold"> Adres IP serwera:</span> {{audit2Data.data.data.ipAddress}}</p>
+        </div>
+        <div style="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p> <span style="font-bold"> Przekierowanie IP serwera na domenę:</span> 
+                {% if audit2Data.data.data.ipRedirection == 'true' %}
+                <span style="color: #38a169">jest ustawione {% set score2 = score2 + 1 %}</span>
+                {% else %}
+                <span style="color: #e53e3e">nie jest ustawione</span>
+                {% endif %}</p>
+        </div>
+        <div style="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p> <span style="font-bold"> Certyfikat SSL:</span>
+            {% if audit2Data.data.data.sslCertificate == 'true' %}
+               <span style="color: #38a169"> jest {% set score2 = score2 + 6 %}
+            {% else %}
+               <span style="color: #e53e3e"> brak
+            {% endif %}</p>
+        </div>
+        <div style="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p> <span style="font-bold"> Przekierowanie na https:</span> 
+            {% if audit2Data.data.data.httpsRedirection == 'true' %}
+                <span style="color: #38a169">jest ustawione {% set score2 = score2 + 5 %}
+            {% else %}
+                <span style="color: #e53e3e">nie jest ustawione
+            {% endif %}
+            </p>
+        </div>
+        <div style="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p> <span style="font-bold"> Przekierowanie WWW:</span> 
+            {% if audit2Data.data.data.wwwRedirection == 'true' %}
+               <p><span style="color: #38a169">  www.{{ audit2Data.data.data.domain }} => {{ audit2Data.data.data.domain }}{% set score2 = score2 + 5 %}</p> 
+            {% else %}
+                <p><span style="color: #38a169">  {{ audit2Data.data.data.domain }} => www.{{ audit2Data.data.data.domain }}{% set score2 = score2 + 5 %}</p> 
+            {% endif %}
+            </p>
+        </div>
+        <div style="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p> <span style="font-bold"> Przekierowanie index.html / index.php:</span> 
+            {% if audit2Data.data.data.indexesRedirection.indexPhpStatus == 'true' %}
+               <p><span style="color: #38a169"> {{ audit2Data.data.data.domain }}/index.php => {{ audit2Data.data.data.domain }}{% set score2 = score2 + 2 %}</p> 
+            {% else %}
+               <p><span style="color: #e53e3e"> {{ audit2Data.data.data.domain }}/index.php =/> {{ audit2Data.data.data.domain }}</p> 
+            {% endif %}
+            {% if audit2Data.data.data.indexesRedirection.indexHtmlStatus == 'true' %}
+               <p><span style="color: #38a169"> {{ audit2Data.data.data.domain }}/index.html => {{ audit2Data.data.data.domain }} {% set score2 = score2 + 2 %}</p> 
+            {% else %}
+                <p><span style="color: #e53e3e"> {{ audit2Data.data.data.domain }}/index.html =/> {{ audit2Data.data.data.domain }}</p> 
+            {% endif %}
+            </p>
+        </div>
+</div>   
 <div style="background: linear-gradient(to bottom, #c7d2fe, #a5b4fc); border: 4px solid #667eea; border-radius: 0.5rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); padding: 1.25rem; margin: 1rem 0;">
-    <div style="border-radius: 9999px; padding: 1.25rem; background-color: #667eea; margin-bottom: 0.5rem; text-align: center;">
-        <h3 style="font-weight: bold; font-size: 1.25rem; color: white;">Metadane i treści:</h3>
-    </div>
-    <div style="margin-bottom: 1rem;" class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
-        <p> <span style="font-weight: bold;">Tytuł strony: </span>{{audit2Data.data.data.title}}</p>
-
-        <p> <span style="font-weight: bold;">Liczba znaków: </span>{{audit2Data.data.data.title|length}}</p>
-
-    </div>
-    <div style="margin-bottom: 1rem;" class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
-        <p> <span style="font-weight: bold;">Opis strony: </span>{{audit2Data.data.data.description}}</p>
-
-        <p> <span style="font-weight: bold;">Liczba znaków: </span>{% if audit2Data.data.data.description == "brak" %}0{% else %}{{audit2Data.data.data.description|length}}{% endif %}</p>
-
-    </div>
-    <div style="margin-bottom: 1rem;" class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
-        <p> <span style="font-weight: bold;">Słowa kluczowe: </span>{{audit2Data.data.data.keywords}}</p>
-
-    </div>
-    <div style="margin-bottom: 1rem;" class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
-        <p> <span style="font-weight: bold;">Liczba wystąpień nagłówków: </span></p>
-        {% if audit2Data.data.data.headerCounts == 'false'%}
-            <p>brak nagłówków na stronie</p>
-        {% else %}
+<div style="border-radius: 9999px; padding: 1.25rem; background-color: #667eea; margin-bottom: 0.5rem; text-align: center;"><h3 style="font-weight: bold; font-size: 1.25rem; color: white;">Przystępność dla robotów</h3></div>    
+        <div style="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p> <span style="font-bold"> Plik robots.txt: </span>
+            {% if audit2Data.data.data.robotsTxt.exists == 'true' %}
+                <span style="color: #38a169">jest {% set score2 = score2 + 5 %}
+            {% else %}
+                <span style="color: #e53e3e">brak
+            {% endif %}</p>
+            </div>
+            <div style="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p> <span style="font-bold"> Dyrektywa Sitemap: </span> {% if audit2Data.data.data.robotsTxt.hasSitemapDirective == 'true' %}
+                 <span style="color: #38a169">jest {% set score2 = score2 + 1 %}
+            {% else %}
+                 <span style="color: #e53e3e">brak
+            {% endif %}</p>
+            </div>
+            <div style="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p> <span style="font-bold"> Meta robots:</span> 
+            {% if audit2Data.data.data.robots == 'brak' %}
+               <span style="color: #e53e3e">{{audit2Data.data.data.robots}}
+            {% else %} 
+                <span style="color: #38a169">{{audit2Data.data.data.robots}} {% set score2 = score2 + 2 %}
+            {% endif %}</p>
+            </div>
+        <div style="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p> <span style="font-bold"> Plik sitemap.xml: </span>
+            {% if audit2Data.data.data.sitemap == 'true' %}
+                <span style="color: #38a169">jest <a href="https://{{audit2Data.data.data.domain}}/sitemap.xml" style="underline">link</a> {% set score2 = score2 + 5 %}
+            {% else %}
+                <span style="color: #e53e3e">brak
+            {% endif %}</p>
+        </div>
+</div>
+    <div style="background: linear-gradient(to bottom, #c7d2fe, #a5b4fc); border: 4px solid #667eea; border-radius: 0.5rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); padding: 1.25rem; margin: 1rem 0;">
+     <div style="border-radius: 9999px; padding: 1.25rem; background-color: #667eea; margin-bottom: 0.5rem; text-align: center;"><h3 style="font-weight: bold; font-size: 1.25rem; color: white;">Metadane i treści:</h3></div>
+            <div style="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p> <span style="font-bold"> Tytuł strony:</span> 
+            {% if audit2Data.data.data.title == 'brak' %}
+                <span style="color: #e53e3e">{{audit2Data.data.data.title}}
+            {% else %}
+                <span style="color: #38a169">{{audit2Data.data.data.title}} {% set score2 = score2 + 3 %}
+            {% endif %}</p>
+            <p> <span style="font-bold">Liczba znaków:</span>
+            {% set titleLength = audit2Data.data.data.title|length %}
+            {% if titleLength <= 30 or titleLength >= 60 %}
+                <span style="color: #e53e3e">{{ titleLength }} 
+            {% else %}
+                <span style="color: #38a169">{{ titleLength }} {% set score2 = score2 + 3 %}
+            {% endif %}</p>
+            </div>
+            <div style="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p> <span style="font-bold"> Opis strony:</span> {% if audit2Data.data.data.description == 'brak' %}
+                <span style="color: #e53e3e">{{audit2Data.data.data.description}}
+            {% else %}
+                <span style="color: #38a169">{{audit2Data.data.data.description}} {% set score2 = score2 + 3 %}
+            {% endif %}</p>
+            <p> <span style="font-bold"> Liczba znaków:</span> 
+            {% set descriptionLenght = audit2Data.data.data.description|length %}
+            {% if audit2Data.data.data.description == 'brak' %}
+                {% set descriptionLenght = 0 %}
+            {% endif %}
+            {% if descriptionLenght > 160 or descriptionLenght == 0 %}
+                <span style="color: #e53e3e">{{descriptionLenght}}
+            {% else %}
+                <span style="color: #38a169">{{descriptionLenght}} {% set score2 = score2 + 3 %}
+            {% endif %}
+            </p>
+            </div>
+            <div style="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p> <span style="font-bold"> Słowa kluczowe:</span> 
+            {% if audit2Data.data.data.keywords == 'brak' %}   
+                <span style="color: #38a169">{{audit2Data.data.data.keywords}} {% set score2 = score2 + 3 %}
+            {% else %}
+                <span style="color: #e53e3e">{{audit2Data.data.data.keywords}}
+            {% endif %}
+            </p>
+            </div>
+            <div style="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p> <span style="font-bold"> Liczba wystąpień nagłówków:</span></p>
+            {% if audit2Data.data.data.headerCounts == 'false'%}
+                <span style="color: #e53e3e">brak nagłówków na stronie
+            {% else %}
             <ul>
                 {% for tag, count in audit2Data.data.data.headerCounts %}
                     <li>{{ tag }}: {{ count }}</li>
                 {% endfor %}
+                {% set score2 = score2 + 3 %}
             </ul>
-        {% endif %}
-    </div>
-    <div style="margin-bottom: 1rem;" class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
-        <p> <span style="font-weight: bold;">Nagłówki unikatowe: </span>{% if audit2Data.data.data.headersUnique == 'false' %}nie{% else %}tak{% endif %}</p>
-
-    </div>
-    <div style="margin-bottom: 1rem;" class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
-        <p> <span style="font-weight: bold;">Wszystkie nagłówki na stronie: </span></p>
-        <p> <span style="font-weight: bold;">Liczba wystąpień nagłówków: </span></p>
-        {% if audit2Data.data.data.headers == 'false'%}
-            <p>brak nagłówków na stronie</p>
-        {% else %}
+            {% endif %}
+            </div>
+            <div style="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+                <p> <span style="font-bold"> Nagłówki unikatowe:</span> 
+                {% if audit2Data.data.data.headersUnique == 'false' %} 
+                    <span style="color: #e53e3e">nie 
+                {% else %} 
+                    <span style="color: #38a169">tak {% set score2 = score2 + 2 %}
+                {% endif %}</p>
+            </div>
+            <div style="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p> <span style="font-bold"> Wszystkie nagłówki na stronie:</span></p>
+            {% if audit2Data.data.data.headers == 'false' %}
+                brak nagłówków na stronie 
+            {% else %}
             <ul>
                 {% for header in audit2Data.data.data.headers %}
                     <li>{{ header.tag }}: {{ header.text }}</li>
                 {% endfor %}
             </ul>
-        {% endif %}
-    </div>
-    <div style="margin-bottom: 1rem;" class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
-        <p> <span style="font-weight: bold;">Obrazy bez atrybutu alt: </span></p>
+            {% endif %}
+            </div>
+    <div style="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+        <p> <span style="font-bold"> Obrazy bez atrybutu alt:</span>
+        {% if audit2Data.data.data.missingAltImages == 'false' %}
+            <span style="color: #38a169">brak {% set score2 = score2 + 5 %}
+        {% endif %}</p>
         <ul>
             {% for imageSrc in audit2Data.data.data.missingAltImages %}
-                <li>{{ imageSrc }}</li>
+                <li><span style="color: #e53e3e">{{ imageSrc }}</li>
             {% endfor %}
         </ul> 
+        </div>
+        
+    <div style="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+        <p> <span style="font-bold"> Określenie języka strony:</span> {{ audit2Data.data.data.lang }}</p>
+        <p> <span style="font-bold"> Kodowanie strony:</span> {{ audit2Data.data.data.charset }}</p>
     </div>
-<div style="margin-bottom: 1rem;" class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
-    <p> <span style="font-weight: bold;">Określenie języka strony: </span>{{ audit2Data.data.data.lang }}</p>
-    <p> <span style="font-weight: bold;">Kodowanie strony: </span>{{ audit2Data.data.data.charset }}</p>
-</div>
-<div style="margin-bottom: 1rem;" class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
-    <p> <span style="font-weight: bold;">RDFa: </span>{{ audit2Data.data.data.rdfa }}</p>
-    <p> <span style="font-weight: bold;">Mikrodane: </span>{{ audit2Data.data.data.microdata }}</p>
-</div>
-<div style="margin-bottom: 1rem;" class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
-    <p> <span style="font-weight: bold;">Obecność technologii flash: </span>{{audit2Data.data.data.flash}}</p>
-</div>
-<div style="margin-bottom: 1rem;" class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
-    <p> <span style="font-weight: bold;">Obecność iFrame: </span>{{audit2Data.data.data.frame}}</p>
-</div>
-<div style="margin-bottom: 1rem;" class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
-    <p> <span style="font-weight: bold;">Inline CSS: </span> {{audit2Data.data.data.inlineCSS}}</p>
-    
-</div>
-</div>
-<div style="background: linear-gradient(to bottom, #c7d2fe, #a5b4fc); border: 4px solid #667eea; border-radius: 0.5rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); padding: 1.25rem; margin: 1rem 0;">
-    <div style="border-radius: 9999px; padding: 1.25rem; background-color: #667eea; margin-bottom: 0.5rem; text-align: center;">
-        <h3 style="font-weight: bold; font-size: 1.5rem; color: #fff;">Dane PageSpeed Insights</h3>
-    </div>
-    <div style="margin-bottom: 1rem; font-size: 1.125rem; word-break: break-all; border-bottom: 2px solid #4f46e5; padding: 0.5rem 0;">
-    <p><span style="font-weight: bold;"> Meta viewport: </span> {{ audit2Data.data.data.viewport }}</p>
-</div>
-<div style="margin-bottom: 1rem; font-size: 1.125rem; word-break: break-all; border-bottom: 2px solid #4f46e5; padding: 0.5rem 0;">
-    <p><span style="font-weight: bold;">
-        {% if audit2Data.data.dataPageSpeed.mobile <= 49 %}
-            Strona wymaga poprawy na urządzeniach mobilnych.
+    <div style="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+        <p> <span style="font-bold"> RDFa:</span> 
+        {% if audit2Data.data.data.rdfa == 'jest' %}
+            <span style="color: #38a169">{{ audit2Data.data.data.rdfa }} {% set score2 = score2 + 1 %}
         {% else %}
-            Strona jest użyteczna na urządzeniach mobilnych.
-        {% endif %}
-    </p></span>
-    <p> <span style="font-weight: bold;"> Prędkość ładowania mobile:</span> {{ audit2Data.data.dataPageSpeed.mobile }}</p>
-</div>
-<div style="margin-bottom: 1rem; font-size: 1.125rem; word-break: break-all; border-bottom: 2px solid #4f46e5; padding: 0.5rem 0;">
-    <p> <span style="font-weight: bold;"> 
-        {% if audit2Data.data.dataPageSpeed.desktop <= 49 %}
-            Strona wymaga poprawy na komputerach stacjonarnych.
+            <span style="color: #e53e3e">{{ audit2Data.data.data.rdfa }}
+        {% endif %}</p>
+        <p> <span style="font-bold"> Mikrodane:</span>
+        {% if audit2Data.data.data.microdata == 'jest' %}
+            <span style="color: #38a169">{{ audit2Data.data.data.microdata}} {% set score2 = score2 + 1 %}
         {% else %}
-            Strona jest użyteczna na komputerach stacjonarnych.
-        {% endif %}
-    </p></span>
-    <p> <span style="font-weight: bold;"> Prędkość ładowania desktop:</span> {{ audit2Data.data.dataPageSpeed.desktop }}</p>
-</div>
-<div style="margin-bottom: 1rem; font-size: 1.125rem; word-break: break-all; border-bottom: 2px solid #4f46e5; padding: 0.5rem 0;">
-    <p> <span style="font-weight: bold;"> Core Web Vitals Mobile:</span></p>
-    <ul>
-        <li>First Contentful Paint: {{ audit2Data.data.dataPageSpeed.metrics.mobile.firstContentfulPaint }}</li>
-        <li>Speed Index: {{ audit2Data.data.dataPageSpeed.metrics.mobile.speedIndex }}</li>
-        <li>Time to Interactive: {{ audit2Data.data.dataPageSpeed.metrics.mobile.timeToInteractive }}</li>
-        <li>First Meaningful Paint: {{ audit2Data.data.dataPageSpeed.metrics.mobile.firstMeaningfulPaint }}</li>
-    </ul>
-</div>
-<div style="margin-bottom: 1rem;  font-size: 1.125rem; word-break: break-all; border-bottom: 2px solid #4f46e5; padding: 0.5rem 0;">
-    <p> <span style="font-weight: bold;"> Core Web Vitals Desktop:</span></p>
-    <ul>
-        <li>First Contentful Paint: {{ audit2Data.data.dataPageSpeed.metrics.desktop.firstContentfulPaint }}</li>
-        <li>Speed Index: {{ audit2Data.data.dataPageSpeed.metrics.desktop.speedIndex }}</li>
-        <li>Time to Interactive: {{ audit2Data.data.dataPageSpeed.metrics.desktop.timeToInteractive }}</li>
-        <li>First Meaningful Paint: {{ audit2Data.data.dataPageSpeed.metrics.desktop.firstMeaningfulPaint }}</li>
-    </ul>
-</div>
-</div>
-<div style="background: linear-gradient(to bottom, #c7d2fe, #a5b4fc); border: 4px solid #667eea; border-radius: 0.5rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); padding: 1.25rem; margin: 1rem 0;">
-    <div style="border-radius: 9999px; padding: 1.25rem; background-color: #667eea; margin-bottom: 0.5rem; text-align: center;">
-        <h3 style="font-weight: bold; font-size: 1.5rem; color: #fff;">Linkowanie</h3>
+            <span style="color: #e53e3e">{{ audit2Data.data.data.microdata }}
+        {% endif %}</p>
     </div>
-    <div style="margin-bottom: 1rem;  font-size: 1.125rem; word-break: break-all; border-bottom: 2px solid #4f46e5; padding: 0.5rem 0;">
-        <p> <span style="font-weight: bold;"> Lista wewnętrznych linków:</span></p>
-        <ul>
-            {% for link in audit2Data.data.data.internalLinks %}
-                <li>{{ link }}</li>
-            {% endfor %}
-        </ul>
+    <div style="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+        <p> <span style="font-bold"> Obecność technologii flash:</span>
+        {% if audit2Data.data.data.flash == 'jest' %}
+            <span style="color: #e53e3e">{{ audit2Data.data.data.flash}} 
+        {% else %}
+            <span style="color: #38a169">{{ audit2Data.data.data.flash }} {% set score2 = score2 + 2 %}
+        {% endif %}</p>
     </div>
-    <div style="margin-bottom: 1rem;  font-size: 1.125rem; word-break: break-all; border-bottom: 2px solid #4f46e5; padding: 0.5rem 0;">
-        <p> <span style="font-weight: bold;"> Najdłuższy URL:</span> {{ audit2Data.data.data.maxLenghtInlinks }} znaków</p>
+    <div style="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+        <p> <span style="font-bold"> Obecność iFrame:</span>
+        {% if audit2Data.data.data.frame == 'jest' %}
+            <span style="color: #e53e3e">{{ audit2Data.data.data.frame}} 
+        {% else %}
+            <span style="color: #38a169">{{ audit2Data.data.data.frame }} {% set score2 = score2 + 2 %}
+        {% endif %}</p>
     </div>
-    <div style="margin-bottom: 1rem;  font-size: 1.125rem; word-break: break-all; border-bottom: 2px solid #4f46e5; padding: 0.5rem 0;">
-        <p> <span style="font-weight: bold;"> Linki przyjazne wyszukiwarce: </span>
-            {% if audit2Data.data.data.friendlyLinks %}
-                tak
+    <div style="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+        <p> <span style="font-bold"> Inline CSS:</span>
+        {% if audit2Data.data.data.inlineCSS == 'jest' %}
+            <span style="color: #e53e3e">{{ audit2Data.data.data.inlineCSS}} 
+        {% else %}
+            <span style="color: #38a169">{{ audit2Data.data.data.inlineCSS }} {% set score2 = score2 + 1 %}
+        {% endif %}</p>
+    </div>
+</div>
+    <div style="background: linear-gradient(to bottom, #c7d2fe, #a5b4fc); border: 4px solid #667eea; border-radius: 0.5rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); padding: 1.25rem; margin: 1rem 0;">
+        
+        <div style="border-radius: 9999px; padding: 1.25rem; background-color: #667eea; margin-bottom: 0.5rem; text-align: center;"><h3 style="font-bold text-3xl text-white">Dane PageSpeed Insights</h3></div>
+        <div style="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p> <span style="font-bold"> Meta viewport:</span>
+            {% if audit2Data.data.data.viewport == 'jest' %}
+            <span style="color: #38a169">{{ audit2Data.data.data.viewport}} {% set score2 = score2 + 3 %}
+        {% else %}
+            <span style="color: #e53e3e">{{ audit2Data.data.data.viewport }} 
+        {% endif %}</p>
+        </div>
+        <div style="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p><span style="font-bold">
+            {% if audit2Data.data.dataPageSpeed.mobile <= 49 %}
+                <span style="color: #e53e3e">Strona wymaga poprawy na urządzeniach mobilnych.
             {% else %}
-                nie
-                <p> <span style="font-weight: bold;"> Lista nieprzyjaznych linków:</span> 
+                <span style="color: #38a169">Strona jest użyteczna na urządzeniach mobilnych. {% set score2 = score2 + 6 %}
+            {% endif %}
+            </p></span>
+            <p> <span style="font-bold"> Prędkość ładowania mobile:</span> {{ audit2Data.data.dataPageSpeed.mobile }}</p>
+        </div>
+        <div style="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p> <span style="font-bold"> 
+            {% if audit2Data.data.dataPageSpeed.desktop <= 49 %}
+                <span style="color: #e53e3e">Strona wymaga poprawy na komputerach stacjonarnych.
+            {% else %}
+                <span style="color: #38a169">Strona jest użyteczna na komputerach stacjonarnych. {% set score2 = score2 + 6 %}
+            {% endif %}
+            </p></span>
+            <p> <span style="font-bold"> Prędkość ładowania desktop:</span> {{ audit2Data.data.dataPageSpeed.desktop }}</p>
+        </div>
+        <div style="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p> <span style="font-bold"> Core Web Vitals Mobile:</span></p>
+                <ul>
+                    <li>First Contentful Paint: 
+                    {% if audit2Data.data.dataPageSpeed.metrics.mobile.firstContentfulPaint > 3.0 %}
+                        <span style="color: #e53e3e">{{ audit2Data.data.dataPageSpeed.metrics.mobile.firstContentfulPaint }}
+                    {% else %}
+                        <span style="color: #38a169">{{ audit2Data.data.dataPageSpeed.metrics.mobile.firstContentfulPaint }} {% set score2 = score2 + 1 %}
+                    {% endif %}</li>
+                    <li>Speed Index:
+                    {% if audit2Data.data.dataPageSpeed.metrics.mobile.speedIndex > 5.8 %}
+                        <span style="color: #e53e3e">{{ audit2Data.data.dataPageSpeed.metrics.mobile.speedIndex }}
+                    {% else %}
+                        <span style="color: #38a169">{{ audit2Data.data.dataPageSpeed.metrics.mobile.speedIndex }} {% set score2 = score2 + 1 %}
+                    {% endif %}</li>
+                    <li>Time to Interactive:
+                    {% if audit2Data.data.dataPageSpeed.metrics.mobile.timeToInteractive > 7.3 %}
+                        <span style="color: #e53e3e">{{ audit2Data.data.dataPageSpeed.metrics.mobile.timeToInteractive}}
+                    {% else %}
+                        <span style="color: #38a169">{{ audit2Data.data.dataPageSpeed.metrics.mobile.timeToInteractive }} {% set score2 = score2 + 1 %}
+                    {% endif %}</li>
+                    <li>First Meaningful Paint:
+                    {% if audit2Data.data.dataPageSpeed.metrics.mobile.firstMeaningfulPaint > 4 %}
+                        <span style="color: #e53e3e">{{ audit2Data.data.dataPageSpeed.metrics.mobile.firstMeaningfulPaint}}
+                    {% else %}
+                        <span style="color: #38a169">{{ audit2Data.data.dataPageSpeed.metrics.mobile.firstMeaningfulPaint }} {% set score2 = score2 + 1 %}
+                    {% endif %}</li>
+                </ul>
+        </div>
+        <div style="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p> <span style="font-bold"> Core Web Vitals Desktop:</span></p>
+                <ul>
+                    <li>First Contentful Paint: 
+                    {% if audit2Data.data.dataPageSpeed.metrics.desktop.firstContentfulPaint > 3.0 %}
+                        <span style="color: #e53e3e">{{ audit2Data.data.dataPageSpeed.metrics.desktop.firstContentfulPaint }}
+                    {% else %}
+                        <span style="color: #38a169">{{ audit2Data.data.dataPageSpeed.metrics.desktop.firstContentfulPaint }} {% set score2 = score2 + 1 %}
+                    {% endif %}</li>
+                    <li>Speed Index:
+                    {% if audit2Data.data.dataPageSpeed.metrics.desktop.speedIndex > 5.8 %}
+                        <span style="color: #e53e3e">{{ audit2Data.data.dataPageSpeed.metrics.desktop.speedIndex }}
+                    {% else %}
+                        <span style="color: #38a169">{{ audit2Data.data.dataPageSpeed.metrics.desktop.speedIndex }} {% set score2 = score2 + 1 %}
+                    {% endif %}</li>
+                    <li>Time to Interactive:
+                    {% if audit2Data.data.dataPageSpeed.metrics.desktop.timeToInteractive > 7.3 %}
+                        <span style="color: #e53e3e">{{ audit2Data.data.dataPageSpeed.metrics.desktop.timeToInteractive}}
+                    {% else %}
+                        <span style="color: #38a169">{{ audit2Data.data.dataPageSpeed.metrics.desktop.timeToInteractive }} {% set score2 = score2 + 1 %}
+                    {% endif %}</li>
+                    <li>First Meaningful Paint:
+                    {% if audit2Data.data.dataPageSpeed.metrics.desktop.firstMeaningfulPaint > 4 %}
+                        <span style="color: #e53e3e">{{ audit2Data.data.dataPageSpeed.metrics.desktop.firstMeaningfulPaint}}
+                    {% else %}
+                        <span style="color: #38a169">{{ audit2Data.data.dataPageSpeed.metrics.desktop.firstMeaningfulPaint }} {% set score2 = score2 + 1 %}
+                    {% endif %}</li>
+                </ul>
+        </div>
+        
+    </div>
+    <div style="background: linear-gradient(to bottom, #c7d2fe, #a5b4fc); border: 4px solid #667eea; border-radius: 0.5rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); padding: 1.25rem; margin: 1rem 0;">
+            <div style="border-radius: 9999px; padding: 1.25rem; background-color: #667eea; margin-bottom: 0.5rem; text-align: center;"><h3 style="font-bold text-3xl text-white">Linkowanie</h3></div>
+            <div style="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p> <span style="font-bold"> Lista wewnętrznych linków:</span></p>
+            {% if audit2Data.data.data.internalLinks == 'false' %}
+                <p><span style="color: #e53e3e">brak</p>
+            {% else %}
             <ul>
-                {% for link in audit2Data.data.data.friendlyLinks %}
+                {% for link in audit2Data.data.data.internalLinks %}
                     <li>{{ link }}</li>
                 {% endfor %}
-            </ul>
+            </ul>{% set score2 = score2 + 2 %}
             {% endif %}
-        </p> 
-    </div>
-    <div style="margin-bottom: 1rem;  font-size: 1.125rem; word-break: break-all; border-bottom: 2px solid #4f46e5; padding: 0.5rem 0;">
-        <p> <span style="font-weight: bold;"> Lista linków wychodzących:</span></p>
-        {% if audit2Data.data.data.outLinks == 'false' %}
-            <p>brak linków wychodzących</p>
-        {% else %}
+            </div>
+            <div style="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+                <p> <span style="font-bold"> Najdłuższy url:</span>
+                {% if audit2Data.data.data.maxLenghtInlinks > 100 %}
+                    <span style="color: #e53e3e">{{ audit2Data.data.data.maxLenghtInlinks }} 
+                {% else %}
+                    <span style="color: #38a169">{{ audit2Data.data.data.maxLenghtInlinks }} {% set score2 = score2 + 1 %}
+                {% endif %} znaków</p>
+            </div>
+            <div style="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+                <p> <span style="font-bold"> Linki przyjazne wyszukiwarce: </span>
+                     {% if audit2Data.data.data.friendlyLinks %}
+                        <span style="color: #38a169">tak {% set score2 = score2 + 3 %}
+                    {% else %}
+                        <span style="color: #e53e3e">nie</p>
+                        <p> <span style="font-bold"> Lista nieprzyjaznych linków:</span> 
+                    <ul>
+                        {% for link in audit2Data.data.data.friendlyLinks %}
+                            <li>{{ link }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}</p> 
+            </div>
+            <div style="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p> <span style="font-bold"> Lista linków wychodzących:</span></p>
+            {% set rel = 0 %}
+            {% if audit2Data.data.data.outLinks == 'false' %}
+                <span style="color: #38a169">brak linków wychodzących {% set score2 = score2 + 2 %}
+            {% else %}
             <ul>
                 {% for link in audit2Data.data.data.outLinks %}
-                    <li>{{ link.href }} {% if link.rel is not null %} Rel: {{link.rel}} {% endif %}</li>
-                {% endfor %}
+                    {% if 'nofollow' in link.rel %}
+                        <li><span style="color: #38a169">{{ link.href }} {% if link.rel is not null %} Rel: {{link.rel}} {% endif %}</li>{% set rel = 1 %}
+                    {% else %}
+                        <li><span style="color: #e53e3e">{{ link.href }} {% if link.rel is not null %} Rel: {{link.rel}} {% endif %}</li>
+                    {% endif %}
+                {% endfor %} 
             </ul>
-        {% endif %}
-    </div>
-    <div style="margin-bottom: 1rem;  font-size: 1.125rem; word-break: break-all; border-bottom: 2px solid #4f46e5; padding: 0.5rem 0;">
-        <p> <span style="font-weight: bold;"> Kod Google Analytics:</span> 
-        {% if audit2Data.data.data.googleAnalytics == 'false' %}
-            brak
-        {% else %}
-            jest
+            {% if rel == 1 %}
+                {% set score2 = score2 + 2 %}
+            {% endif %}
+            {% endif %}
+            </div>
+            <div style="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+             <p> <span style="font-bold"> Kod Google Analytics:</span> 
+             {% if audit2Data.data.data.googleAnalytics == 'false' %}
+                <span style="color: #e53e3e">brak
+            {% else %}
+                <span style="color: #38a169"> jest {% set score2 = score2 + 2 %}
             <ul>
                 {% for code in audit2Data.data.data.googleAnalytics %}
                     <li>{{ code }}</li>
                 {% endfor %}
             </ul>
-        {% endif %}
-        </p>   
-    </div>
+            {% endif %}</p> 
+            </div>
+            
 </div>
 </div>
 </div>
 </div>
+<script>
+    document.getElementById('score1').innerText = {{ score1 }};
+    document.getElementById('score2').innerText = {{ score2 }};
+</script>

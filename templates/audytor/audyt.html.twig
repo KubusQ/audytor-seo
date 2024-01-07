@@ -3,19 +3,27 @@
 {% block title %}Audyt dla {{ data.domain }}{% endblock %}
 
 {% block body %}
+{% set score = 0 %}
 <div class="bg-gray-800 pt-3">
     <div class="rounded-tl-3xl bg-gradient-to-r from-blue-900 to-gray-800 p-4 shadow text-2xl text-white">
         <h3 class="font-bold pl-2">Audyt dla domeny: <a href="https://{{data.domain}}">{{ data.domain }}</a></h3>
     </div>
 </div>
-
+<div class="bg-gradient-to-b from-indigo-200 to-indigo-100 border-4 border-indigo-500 rounded-lg shadow-xl p-5 m-4">
+            <div class="rounded-full p-5 bg-indigo-600 mb-2 text-center"><h3 class="font-bold text-xl md:text-3xl text-white">Wynik Twojej strony: <span id='score'></span>/100</h3></div>
+</div>
 <div class="bg-gradient-to-b from-indigo-200 to-indigo-100 border-4 border-indigo-500 rounded-lg shadow-xl p-5 m-4">
             <div class="rounded-full p-5 bg-indigo-600 mb-2 text-center"><h3 class="font-bold text-xl md:text-3xl text-white">Dane podstawowe</h3></div>
         <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
             <p> <span class="font-bold">Data wykonania audytu:</span> {{data.auditDateTime}}</p>
         </div>
         <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
-            <p> <span class="font-bold">Favicon:</span> {{data.favicon}}</p>
+            <p> <span class="font-bold">Favicon:</span> 
+            {% if data.favicon == 'jest' %}
+                <span class="text-green-600">{{data.favicon}}</span>{% set score = score + 1 %}
+            {% else %}
+                <span class="text-red-600">{{data.favicon}}</span>
+            {% endif %}</p></p>
         </div>
         <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
             <p> <span class="font-bold"> Adres IP serwera:</span> {{data.ipAddress}}</p>
@@ -23,48 +31,48 @@
         <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
             <p> <span class="font-bold"> Przekierowanie IP serwera na domenę:</span> 
                 {% if data.ipRedirection == true %}
-                jest ustawione
+                <span class="text-green-600">jest ustawione {% set score = score + 1 %}</span>
                 {% else %}
-                nie jest ustawione
+                <span class="text-red-600">nie jest ustawione</span>
                 {% endif %}</p>
         </div>
         <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
-            <p> <span class="font-bold"> Certyfikat SSL:</span> 
+            <p> <span class="font-bold"> Certyfikat SSL:</span>
             {% if data.sslCertificate == true %}
-                jest
+               <span class="text-green-600"> jest {% set score = score + 6 %}
             {% else %}
-                brak
+               <span class="text-red-600"> brak
             {% endif %}</p>
         </div>
         <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
             <p> <span class="font-bold"> Przekierowanie na https:</span> 
             {% if data.httpsRedirection == true %}
-                jest ustawione
+                <span class="text-green-600">jest ustawione {% set score = score + 5 %}
             {% else %}
-                nie jest ustawione
+                <span class="text-red-600">nie jest ustawione
             {% endif %}
             </p>
         </div>
         <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
             <p> <span class="font-bold"> Przekierowanie WWW:</span> 
             {% if data.wwwRedirection == true %}
-               <p>  www.{{ data.domain }} => {{ data.domain }}</p> 
+               <p><span class="text-green-600">  www.{{ data.domain }} => {{ data.domain }}{% set score = score + 5 %}</p> 
             {% else %}
-                <p>  {{ data.domain }} => www.{{ data.domain }}</p> 
+                <p><span class="text-green-600">  {{ data.domain }} => www.{{ data.domain }}{% set score = score + 5 %}</p> 
             {% endif %}
             </p>
         </div>
         <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
             <p> <span class="font-bold"> Przekierowanie index.html / index.php:</span> 
             {% if data.indexesRedirection.indexPhpStatus == true %}
-               <p> {{ data.domain }}/index.php => {{ data.domain }}</p> 
+               <p><span class="text-green-600"> {{ data.domain }}/index.php => {{ data.domain }}{% set score = score + 2 %}</p> 
             {% else %}
-               <p> {{ data.domain }}/index.php =/> {{ data.domain }}</p> 
+               <p><span class="text-red-600"> {{ data.domain }}/index.php =/> {{ data.domain }}</p> 
             {% endif %}
             {% if data.indexesRedirection.indexHtmlStatus == true %}
-               <p> {{ data.domain }}/index.html => {{ data.domain }}</p> 
+               <p><span class="text-green-600"> {{ data.domain }}/index.html => {{ data.domain }} {% set score = score + 2 %}</p> 
             {% else %}
-                <p> {{ data.domain }}/index.html =/> {{ data.domain }}</p> 
+                <p><span class="text-red-600"> {{ data.domain }}/index.html =/> {{ data.domain }}</p> 
             {% endif %}
             </p>
         </div>
@@ -74,68 +82,104 @@
         <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
             <p> <span class="font-bold"> Plik robots.txt: </span>
             {% if data.robotsTxt.exists == true %}
-                jest
+                <span class="text-green-600">jest {% set score = score + 5 %}
             {% else %}
-                brak
+                <span class="text-red-600">brak
             {% endif %}</p>
             </div>
             <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
             <p> <span class="font-bold"> Dyrektywa Sitemap: </span> {% if data.robotsTxt.hasSitemapDirective == true %}
-                 jest
+                 <span class="text-green-600">jest {% set score = score + 1 %}
             {% else %}
-                 brak
+                 <span class="text-red-600">brak
             {% endif %}</p>
             </div>
             <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
-            <p> <span class="font-bold"> Meta robots:</span> {{data.robots}}</p>
+            <p> <span class="font-bold"> Meta robots:</span> 
+            {% if data.robots == 'brak' %}
+               <span class="text-red-600">{{data.robots}}
+            {% else %} 
+                <span class="text-green-600">{{data.robots}} {% set score = score + 2 %}
+            {% endif %}</p>
             </div>
         <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
             <p> <span class="font-bold"> Plik sitemap.xml: </span>
             {% if data.sitemap == true %}
-                jest <a href="https://{{data.domain}}/sitemap.xml" class="underline">link</a>
+                <span class="text-green-600">jest <a href="https://{{data.domain}}/sitemap.xml" class="underline">link</a> {% set score = score + 5 %}
             {% else %}
-                brak
+                <span class="text-red-600">brak
             {% endif %}</p>
         </div>
 </div>
     <div class="bg-gradient-to-b from-indigo-200 to-indigo-100 border-4 border-indigo-500 rounded-lg shadow-xl p-5 m-4">
      <div class="rounded-full p-5 bg-indigo-600 mb-2 text-center"><h3 class="font-bold text-xl md:text-3xl text-white">Metadane i treści:</h3></div>
             <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
-            <p> <span class="font-bold"> Tytuł strony:</span> {{data.title}}</p>
-            <p> <span class="font-bold"> Liczba znaków:</span> {{data.title|length}}</p>
-            </div>
-            <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
-            <p> <span class="font-bold"> Opis strony:</span> {{data.description}}</p>
-            <p> <span class="font-bold"> Liczba znaków:</span> 
-            {% if data.description == "brak" %}
-                0
+            <p> <span class="font-bold"> Tytuł strony:</span> 
+            {% if data.title == 'brak' %}
+                <span class="text-red-600">{{data.title}}
             {% else %}
-            {{data.description|length}}
+                <span class="text-green-600">{{data.title}} {% set score = score + 3 %}
+            {% endif %}</p>
+            <p> <span class="font-bold">Liczba znaków:</span>
+            {% set titleLength = data.title|length %}
+            {% if titleLength <= 30 or titleLength >= 60 %}
+                <span class="text-red-600">{{ titleLength }} 
+            {% else %}
+                <span class="text-green-600">{{ titleLength }} {% set score = score + 3 %}
             {% endif %}</p>
             </div>
             <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
-            <p> <span class="font-bold"> Słowa kluczowe:</span> {{data.keywords}}</p>
+            <p> <span class="font-bold"> Opis strony:</span> {% if data.description == 'brak' %}
+                <span class="text-red-600">{{data.description}}
+            {% else %}
+                <span class="text-green-600">{{data.description}} {% set score = score + 3 %}
+            {% endif %}</p>
+            <p> <span class="font-bold"> Liczba znaków:</span> 
+            {% set descriptionLenght = data.description|length %}
+            {% if data.description == 'brak' %}
+                {% set descriptionLenght = 0 %}
+            {% endif %}
+            {% if descriptionLenght > 160 or descriptionLenght == 0 %}
+                <span class="text-red-600">{{descriptionLenght}}
+            {% else %}
+                <span class="text-green-600">{{descriptionLenght}} {% set score = score + 3 %}
+            {% endif %}
+            </p>
+            </div>
+            <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
+            <p> <span class="font-bold"> Słowa kluczowe:</span> 
+            {% if data.keywords == 'brak' %}   
+                <span class="text-green-600">{{data.keywords}} {% set score = score + 3 %}
+            {% else %}
+                <span class="text-red-600">{{data.keywords}}
+            {% endif %}
+            </p>
             </div>
             <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
             <p> <span class="font-bold"> Liczba wystąpień nagłówków:</span></p>
-            {% if data.headerCounts == false %}
-                brak nagłówków na stronie
+            {% if data.headerCounts == false%}
+                <span class="text-red-600">brak nagłówków na stronie
             {% else %}
             <ul>
                 {% for tag, count in data.headerCounts %}
                     <li>{{ tag }}: {{ count }}</li>
                 {% endfor %}
+                {% set score = score + 3 %}
             </ul>
             {% endif %}
             </div>
             <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
-                <p> <span class="font-bold"> Nagłówki unikatowe:</span> {% if data.headersUnique == false  %} nie {% else %} tak {% endif %}</p>
+                <p> <span class="font-bold"> Nagłówki unikatowe:</span> 
+                {% if data.headersUnique == false %} 
+                    <span class="text-red-600">nie 
+                {% else %} 
+                    <span class="text-green-600">tak {% set score = score + 2 %}
+                {% endif %}</p>
             </div>
             <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
             <p> <span class="font-bold"> Wszystkie nagłówki na stronie:</span></p>
-            <p> <span class="font-bold"> Liczba wystąpień nagłówków:</span></p>
             {% if data.headers == false %}
-                brak nagłówków na stronie
+                brak nagłówków na stronie 
             {% else %}
             <ul>
                 {% for header in data.headers %}
@@ -145,10 +189,13 @@
             {% endif %}
             </div>
     <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
-        <p> <span class="font-bold"> Obrazy bez atrybutu alt:</span></p>
+        <p> <span class="font-bold"> Obrazy bez atrybutu alt:</span>
+        {% if data.missingAltImages == false %}
+            <span class="text-green-600">brak {% set score = score + 5 %}
+        {% endif %}</p>
         <ul>
             {% for imageSrc in data.missingAltImages %}
-                <li>{{ imageSrc }}</li>
+                <li><span class="text-red-600">{{ imageSrc }}</li>
             {% endfor %}
         </ul> 
         </div>
@@ -158,31 +205,61 @@
         <p> <span class="font-bold"> Kodowanie strony:</span> {{ data.charset }}</p>
     </div>
     <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
-        <p> <span class="font-bold"> RDFa:</span> {{ data.rdfa }}</p>
-        <p> <span class="font-bold"> Mikrodane:</span> {{ data.microdata }}</p>
+        <p> <span class="font-bold"> RDFa:</span> 
+        {% if data.rdfa == 'jest' %}
+            <span class="text-green-600">{{ data.rdfa }} {% set score = score + 1 %}
+        {% else %}
+            <span class="text-red-600">{{ data.rdfa }}
+        {% endif %}</p>
+        <p> <span class="font-bold"> Mikrodane:</span>
+        {% if data.microdata == 'jest' %}
+            <span class="text-green-600">{{ data.microdata}} {% set score = score + 1 %}
+        {% else %}
+            <span class="text-red-600">{{ data.microdata }}
+        {% endif %}</p>
     </div>
     <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
-        <p> <span class="font-bold"> Obecność technologii flash:</span> {{data.flash}}</p>
+        <p> <span class="font-bold"> Obecność technologii flash:</span>
+        {% if data.flash == 'jest' %}
+            <span class="text-red-600">{{ data.flash}} 
+        {% else %}
+            <span class="text-green-600">{{ data.flash }} {% set score = score + 2 %}
+        {% endif %}</p>
     </div>
     <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
-        <p> <span class="font-bold"> Obecność iFrame:</span> {{data.frame}}</p>
+        <p> <span class="font-bold"> Obecność iFrame:</span>
+        {% if data.frame == 'jest' %}
+            <span class="text-red-600">{{ data.frame}} 
+        {% else %}
+            <span class="text-green-600">{{ data.frame }} {% set score = score + 2 %}
+        {% endif %}</p>
     </div>
     <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
-        <p> <span class="font-bold"> Inline CSS:</span> {{data.inlineCSS}}</p>
+        <p> <span class="font-bold"> Inline CSS:</span>
+        {% if data.inlineCSS == 'jest' %}
+            <span class="text-red-600">{{ data.inlineCSS}} 
+        {% else %}
+            <span class="text-green-600">{{ data.inlineCSS }} {% set score = score + 1 %}
+        {% endif %}</p>
     </div>
 </div>
     <div class="bg-gradient-to-b from-indigo-200 to-indigo-100 border-4 border-indigo-500 rounded-lg shadow-xl p-5 m-4">
         
         <div class="rounded-full p-5 bg-indigo-600 mb-2 text-center"><h3 class="font-bold text-3xl text-white">Dane PageSpeed Insights</h3></div>
         <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
-            <p> <span class="font-bold"> Meta viewport:</span> {{ data.viewport }}</p>
+            <p> <span class="font-bold"> Meta viewport:</span>
+            {% if data.viewport == 'jest' %}
+            <span class="text-green-600">{{ data.viewport}} {% set score = score + 3 %}
+        {% else %}
+            <span class="text-red-600">{{ data.viewport }} 
+        {% endif %}</p>
         </div>
         <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
             <p><span class="font-bold">
             {% if dataPageSpeed.mobile <= 49 %}
-                Strona wymaga poprawy na urządzeniach mobilnych.
+                <span class="text-red-600">Strona wymaga poprawy na urządzeniach mobilnych.
             {% else %}
-                Strona jest użyteczna na urządzeniach mobilnych.
+                <span class="text-green-600">Strona jest użyteczna na urządzeniach mobilnych. {% set score = score + 6 %}
             {% endif %}
             </p></span>
             <p> <span class="font-bold"> Prędkość ładowania mobile:</span> {{ dataPageSpeed.mobile }}</p>
@@ -190,9 +267,9 @@
         <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
             <p> <span class="font-bold"> 
             {% if dataPageSpeed.desktop <= 49 %}
-                Strona wymaga poprawy na komputerach stacjonarnych.
+                <span class="text-red-600">Strona wymaga poprawy na komputerach stacjonarnych.
             {% else %}
-                Strona jest użyteczna na komputerach stacjonarnych.
+                <span class="text-green-600">Strona jest użyteczna na komputerach stacjonarnych. {% set score = score + 6 %}
             {% endif %}
             </p></span>
             <p> <span class="font-bold"> Prędkość ładowania desktop:</span> {{ dataPageSpeed.desktop }}</p>
@@ -200,19 +277,59 @@
         <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
             <p> <span class="font-bold"> Core Web Vitals Mobile:</span></p>
                 <ul>
-                    <li>First Contentful Paint: {{ dataPageSpeed.metrics.mobile.firstContentfulPaint }}</li>
-                    <li>Speed Index: {{ dataPageSpeed.metrics.mobile.speedIndex }}</li>
-                    <li>Time to Interactive: {{ dataPageSpeed.metrics.mobile.timeToInteractive }}</li>
-                    <li>First Meaningful Paint: {{ dataPageSpeed.metrics.mobile.firstMeaningfulPaint }}</li>
+                    <li>First Contentful Paint: 
+                    {% if dataPageSpeed.metrics.mobile.firstContentfulPaint > 3.0 %}
+                        <span class="text-red-600">{{ dataPageSpeed.metrics.mobile.firstContentfulPaint }}
+                    {% else %}
+                        <span class="text-green-600">{{ dataPageSpeed.metrics.mobile.firstContentfulPaint }} {% set score = score + 1 %}
+                    {% endif %}</li>
+                    <li>Speed Index:
+                    {% if dataPageSpeed.metrics.mobile.speedIndex > 5.8 %}
+                        <span class="text-red-600">{{ dataPageSpeed.metrics.mobile.speedIndex }}
+                    {% else %}
+                        <span class="text-green-600">{{ dataPageSpeed.metrics.mobile.speedIndex }} {% set score = score + 1 %}
+                    {% endif %}</li>
+                    <li>Time to Interactive:
+                    {% if dataPageSpeed.metrics.mobile.timeToInteractive > 7.3 %}
+                        <span class="text-red-600">{{ dataPageSpeed.metrics.mobile.timeToInteractive}}
+                    {% else %}
+                        <span class="text-green-600">{{ dataPageSpeed.metrics.mobile.timeToInteractive }} {% set score = score + 1 %}
+                    {% endif %}</li>
+                    <li>First Meaningful Paint:
+                    {% if dataPageSpeed.metrics.mobile.firstMeaningfulPaint > 4 %}
+                        <span class="text-red-600">{{ dataPageSpeed.metrics.mobile.firstMeaningfulPaint}}
+                    {% else %}
+                        <span class="text-green-600">{{ dataPageSpeed.metrics.mobile.firstMeaningfulPaint }} {% set score = score + 1 %}
+                    {% endif %}</li>
                 </ul>
         </div>
         <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
             <p> <span class="font-bold"> Core Web Vitals Desktop:</span></p>
                 <ul>
-                    <li>First Contentful Paint: {{ dataPageSpeed.metrics.desktop.firstContentfulPaint }}</li>
-                    <li>Speed Index: {{ dataPageSpeed.metrics.desktop.speedIndex }}</li>
-                    <li>Time to Interactive: {{ dataPageSpeed.metrics.desktop.timeToInteractive }}</li>
-                    <li>First Meaningful Paint: {{ dataPageSpeed.metrics.desktop.firstMeaningfulPaint }}</li>
+                    <li>First Contentful Paint: 
+                    {% if dataPageSpeed.metrics.desktop.firstContentfulPaint > 3.0 %}
+                        <span class="text-red-600">{{ dataPageSpeed.metrics.desktop.firstContentfulPaint }}
+                    {% else %}
+                        <span class="text-green-600">{{ dataPageSpeed.metrics.desktop.firstContentfulPaint }} {% set score = score + 1 %}
+                    {% endif %}</li>
+                    <li>Speed Index:
+                    {% if dataPageSpeed.metrics.desktop.speedIndex > 5.8 %}
+                        <span class="text-red-600">{{ dataPageSpeed.metrics.desktop.speedIndex }}
+                    {% else %}
+                        <span class="text-green-600">{{ dataPageSpeed.metrics.desktop.speedIndex }} {% set score = score + 1 %}
+                    {% endif %}</li>
+                    <li>Time to Interactive:
+                    {% if dataPageSpeed.metrics.desktop.timeToInteractive > 7.3 %}
+                        <span class="text-red-600">{{ dataPageSpeed.metrics.desktop.timeToInteractive}}
+                    {% else %}
+                        <span class="text-green-600">{{ dataPageSpeed.metrics.desktop.timeToInteractive }} {% set score = score + 1 %}
+                    {% endif %}</li>
+                    <li>First Meaningful Paint:
+                    {% if dataPageSpeed.metrics.desktop.firstMeaningfulPaint > 4 %}
+                        <span class="text-red-600">{{ dataPageSpeed.metrics.desktop.firstMeaningfulPaint}}
+                    {% else %}
+                        <span class="text-green-600">{{ dataPageSpeed.metrics.desktop.firstMeaningfulPaint }} {% set score = score + 1 %}
+                    {% endif %}</li>
                 </ul>
         </div>
         
@@ -221,21 +338,30 @@
             <div class="rounded-full p-5 bg-indigo-600 mb-2 text-center"><h3 class="font-bold text-3xl text-white">Linkowanie</h3></div>
             <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
             <p> <span class="font-bold"> Lista wewnętrznych linków:</span></p>
+            {% if data.internalLinks == false %}
+                <p><span class="text-red-600">brak</p>
+            {% else %}
             <ul>
                 {% for link in data.internalLinks %}
                     <li>{{ link }}</li>
                 {% endfor %}
-            </ul>
+            </ul>{% set score = score + 2 %}
+            {% endif %}
             </div>
             <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
-                <p> <span class="font-bold"> Najdłuższy url:</span> {{ data.maxLenghtInlinks }} znaków</p>
+                <p> <span class="font-bold"> Najdłuższy url:</span>
+                {% if data.maxLenghtInlinks > 100 %}
+                    <span class="text-red-600">{{ data.maxLenghtInlinks }} 
+                {% else %}
+                    <span class="text-green-600">{{ data.maxLenghtInlinks }} {% set score = score + 1 %}
+                {% endif %} znaków</p>
             </div>
             <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
                 <p> <span class="font-bold"> Linki przyjazne wyszukiwarce: </span>
-                     {% if data.friendlyLinks %}
-                        tak
+                     {% if data.friendlyLinks == false %}
+                        <span class="text-green-600">tak {% set score = score + 3 %}
                     {% else %}
-                        nie</p>
+                        <span class="text-red-600">nie</p>
                         <p> <span class="font-bold"> Lista nieprzyjaznych linków:</span> 
                     <ul>
                         {% for link in data.friendlyLinks %}
@@ -246,28 +372,36 @@
             </div>
             <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
             <p> <span class="font-bold"> Lista linków wychodzących:</span></p>
-            {% if data.outLinks == false  %}
-                brak linków wychodzących
+            {% set rel = 0 %}
+            {% if data.outLinks == false %}
+                <span class="text-green-600">brak linków wychodzących {% set score = score + 2 %}
             {% else %}
             <ul>
                 {% for link in data.outLinks %}
-                    <li>{{ link.href }} {% if link.rel is not null %} Rel: {{link.rel}} {% endif %}</li>
+                    {% if 'nofollow' in link.rel %}
+                        <span class="text-green-600"><li>{{ link.href }} {% if link.rel is not null %} Rel: {{link.rel}} {% endif %}</li>{% set rel = 1 %}
+                    {% else %}
+                        <span class="text-red-600"><li>{{ link.href }} {% if link.rel is not null %} Rel: {{link.rel}} {% endif %}</li>
+                    {% endif %}
                 {% endfor %} 
             </ul>
+            {% if rel == 1 %}
+                {% set score = score + 2 %}
+            {% endif %}
             {% endif %}
             </div>
             <div class="mb-4 font-medium md:text-xl break-all border-b-2 border-indigo-500 py-2">
              <p> <span class="font-bold"> Kod Google Analytics:</span> 
-             {% if data.googleAnalytics == false  %}
-                brak
+             {% if data.googleAnalytics == false %}
+                <span class="text-red-600">brak
             {% else %}
-                jest
+                <span class="text-green-600"> jest {% set score = score + 2 %}
             <ul>
                 {% for code in data.googleAnalytics %}
                     <li>{{ code }}</li>
                 {% endfor %}
             </ul>
-            {% endif %}</p>   
+            {% endif %}</p> 
             </div>
         </div>
         <div class="mb-4 font-medium md:text-xl break-all py-2">
@@ -277,6 +411,7 @@
     </div>
 </div>
 <script>
+document.getElementById('score').innerText = {{ score }};
     $(document).ready(function () {
         $('#saveAuditButton').click(function () {
             var auditData = {{ data | json_encode | raw }};

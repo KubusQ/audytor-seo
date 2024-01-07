@@ -6,6 +6,8 @@ use Exception;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\HttpClient\HttpClient;
 
+use function PHPUnit\Framework\isEmpty;
+
 class PageScraperService
 {
     public function scrapePageContent($domainName)
@@ -310,7 +312,9 @@ class PageScraperService
         }, $filteredLinks);
 
         $inlinks = array_unique($addLinksPrefix);
-
+        if(empty($inlinks)){
+            return false;
+        }
         return $inlinks;
     }
     private function checkFriendlyLinks($url, $content)
@@ -349,7 +353,8 @@ class PageScraperService
                     substr($href, 0, strlen($url)) !==
                         substr($url, 0, strlen($url)) &&
                     strpos($href, "mailto:") !== 0 &&
-                    strpos($href, "tel:") !== 0
+                    strpos($href, "tel:") !== 0 &&
+                    strpos($href, "#") !== 0
                 ) {
                     return [
                         "href" => $href,
