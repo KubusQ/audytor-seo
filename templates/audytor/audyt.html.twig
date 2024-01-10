@@ -404,10 +404,16 @@
             {% endif %}</p> 
             </div>
         </div>
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
         <div class="mb-4 font-medium md:text-xl break-all py-2">
             <button id="saveAuditButton" class="bg-indigo-500 hover:bg-indigo-800 text-white font-bold p-4 rounded ml-4">Zapisz audyt</button>
             <div id="saveAuditMessage" style="display: none;"></div>
         </div>
+        {% else %}
+        <div class="mb-4 font-medium md:text-xl break-all py-2">
+            <a href="{{path('app_login')}}"><p class="bg-indigo-500 hover:bg-indigo-800 text-white font-bold p-4 rounded ml-4">Zaloguj się, aby móc zapisać audyt</p></a>
+        </div>
+        {% endif %}
     </div>
 </div>
 <script>
