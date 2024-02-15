@@ -116,4 +116,28 @@ class PageSpeedInsightsServiceTest extends KernelTestCase
  
         $this->pageSpeedInsightsService->getPageSpeedInsights("https://bandola1.com.pl");
     }
+
+    public function testPageSpeedInsightsPerformance(): void
+    {
+        $domainName = "https://bandola.com.pl";
+        $iterations = 10;
+
+        $startTime = microtime(true);
+
+        for ($i = 0; $i < $iterations; $i++) {
+            $this->pageSpeedInsightsService->getPageSpeedInsights($domainName);
+        }
+
+        $endTime = microtime(true);
+
+        $totalTime = $endTime - $startTime;
+
+        $averageTime = $totalTime / $iterations;
+
+        echo "\nIterations: $iterations\n";
+        echo "Total time: $totalTime sekund\n";
+        echo "Avg time for one iteration $averageTime sekund\n";
+
+        $this->assertLessThan(30, $averageTime);
+    }
 }

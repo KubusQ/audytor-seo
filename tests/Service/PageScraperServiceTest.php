@@ -2,21 +2,21 @@
  
 namespace App\Tests\Service;
  
-use App\Service\PageScraper;
+use App\Service\PageScraperService;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\HttpClient\Exception\TransportException;
  
  
 class PageScraperServiceTest extends KernelTestCase
 {
-    private PageScraper $pageScraperService;
+    private PageScraperService $pageScraperService;
  
     public function setUp(): void
     {
         $kernel = self::bootKernel();
         $container = static::getContainer();
  
-        $this->pageScraperService = $container->get(PageScraper::class);
+        $this->pageScraperService = $container->get(PageScraperService::class);
     }
  
     public function testScrapePageContentForCorrectDomain() : void
@@ -112,5 +112,28 @@ class PageScraperServiceTest extends KernelTestCase
         $this->pageScraperService->scrapePageContent("bandola1.com.pl");
     }
  
+    public function testPageScrapingPerformance(): void
+    {
+        $domainName = "bandola.com.pl";
+        $iterations = 10;
+
+        $startTime = microtime(true);
+
+        for ($i = 0; $i < $iterations; $i++) {
+            $this->pageScraperService->scrapePageContent($domainName);
+        }
+
+        $endTime = microtime(true);
+
+        $totalTime = $endTime - $startTime;
+
+        $averageTime = $totalTime / $iterations;
+
+        echo "\nIterations: $iterations\n";
+        echo "Total time: $totalTime sekund\n";
+        echo "Avg time for one iteration $averageTime sekund\n";
+
+        $this->assertLessThan(30, $averageTime);
+    }
 }
  

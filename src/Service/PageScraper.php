@@ -202,9 +202,6 @@ class PageScraperService
                 $headerCounts[$tag] = 1;
             }
         }
-        // if(empty($headerCount)){
-        //     return false;
-        // }
         return $headerCounts;
     }
     private function checkHeadersAreUnique($headers)
